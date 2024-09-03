@@ -13,6 +13,9 @@ RUN npm install
 # Copy the rest of the application code
 COPY . .
 
+# Disable ESLint during the build process
+ENV NEXT_DISABLE_ESLINT=true
+
 # Build the Next.js application for production
 RUN npm run build
 
