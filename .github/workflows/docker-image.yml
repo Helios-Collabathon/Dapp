@@ -34,3 +34,4 @@ jobs:
           docker push ghcr.io/helios-collabathon/dapp-frontend:mainnet
         elif [ "${{ github.ref_name }}" == "develop" ]; then
           docker push ghcr.io/helios-collabathon/dapp-frontend:devnet
+        fi
