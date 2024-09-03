@@ -5,7 +5,7 @@ on:
     branches:
       - "main"
       - "develop"
-      - "docker/*"
+      - "philippe/*"
 
 permissions:
   packages: write
