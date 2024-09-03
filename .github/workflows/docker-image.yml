@@ -5,6 +5,7 @@ on:
     branches:
       - "main"
       - "develop"
+      - "docker/*"
 
 permissions:
   packages: write
@@ -26,6 +27,8 @@ jobs:
           docker build . --file Dockerfile --tag ghcr.io/helios-collabathon/dapp-frontend:mainnet
         elif [ "${{ github.ref_name }}" == "develop" ]; then
           docker build . --file Dockerfile --tag ghcr.io/helios-collabathon/dapp-frontend:devnet
+        else
+          docker build . --file Dockerfile --tag ghcr.io/helios-collabathon/dapp-frontend:devnet
         fi
 
     - name: Push the Docker image
@@ -33,5 +36,7 @@ jobs:
         if [ "${{ github.ref_name }}" == "main" ]; then
           docker push ghcr.io/helios-collabathon/dapp-frontend:mainnet
         elif [ "${{ github.ref_name }}" == "develop" ]; then
+          docker push ghcr.io/helios-collabathon/dapp-frontend:devnet
+        else
           docker push ghcr.io/helios-collabathon/dapp-frontend:devnet
         fi
