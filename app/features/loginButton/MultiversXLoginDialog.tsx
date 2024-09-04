@@ -30,11 +30,11 @@ export const MultiversXDialog = ({
             </h1>
 
             <div className="flex justify-center space-x-2">
-              <Button onClick={onClose}>XAlias</Button>
-              <Button onClick={onclose}>XPortal</Button>
-              <Button onClick={onClose}>Ledger</Button>
-              <Button onClick={onClose}>Web Wallet</Button>
-              <Button onClick={onClose}>MetaMask</Button>
+              <Button onClick={() => onClose()}>XAlias</Button>
+              <Button onClick={() => onClose()}>XPortal</Button>
+              <Button onClick={() => onClose()}>Ledger</Button>
+              <Button onClick={() => onClose()}>Web Wallet</Button>
+              <Button onClick={() => onClose()}>MetaMask</Button>
             </div>
           </div>
         </Dialog>
