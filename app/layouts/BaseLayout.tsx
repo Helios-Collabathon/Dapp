@@ -1,8 +1,8 @@
 import Link from 'next/link'
 import { Config } from '../config'
-import { Navbar, NavbarItem, NavbarSection } from '../controls/Navbar'
-import { Sidebar } from '../controls/Sidebar'
-import { StackedLayout } from '../controls/StackedLayout'
+import { Navbar, NavbarItem, NavbarSection } from '../features/controls/Navbar'
+import { Sidebar } from '../features/controls/Sidebar'
+import { StackedLayout } from '../features/controls/StackedLayout'
 
 type Props = {
   children: React.ReactNode
