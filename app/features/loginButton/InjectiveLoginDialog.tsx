@@ -25,9 +25,9 @@ export const InjectiveLoginDialog = ({
 
             {/* Button Section */}
             <div className="flex justify-center space-x-2">
-              <Button onClick={onClose}>Xportal</Button>
-              <Button onClick={onClose}>Ledger</Button>
-              <Button onClick={onClose}>Web Wallet</Button>
+              <Button onClick={onClose}>tbd</Button>
+              <Button onClick={onClose}>tbd</Button>
+              <Button onClick={onClose}>tbd</Button>
             </div>
           </div>
         </Dialog>
