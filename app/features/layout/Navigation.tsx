@@ -1,15 +1,22 @@
-'use client'
-import { Config } from '@/app/config'
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import { Navbar, NavbarItem, NavbarSection } from '../controls/Navbar'
+"use client";
+import { Config } from "@/app/config";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
-type Props = {}
+import {
+  Navbar,
+  NavbarItem,
+  NavbarSection,
+  NavbarSpacer,
+} from "../controls/Navbar";
+import LoginDropDown from "../loginButton/LoginDropDown";
+
+type Props = {};
 
 export function Navigation(props: Props) {
-  const currentPath = usePathname()
+  const currentPath = usePathname();
 
-  const isCurrentPage = (path: string) => currentPath === path
+  const isCurrentPage = (path: string) => currentPath === path;
 
   return (
     <Navbar>
@@ -31,6 +38,9 @@ export function Navigation(props: Props) {
         </NavbarItem>
         <NavbarItem href="#TODO">Docs</NavbarItem>
       </NavbarSection>
+      <NavbarSpacer />
+
+      <LoginDropDown />
     </Navbar>
-  )
+  );
 }
