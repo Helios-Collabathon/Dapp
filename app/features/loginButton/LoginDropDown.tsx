@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
   Dropdown,
   DropdownButton,
@@ -13,17 +13,37 @@ import MultiversXLoginDialog from "./MultiversXLoginDialog";
 import InjectiveLoginDialog from "./InjectiveLoginDialog";
 import Image from "next/image";
 import { APP_IMAGES } from "@/app/app-images";
+import { WalletContext } from "@/blockchain/injective/wallet-provider";
+import { Chain } from "@/blockchain/types/connected-wallet";
 
 export function LoginDropDown() {
   const [MvxLoginIsOpened, setMvxLoginIsOpened] = useState(false);
   const [InjectiveLoginIsOpened, setInjectiveLoginIsOpened] = useState(false);
+  // const [connectedWallet, setConnectedWallet] = useState<ConnectedWallet>();
+  let { connectedWallet } = useContext(WalletContext);
+
+  useEffect(() => {
+    const getConnectedWallet = async () => {
+      Object.keys(Chain).map((chain: string) => {
+        const wallet = localStorage.getItem(chain);
+        if (wallet) connectedWallet = JSON.parse(wallet);
+      });
+    };
+
+    getConnectedWallet();
+  }, []);
 
   return (
     <>
       <Dropdown>
         <DropdownButton color="teal">
           <FontAwesomeIcon icon={faKey} />
-          Login
+          {connectedWallet.address
+            ? `${connectedWallet.address.slice(
+                0,
+                5
+              )}...${connectedWallet.address.slice(-5)}`
+            : "Login"}
         </DropdownButton>
         <DropdownMenu>
           <DropdownItem onClick={() => setMvxLoginIsOpened(true)}>
