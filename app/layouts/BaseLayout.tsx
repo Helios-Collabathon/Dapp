@@ -5,8 +5,8 @@ import { Sidebar } from '../features/controls/Sidebar'
 import { StackedLayout } from '../features/controls/StackedLayout'
 
 type Props = {
-  children: React.ReactNode;
-};
+  children: React.ReactNode
+}
 
 export function BaseLayout(props: Props) {
   return (
@@ -29,5 +29,5 @@ export function BaseLayout(props: Props) {
     >
       {props.children}
     </StackedLayout>
-  );
+  )
 }

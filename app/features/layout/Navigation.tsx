@@ -1,22 +1,17 @@
-"use client";
-import { Config } from "@/app/config";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+'use client'
+import { Config } from '@/app/config'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 
-import {
-  Navbar,
-  NavbarItem,
-  NavbarSection,
-  NavbarSpacer,
-} from "../controls/Navbar";
-import LoginDropDown from "../loginButton/LoginDropDown";
+import { Navbar, NavbarItem, NavbarSection, NavbarSpacer } from '../controls/Navbar'
+import LoginDropDown from '../loginButton/LoginDropDown'
 
-type Props = {};
+type Props = {}
 
 export function Navigation(props: Props) {
-  const currentPath = usePathname();
+  const currentPath = usePathname()
 
-  const isCurrentPage = (path: string) => currentPath === path;
+  const isCurrentPage = (path: string) => currentPath === path
 
   return (
     <Navbar>
@@ -24,16 +19,10 @@ export function Navigation(props: Props) {
         TODO: Logo
       </Link>
       <NavbarSection>
-        <NavbarItem
-          href={Config.Pages.Start}
-          current={isCurrentPage(Config.Pages.Start)}
-        >
+        <NavbarItem href={Config.Pages.Start} current={isCurrentPage(Config.Pages.Start)}>
           Start
         </NavbarItem>
-        <NavbarItem
-          href={Config.Pages.Faq}
-          current={isCurrentPage(Config.Pages.Faq)}
-        >
+        <NavbarItem href={Config.Pages.Faq} current={isCurrentPage(Config.Pages.Faq)}>
           FAQ
         </NavbarItem>
         <NavbarItem href="#TODO">Docs</NavbarItem>
@@ -42,5 +31,5 @@ export function Navigation(props: Props) {
 
       <LoginDropDown />
     </Navbar>
-  );
+  )
 }

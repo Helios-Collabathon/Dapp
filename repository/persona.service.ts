@@ -1,14 +1,14 @@
-import { IRepository } from "./repostory.interface";
-import { Persona } from "./types";
+import { IRepository } from './repostory.interface'
+import { Persona } from './types'
 
 export class PersonaService {
-  private repository: IRepository<Persona>;
+  private repository: IRepository<Persona>
 
   constructor(repository: IRepository<Persona>) {
-    this.repository = repository;
+    this.repository = repository
   }
 
   async getPersonaByWallet(address: string): Promise<Persona> {
-    return this.repository.getPersonaFromWallet(address);
+    return this.repository.getPersonaFromWallet(address)
   }
 }

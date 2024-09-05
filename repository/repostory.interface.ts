@@ -1,6 +1,6 @@
-import { Persona } from "./types";
+import { Persona } from './types'
 
 export interface IRepository<T> {
-  getPersonaFromWallet(address: string): Promise<Persona>;
-  getPersonasFromLinkedWallet(): Promise<{ data: T[] }>;
+  getPersonaFromWallet(address: string): Promise<Persona>
+  getPersonasFromLinkedWallet(): Promise<{ data: T[] }>
 }
