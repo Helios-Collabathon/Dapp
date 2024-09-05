@@ -4,9 +4,10 @@ import { useExtensionLogin } from '@multiversx/sdk-dapp/hooks/login/useExtension
 import { useIframeLogin } from '@multiversx/sdk-dapp/hooks/login/useIframeLogin'
 import { usePasskeyLogin } from '@multiversx/sdk-dapp/hooks/login/usePasskeyLogin'
 import { useWebWalletLogin } from '@multiversx/sdk-dapp/hooks/login/useWebWalletLogin'
+import { logout } from '@multiversx/sdk-dapp/utils'
 import { IframeLoginTypes } from '@multiversx/sdk-web-wallet-iframe-provider/out/constants'
 import dynamic from 'next/dynamic'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Button } from '../controls/Button'
 import { Dialog } from '../controls/Dialog'
 
@@ -34,6 +35,11 @@ export const MultiversXDialog = (props: Props) => {
   const [initIframeLogin] = useIframeLogin({ nativeAuth: true, walletAddress: Config.Services.MetamaskSnap() })
   const [initPasskeysLogin] = usePasskeyLogin({ nativeAuth: true })
 
+  useEffect(() => {
+    if (!props.isOpen) return
+    logout(location.pathname, undefined, false)
+  }, [props.isOpen])
+
   const handleLoginRequest = async (provider: WalletProviderId) => {
     if (provider === 'walletconnect') setActive(provider)
     if (provider === 'browser_extension') await executeAndReset(initExtensionLogin)
@@ -44,7 +50,7 @@ export const MultiversXDialog = (props: Props) => {
   }
 
   const executeAndReset = async (func?: () => void) => {
-    onclose
+    props.onClose()
     setActive(null)
     func?.()
   }

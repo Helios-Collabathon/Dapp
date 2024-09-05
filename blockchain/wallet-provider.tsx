@@ -1,8 +1,9 @@
 'use client'
-import { Config } from '@/app/config'
 import { Wallet } from '@injectivelabs/wallet-ts'
 import dynamic from 'next/dynamic'
+import * as React from 'react'
 import { createContext, useContext, useEffect, useState } from 'react'
+import { Config } from '../app/config'
 import { getAddresses } from './injective/wallet'
 import { Chain } from './types/connected-wallet'
 
@@ -25,6 +26,8 @@ export const WalletContext = createContext<ContextType>({
 export const useWallet = () => useContext(WalletContext)
 
 export const WalletContextProvider = ({ children }: { children: React.ReactNode }) => {
+  const env = Config.App.Env === 'local' ? 'devnet' : Config.App.Env
+
   const [connectedWallet, setConnectedWallet] = useState<{
     address: string
     wallet?: AppWalletProvider
@@ -64,7 +67,7 @@ export const WalletContextProvider = ({ children }: { children: React.ReactNode 
   return (
     <WalletContext.Provider value={{ connectedWallet, connectWallet, disconnectWallet }}>
       <DappProvider
-        environment={Config.App.Env}
+        environment={env}
         customNetworkConfig={{
           name: 'customConfig',
           apiTimeout: 30_000,
