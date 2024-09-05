@@ -3,6 +3,7 @@ import { Config } from '@/app/config'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Navbar, NavbarItem, NavbarSection } from '../controls/Navbar'
+import Image from 'next/image'
 
 type Props = {}
 
@@ -14,7 +15,13 @@ export function Navigation(props: Props) {
   return (
     <Navbar>
       <Link href="/" aria-label="Home">
-        TODO: Logo
+        <Image
+          src="/vercel.svg"
+          alt="Logo"
+          width={100} // Adjust the width as needed
+          height={50} // Adjust the height as needed
+          priority
+        />
       </Link>
       <NavbarSection>
         <NavbarItem
@@ -29,7 +36,6 @@ export function Navigation(props: Props) {
         >
           FAQ
         </NavbarItem>
-        <NavbarItem href="#TODO">Docs</NavbarItem>
       </NavbarSection>
     </Navbar>
   )
