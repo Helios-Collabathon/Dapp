@@ -16,11 +16,7 @@ export function DropdownButton<T extends React.ElementType = typeof Button>({
   return <Headless.MenuButton as={as} {...props} />
 }
 
-export function DropdownMenu({
-  anchor = 'bottom',
-  className,
-  ...props
-}: { className?: string } & Omit<Headless.MenuItemsProps, 'as' | 'className'>) {
+export function DropdownMenu({ anchor = 'bottom', className, ...props }: { className?: string } & Omit<Headless.MenuItemsProps, 'as' | 'className'>) {
   return (
     <Headless.MenuItems
       {...props}
@@ -78,9 +74,7 @@ export function DropdownItem({
   )
 
   return (
-    <Headless.MenuItem>
-      {'href' in props ? <Link {...props} className={classes} /> : <button type="button" {...props} className={classes} />}
-    </Headless.MenuItem>
+    <Headless.MenuItem>{'href' in props ? <Link {...props} className={classes} /> : <button type="button" {...props} className={classes} />}</Headless.MenuItem>
   )
 }
 
@@ -117,10 +111,7 @@ export function DropdownDivider({ className, ...props }: { className?: string } 
   return (
     <Headless.MenuSeparator
       {...props}
-      className={clsx(
-        className,
-        'col-span-full mx-3.5 my-1 h-px border-0 bg-zinc-950/5 dark:bg-white/10 sm:mx-3 forced-colors:bg-[CanvasText]'
-      )}
+      className={clsx(className, 'col-span-full mx-3.5 my-1 h-px border-0 bg-zinc-950/5 dark:bg-white/10 sm:mx-3 forced-colors:bg-[CanvasText]')}
     />
   )
 }

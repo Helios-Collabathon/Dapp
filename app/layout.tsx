@@ -1,8 +1,8 @@
+import WalletContextProvider from '@/blockchain/wallet-provider'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import { BaseLayout } from './layouts/BaseLayout'
-import WalletContextProvider from '@/blockchain/injective/wallet-provider'
 
 const inter = Inter({ subsets: ['latin'] })
 
