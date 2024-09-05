@@ -1,7 +1,4 @@
-export enum Chain {
-  Injective,
-  MultiversX,
-}
+import { Chain } from "@/blockchain/types/connected-wallet";
 
 export type Wallet = {
   chain: Chain;
