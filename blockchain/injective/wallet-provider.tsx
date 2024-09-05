@@ -2,18 +2,26 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { getAddresses } from "./wallet";
 import { Wallet } from "@injectivelabs/wallet-ts";
-import { Chain, WalletProdiver } from "../types/connected-wallet";
+import {
+  Chain,
+  ConnectedWallet,
+  WalletProdiver,
+} from "../types/connected-wallet";
 
 type ContextType = {
   connectWallet: (wallet: Wallet) => Promise<void>;
   disconnectWallet: () => void;
-  connectedWallet: { wallet?: Wallet; address?: string };
+  connectedWallet?: ConnectedWallet;
 };
 
 export const WalletContext = createContext<ContextType>({
   connectWallet: async () => {},
   disconnectWallet: () => {},
-  connectedWallet: { address: "", wallet: undefined },
+  connectedWallet: {
+    address: "",
+    provider: WalletProdiver.Keplr,
+    chain: Chain.INJ,
+  },
 });
 
 export const useWallet = () => useContext(WalletContext);
@@ -23,17 +31,15 @@ export const WalletContextProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const [connectedWallet, setConnectedWallet] = useState<{
-    address: string;
-    wallet?: Wallet;
-  }>({ address: "", wallet: undefined });
+  const [connectedWallet, setConnectedWallet] = useState<ConnectedWallet>();
 
   useEffect(() => {
     const wallet = localStorage.getItem(Chain.INJ);
     if (wallet) {
       setConnectedWallet({
         address: JSON.parse(wallet).address,
-        wallet: JSON.parse(wallet).wallet,
+        chain: Chain.INJ,
+        provider: JSON.parse(wallet).provider,
       });
     }
   }, []);
@@ -42,7 +48,8 @@ export const WalletContextProvider = ({
     const [address] = await getAddresses(wallet);
     setConnectedWallet({
       address: address,
-      wallet: wallet,
+      provider: wallet as any,
+      chain: Chain.INJ,
     });
     localStorage.setItem(
       Chain.INJ,
@@ -55,7 +62,7 @@ export const WalletContextProvider = ({
   };
 
   const disconnectWallet = () => {
-    setConnectedWallet({ address: "" });
+    setConnectedWallet(undefined);
     localStorage.removeItem(Chain.INJ);
   };
 

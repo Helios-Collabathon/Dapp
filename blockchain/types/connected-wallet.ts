@@ -7,8 +7,8 @@ export enum WalletProdiver {
 }
 
 export enum Chain {
-  INJ = "INJ",
-  MVX = "MMVX",
+  INJ = "injective",
+  MVX = "multivers_x",
 }
 
 export type ConnectedWallet = {

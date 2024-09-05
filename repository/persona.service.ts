@@ -1,5 +1,6 @@
+import { ConnectedWallet } from "@/blockchain/types/connected-wallet";
 import { IRepository } from "./repostory.interface";
-import { Persona } from "./types";
+import { Persona, Wallet } from "./types";
 
 export class PersonaService {
   private repository: IRepository<Persona>;
@@ -10,5 +11,12 @@ export class PersonaService {
 
   async getPersonaByWallet(address: string): Promise<Persona> {
     return this.repository.getPersonaFromWallet(address);
+  }
+
+  async addWallet(
+    connectedWallet: ConnectedWallet,
+    wallet: Wallet
+  ): Promise<void> {
+    await this.repository.addWallet(connectedWallet, wallet);
   }
 }
