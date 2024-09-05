@@ -1,8 +1,11 @@
-# Use the official Node.js 18-alpine image as the base image
+# Use the official Node.js 20-alpine image as the base image
 FROM node:20-alpine
 
 # Set the working directory inside the container
 WORKDIR /app
+
+# Install dependencies and Linux headers required for node-gyp
+RUN apk add --no-cache python3 make g++ linux-headers libusb-dev eudev-dev
 
 # Copy the package.json and package-lock.json files
 COPY package*.json ./
