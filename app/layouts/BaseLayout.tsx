@@ -8,10 +8,7 @@ type Props = {
 
 export function BaseLayout(props: Props) {
   return (
-    <StackedLayout
-      navbar={<Navigation />}
-      sidebar={<Sidebar>{/* TODO */}</Sidebar>}
-    >
+    <StackedLayout navbar={<Navigation />} sidebar={<Sidebar>{/* TODO */}</Sidebar>}>
       {props.children}
     </StackedLayout>
   )

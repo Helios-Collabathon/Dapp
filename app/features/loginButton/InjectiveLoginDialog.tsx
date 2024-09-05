@@ -1,12 +1,10 @@
 'use client'
-
-import React from 'react'
+import { wallets } from '@/blockchain/injective/wallets'
+import { useWallet } from '@/blockchain/wallet-provider'
+import { Wallet } from '@injectivelabs/wallet-ts'
+import Image from 'next/image'
 import { Button } from '../controls/Button'
 import { Dialog } from '../controls/Dialog'
-import { wallets } from '@/blockchain/injective/wallets'
-import Image from 'next/image'
-import { useWallet } from '@/blockchain/injective/wallet-provider'
-import { Wallet } from '@injectivelabs/wallet-ts'
 
 interface InjectiveLoginDialogProps {
   isOpen: boolean

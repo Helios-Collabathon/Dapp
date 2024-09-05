@@ -1,19 +1,18 @@
 'use client'
-
-import { useContext, useEffect, useState } from 'react'
-import { Dropdown, DropdownButton, DropdownItem, DropdownMenu } from '../controls/Dropdown'
+import { APP_IMAGES } from '@/app/app-images'
+import { Chain } from '@/blockchain/types/connected-wallet'
+import { WalletContext } from '@/blockchain/wallet-provider'
 import { faKey } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import MultiversXLoginDialog from './MultiversXLoginDialog'
-import InjectiveLoginDialog from './InjectiveLoginDialog'
 import Image from 'next/image'
-import { APP_IMAGES } from '@/app/app-images'
-import { WalletContext } from '@/blockchain/injective/wallet-provider'
-import { Chain } from '@/blockchain/types/connected-wallet'
+import { useContext, useEffect, useState } from 'react'
+import { Dropdown, DropdownButton, DropdownItem, DropdownMenu } from '../controls/Dropdown'
+import InjectiveLoginDialog from './InjectiveLoginDialog'
+import MultiversXLoginDialog from './MultiversXLoginDialog'
 
 export function LoginDropDown() {
-  const [MvxLoginIsOpened, setMvxLoginIsOpened] = useState(false)
-  const [InjectiveLoginIsOpened, setInjectiveLoginIsOpened] = useState(false)
+  const [mvxLoginIsOpened, setMvxLoginIsOpened] = useState(false)
+  const [injectiveLoginIsOpened, setInjectiveLoginIsOpened] = useState(false)
   // const [connectedWallet, setConnectedWallet] = useState<ConnectedWallet>();
   let { connectedWallet } = useContext(WalletContext)
 
@@ -47,8 +46,8 @@ export function LoginDropDown() {
         </DropdownMenu>
       </Dropdown>
 
-      <MultiversXLoginDialog isOpen={MvxLoginIsOpened} onClose={() => setMvxLoginIsOpened(false)} />
-      <InjectiveLoginDialog isOpen={InjectiveLoginIsOpened} onClose={() => setInjectiveLoginIsOpened(false)} />
+      <MultiversXLoginDialog isOpen={mvxLoginIsOpened} onClose={() => setMvxLoginIsOpened(false)} />
+      <InjectiveLoginDialog isOpen={injectiveLoginIsOpened} onClose={() => setInjectiveLoginIsOpened(false)} />
     </>
   )
 }
