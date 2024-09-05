@@ -19,11 +19,7 @@ function CloseMenuIcon() {
   )
 }
 
-function MobileSidebar({
-  open,
-  close,
-  children,
-}: React.PropsWithChildren<{ open: boolean; close: () => void }>) {
+function MobileSidebar({ open, close, children }: React.PropsWithChildren<{ open: boolean; close: () => void }>) {
   return (
     <Headless.Dialog open={open} onClose={close} className="lg:hidden">
       <Headless.DialogBackdrop
@@ -58,7 +54,7 @@ export function StackedLayout({
   let [showSidebar, setShowSidebar] = useState(false)
 
   return (
-    <div className="relative isolate flex min-h-svh w-full flex-col bg-white lg:bg-zinc-100 dark:bg-zinc-900 dark:lg:bg-zinc-950">
+    <div className="relative isolate flex min-h-svh w-full flex-col bg-white dark:bg-zinc-900 lg:bg-zinc-100 dark:lg:bg-zinc-950">
       {/* Sidebar on mobile */}
       <MobileSidebar open={showSidebar} close={() => setShowSidebar(false)}>
         {sidebar}
@@ -67,10 +63,7 @@ export function StackedLayout({
       {/* Navbar */}
       <header className="flex items-center px-4">
         <div className="py-2.5 lg:hidden">
-          <NavbarItem
-            onClick={() => setShowSidebar(true)}
-            aria-label="Open navigation"
-          >
+          <NavbarItem onClick={() => setShowSidebar(true)} aria-label="Open navigation">
             <OpenMenuIcon />
           </NavbarItem>
         </div>

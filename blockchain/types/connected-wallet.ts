@@ -7,12 +7,12 @@ export enum WalletProdiver {
 }
 
 export enum Chain {
-  INJ = "INJ",
-  MVX = "MMVX",
+  INJ = 'INJ',
+  MVX = 'MMVX',
 }
 
 export type ConnectedWallet = {
-  address: string;
-  provider: WalletProdiver;
-  chain: Chain;
-};
+  address: string
+  provider: WalletProdiver
+  chain: Chain
+}
