@@ -41,7 +41,7 @@ export function LoginDropDown() {
           {connectedWallet?.address
             ? `${connectedWallet.address.slice(
                 0,
-                5
+                5,
               )}...${connectedWallet.address.slice(-5)}`
             : "Login"}
         </DropdownButton>

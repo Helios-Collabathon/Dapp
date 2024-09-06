@@ -57,7 +57,7 @@ export const WalletContextProvider = ({
         address: address,
         wallet: wallet,
         provider: wallet as unknown,
-      })
+      }),
     );
   };
 

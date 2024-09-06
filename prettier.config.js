@@ -3,7 +3,7 @@ module.exports = {
   semi: false,
   singleQuote: true,
   trailingComma: "es5",
-  tailwindConfig: './apps/main/tailwind.config.js',
-  tailwindFunctions: ['clsx', 'classNames'],
-  plugins: ['prettier-plugin-tailwindcss'],
+  tailwindConfig: "./tailwind.config.ts",
+  tailwindFunctions: ["clsx", "classNames"],
+  plugins: ["prettier-plugin-tailwindcss"],
 };

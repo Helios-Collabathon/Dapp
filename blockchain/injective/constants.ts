@@ -1,1 +1,1 @@
-export const CHAIN_ID = "injective-1";
+export const CHAIN_ID = 'injective-1'

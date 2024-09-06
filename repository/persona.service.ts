@@ -15,7 +15,7 @@ export class PersonaService {
 
   async addWallet(
     connectedWallet: ConnectedWallet,
-    wallet: Wallet
+    wallet: Wallet,
   ): Promise<void> {
     await this.repository.addWallet(connectedWallet, wallet);
   }

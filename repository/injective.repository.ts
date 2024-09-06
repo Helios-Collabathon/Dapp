@@ -1,5 +1,4 @@
 import {
-  ChainGrpcBankApi,
   ChainGrpcWasmApi,
   MsgExecuteContract,
   Msgs,
@@ -11,7 +10,7 @@ import { Persona, Wallet } from "./types";
 import { AddPersonaMsg } from "@/blockchain/smart-contract/inj-sc";
 import { MsgBroadcaster, WalletStrategy } from "@injectivelabs/wallet-ts";
 import { ChainId } from "@injectivelabs/ts-types";
-import {  ConnectedWallet } from "@/blockchain/types/connected-wallet";
+import { Chain, ConnectedWallet } from "@/blockchain/types/connected-wallet";
 
 export class InjectiveRepository<T> implements IRepository<T> {
   NETWORK = Network.TestnetSentry;
@@ -19,23 +18,24 @@ export class InjectiveRepository<T> implements IRepository<T> {
   chainGrpcWasmApi = new ChainGrpcWasmApi(this.ENDPOINTS.grpc);
 
   async getPersonaFromWallet(address: string): Promise<Persona> {
+    console.log(process.env.NEXT_PUBLIC_INJ_SC);
     const query_raw = {
       get_persona: { address },
     };
     const query = encodedBase64(query_raw);
     const contractState = await this.chainGrpcWasmApi.fetchSmartContractState(
-      "inj1wffzkwtnr5wjzr32mnjcj9qm402enjtcmnavxj",
-      query
+      process.env.NEXT_PUBLIC_INJ_SC ?? "",
+      query,
     );
     const persona: Persona = JSON.parse(
-      Buffer.from(contractState.data).toString()
+      Buffer.from(contractState.data).toString(),
     );
     return persona;
   }
 
   async addWallet(
     connectedWallet: ConnectedWallet,
-    wallet: Wallet
+    wallet: Wallet,
   ): Promise<{ txn: string; persona: Persona }> {
     const addPersonaMsg: AddPersonaMsg = {
       add_wallet: {
@@ -44,7 +44,7 @@ export class InjectiveRepository<T> implements IRepository<T> {
     };
     const msg = MsgExecuteContract.fromJSON({
       sender: connectedWallet.address,
-      contractAddress: "inj1wffzkwtnr5wjzr32mnjcj9qm402enjtcmnavxj",
+      contractAddress: process.env.NEXT_PUBLIC_INJ_SC ?? "",
       msg: addPersonaMsg,
     });
 
@@ -57,7 +57,7 @@ export class InjectiveRepository<T> implements IRepository<T> {
       false,
       walletStrategy,
       msg,
-      connectedWallet.address
+      connectedWallet.address,
     );
 
     const persona = await this.getPersonaFromWallet(connectedWallet.address);
@@ -68,8 +68,28 @@ export class InjectiveRepository<T> implements IRepository<T> {
     };
   }
 
-  getPersonasFromLinkedWallet(): Promise<{ data: T[] }> {
-    throw new Error("Method not implemented.");
+  async getPersonasFromLinkedWallet(wallet: Wallet): Promise<Persona[]> {
+    console.log(`RECEIVED ${wallet.address}`);
+    const query_raw = {
+      get_persona_from_linked_wallet: { wallet },
+    };
+    const query = encodedBase64(query_raw);
+    const contractState = await this.chainGrpcWasmApi.fetchSmartContractState(
+      process.env.NEXT_PUBLIC_INJ_SC ?? "",
+      query,
+    );
+    let personas: Persona[] = JSON.parse(
+      Buffer.from(contractState.data).toString(),
+    );
+
+    const updatedPersonas = personas.map((persona) => {
+      return {
+        ...persona,
+        chain: Chain.INJ,
+      };
+    });
+
+    return updatedPersonas;
   }
 
   async broadcastTransactionWindow(
@@ -77,7 +97,7 @@ export class InjectiveRepository<T> implements IRepository<T> {
     walletStrategy: WalletStrategy,
     msg: Msgs | Msgs[],
     sender: string,
-    memo?: string
+    memo?: string,
   ) {
     const chainId = isMainnet ? ChainId.Mainnet : ChainId.Testnet;
 
