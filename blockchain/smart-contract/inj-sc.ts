@@ -1,8 +1,13 @@
 import { Wallet } from "@/repository/types";
-import { Chain } from "../types/connected-wallet";
 
-export type AddPersonaMsg = {
+export type AddWalletMsg = {
   add_wallet: {
+    wallet: Wallet;
+  };
+};
+
+export type RemoveWalletMsg = {
+  remove_wallet: {
     wallet: Wallet;
   };
 };

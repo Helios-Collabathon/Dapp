@@ -13,6 +13,7 @@
     "@fortawesome/free-solid-svg-icons": "^6.6.0",
     "@fortawesome/react-fontawesome": "^0.2.2",
     "@headlessui/react": "^2.1.4",
+    "@heroicons/react": "^2.1.5",
     "@injectivelabs/networks": "^1.14.13",
     "@injectivelabs/sdk-ts": "^1.14.13",
     "@injectivelabs/wallet-ts": "^1.14.13",

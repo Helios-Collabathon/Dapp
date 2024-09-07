@@ -1,4 +1,5 @@
 import { Chain } from "@/blockchain/types/connected-wallet";
+import { IRepository } from "./repository.interface";
 
 export type Wallet = {
   chain?: Chain;
@@ -6,7 +7,7 @@ export type Wallet = {
   verified?: boolean;
 };
 export type Persona = {
-  addr: string;
+  address: string;
   chain: Chain;
   linked_wallets: Wallet[];
 };

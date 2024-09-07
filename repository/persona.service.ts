@@ -1,22 +1,46 @@
-import { ConnectedWallet } from "@/blockchain/types/connected-wallet";
-import { IRepository } from "./repostory.interface";
+import {
+  Chain,
+  ChainUtils,
+  ConnectedWallet,
+} from "@/blockchain/types/connected-wallet";
 import { Persona, Wallet } from "./types";
+import { InjectiveRepository } from "./injective.repository";
 
 export class PersonaService {
-  private repository: IRepository<Persona>;
+  private injRepository: InjectiveRepository<Persona>;
+  // private mvxRepository: IRepository<Persona>;
 
-  constructor(repository: IRepository<Persona>) {
-    this.repository = repository;
+  constructor() {
+    this.injRepository = new InjectiveRepository();
   }
 
-  async getPersonaByWallet(address: string): Promise<Persona> {
-    return this.repository.getPersonaFromWallet(address);
+  async getPersonaByWallet(address: string, chain: Chain): Promise<Persona> {
+    return ChainUtils.getRepository(chain).getPersonaFromWallet(address);
+  }
+
+  async getPersonasFromLinkedWallet(wallet: Wallet): Promise<Persona[]> {
+    return ChainUtils.getRepository(wallet.chain!).getPersonasFromLinkedWallet(
+      wallet,
+    );
   }
 
   async addWallet(
     connectedWallet: ConnectedWallet,
     wallet: Wallet,
-  ): Promise<void> {
-    await this.repository.addWallet(connectedWallet, wallet);
+  ): Promise<{ txn: string; persona: Persona }> {
+    return ChainUtils.getRepository(connectedWallet.chain).addWallet(
+      connectedWallet,
+      wallet,
+    );
+  }
+
+  async removeWallet(
+    connectedWallet: ConnectedWallet,
+    wallet: Wallet,
+  ): Promise<{ txn: string; persona: Persona }> {
+    return ChainUtils.getRepository(connectedWallet.chain).removeWallet(
+      connectedWallet,
+      wallet,
+    );
   }
 }

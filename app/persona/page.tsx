@@ -1,255 +1,147 @@
 "use client";
-import { useContext, useEffect, useState } from "react";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "../features/controls/Table";
-import { InjectiveRepository } from "@/repository/injective.repository";
-import { Chain } from "@/blockchain/types/connected-wallet";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { WalletContext } from "@/blockchain/injective/wallet-provider";
 import { Persona, Wallet } from "@/repository/types";
-import { Button } from "../features/controls/Button";
-import { Dialog } from "../features/controls/Dialog";
-import {
-  Dropdown,
-  DropdownButton,
-  DropdownItem,
-  DropdownMenu,
-} from "../features/controls/Dropdown";
-import Image from "next/image";
-import { APP_IMAGES } from "../app-images";
-import { Strong, Text } from "../features/controls/Text";
-import { Input } from "../features/controls/Input";
-import { Field } from "../features/controls/Fieldset";
 import { VerificationService } from "@/repository/verification.service";
-import { Badge } from "../features/controls/Badge";
-import { address, g } from "framer-motion/client";
+import LinkedWalletTable from "./components/linkedwallet.table";
+import PendingLinkedWalletTable from "./components/pendingverification.table";
+import { PersonaService } from "@/repository/persona.service";
+import { ConnectedWallet } from "@/blockchain/types/connected-wallet";
+import LinkedWalletTableSkeleton from "./components/linkedwallet.skeleton";
+import PendingLinkedWalletTableSkeleton from "./components/pendingverification.skeleton";
+
 export default function PersonaPage() {
   const { connectedWallet } = useContext(WalletContext);
   const [persona, setPersona] = useState<Persona | null>(null);
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [walletToAdd, setWalletToAdd] = useState<Wallet | undefined>();
-  const [txn, setTxn] = useState("");
   const [pendingPersonas, setPendingPersonas] = useState<Persona[]>([]);
-  const injRepository = new InjectiveRepository();
-  const verificationService = new VerificationService();
+  const personaService = useMemo(() => new PersonaService(), []);
+  const verificationService = useMemo(() => new VerificationService(), []);
+  const [txn, setTxn] = useState("");
 
-  // Fetch and verify persona on connectedWallet change
   useEffect(() => {
     if (!connectedWallet?.address) return;
 
-    const fetchAndVerifyPersona = async () => {
-      try {
-        const fetchedPersona = await injRepository.getPersonaFromWallet(
-          connectedWallet.address,
+    fetchAndVerifyPersona(connectedWallet);
+  }, [connectedWallet]);
+
+  const fetchAndVerifyPersona = async (connectedWallet: ConnectedWallet) => {
+    try {
+      const fetchedPersona = await personaService.getPersonaByWallet(
+        connectedWallet.address,
+        connectedWallet.chain,
+      );
+
+      if (fetchedPersona) {
+        const verifiedPersona =
+          await verificationService.verifyPersonaLinkedWallets(
+            connectedWallet.address,
+            fetchedPersona,
+          );
+
+        const pendingLinks = await fetchPendingLinks(
+          connectedWallet,
+          fetchedPersona,
         );
-        if (fetchedPersona) {
-          // Only update persona if it has actually changed
-          if (JSON.stringify(fetchedPersona) !== JSON.stringify(persona)) {
-            setPersona(fetchedPersona);
-          }
 
-          // Verify persona linked wallets if necessary
-          const verifiedPersona =
-            await verificationService.verifyPersonaLinkedWallets(
-              connectedWallet.address,
-              fetchedPersona,
-            );
+        setPersona(verifiedPersona);
+        setPendingPersonas(pendingLinks);
+        return verifiedPersona;
+      } else return undefined;
+    } catch (error) {
+      console.error("Error fetching or verifying persona:", error);
+      return undefined;
+    }
+  };
+  const fetchPendingLinks = async (
+    connectedWallet: ConnectedWallet,
+    prsn?: Persona | undefined,
+  ): Promise<Persona[]> => {
+    try {
+      if (!prsn) return [];
+      let personas = await personaService.getPersonasFromLinkedWallet({
+        address: connectedWallet.address,
+        chain: connectedWallet.chain,
+      });
 
-          // Again, only update if the verified persona is different
-          if (
-            JSON.stringify(verifiedPersona) !== JSON.stringify(fetchedPersona)
-          ) {
-            setPersona(verifiedPersona);
-          }
-        }
-      } catch (error) {
-        console.error("Error fetching or verifying persona:", error);
-      }
-    };
+      personas = personas.filter((p) => {
+        return !prsn.linked_wallets.some(
+          (wlt) => wlt.address === p.address && wlt.verified,
+        );
+      });
 
-    fetchAndVerifyPersona();
-  }, [connectedWallet, injRepository, verificationService, persona]);
+      return personas;
+    } catch (error) {
+      console.error("Error fetching pending links:", error);
+      return [];
+    }
+  };
 
-  // Fetch pending linked wallets
-  useEffect(() => {
-    if (!connectedWallet?.address || !connectedWallet.chain) return;
-
-    const fetchPendingLinks = async () => {
-      try {
-        const personas = await injRepository.getPersonasFromLinkedWallet({
-          address: connectedWallet.address,
-          chain: connectedWallet.chain,
-        });
-
-        // Only update pending personas if the new data is different
-        if (JSON.stringify(personas) !== JSON.stringify(pendingPersonas)) {
-          setPendingPersonas(personas);
-        }
-      } catch (error) {
-        console.error("Error fetching pending links:", error);
-      }
-    };
-
-    fetchPendingLinks();
-  }, [connectedWallet, injRepository, pendingPersonas]);
-
-  const registerWallet = async () => {
+  const registerWallet = async (walletToAdd: Wallet) => {
     if (!connectedWallet?.address) {
       alert("Wallet not connected");
       return;
     }
-    if (!walletToAdd) {
-      alert("No wallet to add");
-      return;
-    }
 
     try {
-      const { txn, persona } = await injRepository.addWallet(
+      let { txn, persona } = await personaService.addWallet(
         connectedWallet,
         walletToAdd,
       );
+      const updatePersona = await fetchAndVerifyPersona(connectedWallet);
+
+      if (updatePersona) persona = updatePersona;
       setPersona(persona);
       setTxn(txn);
+      return persona;
     } catch (error) {
       console.error("Error registering wallet:", error);
     }
   };
 
-  const LinkedWalletComponent = () => (
-    <>
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableHeader>Chain</TableHeader>
-            <TableHeader>Address</TableHeader>
-            <TableHeader>Verified</TableHeader>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {connectedWallet && (
-            <TableRow key={connectedWallet.address}>
-              <TableCell className="font-medium">Injective</TableCell>
-              <TableCell>{connectedWallet.address}</TableCell>
-              <TableCell className="text-zinc-500"></TableCell>
-            </TableRow>
-          )}
-          {persona?.linked_wallets.map((user) => (
-            <TableRow key={user.address}>
-              <TableCell className="font-medium">{user.chain}</TableCell>
-              <TableCell>{user.address}</TableCell>
-              <TableCell className="text-zinc-500">
-                <Badge color={user.verified ? "lime" : "red"}>
-                  {user.verified ? "Verified" : "Not Verified"}
-                </Badge>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-      <Button onClick={() => setIsDialogOpen(true)}>Add Address</Button>
-      <Dialog open={isDialogOpen} onClose={() => setIsDialogOpen(false)}>
-        <div className="flex flex-col gap-2 justify-center">
-          <h1 className="text-center text-2xl font-bold mb-4 text-black dark:text-white">
-            Add Address
-          </h1>
-          <Dropdown>
-            <DropdownButton outline>
-              {walletToAdd?.chain
-                ? walletToAdd.chain.toUpperCase()
-                : "Select a Chain"}
-            </DropdownButton>
-            <DropdownMenu className="min-w-96 text-xl">
-              {Object.values(Chain).map((chain) => (
-                <DropdownItem
-                  onClick={() =>
-                    setWalletToAdd(
-                      (prev) =>
-                        prev && prev.address
-                          ? { ...prev, chain }
-                          : { address: "", chain }, // Ensure `address` is defined
-                    )
-                  }
-                  key={chain}
-                >
-                  <Image
-                    src={
-                      chain === Chain.INJ
-                        ? APP_IMAGES.INGLogo
-                        : APP_IMAGES.egldLogo
-                    }
-                    alt="logo"
-                    width={20}
-                    height={20}
-                    className="pr-2"
-                  />
-                  <Text>{chain}</Text>
-                </DropdownItem>
-              ))}
-            </DropdownMenu>
-          </Dropdown>
-          <Field className="mt-2">
-            <Input
-              onChange={(v) =>
-                setWalletToAdd({
-                  chain: walletToAdd?.chain,
-                  address: v.target.value,
-                })
-              }
-              placeholder="Enter the address"
-              name="address"
-            />
-          </Field>
-          <Button onClick={registerWallet}>Register</Button>
-          {txn && (
-            <a href={txn} target="__blank" className="text-blue-600 font-bold">
-              Successfully added wallet! Click to see on explorer
-            </a>
-          )}
-        </div>
-      </Dialog>
-    </>
-  );
+  const removeWallet = async (walletToRemove: Wallet) => {
+    if (!connectedWallet?.address) {
+      alert("Wallet not connected");
+      return;
+    }
 
-  const PendingLinkedWalletComponent = () => (
-    <div className="mt-20">
-      <Strong>Pending verifications</Strong>
-      <Table className="[--gutter:theme(spacing.6)] sm:[--gutter:theme(spacing.8)]">
-        <TableHead>
-          <TableRow>
-            <TableHeader className="w-1/4">Chain</TableHeader>
-            <TableHeader className="w-full">Address</TableHeader>
-            <TableHeader>Action</TableHeader>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {pendingPersonas?.map((prsn) => (
-            <TableRow key={JSON.stringify(prsn)}>
-              <TableCell className="font-medium">{prsn.chain}</TableCell>
-              <TableCell>{prsn.addr}</TableCell>
-              <TableCell className="flex justify-end">
-                <Button color={"green"} className="mr-2">
-                  Accept
-                </Button>
-                <Button color={"red"} className="mr-2">
-                  Deny
-                </Button>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </div>
-  );
+    try {
+      let { txn, persona } = await personaService.removeWallet(
+        connectedWallet,
+        walletToRemove,
+      );
+      const updatePersona = await fetchAndVerifyPersona(connectedWallet);
+
+      if (updatePersona) persona = updatePersona;
+      setPersona(persona);
+      setTxn(txn);
+      return persona;
+    } catch (error) {
+      console.error("Error removing wallet:", error);
+    }
+  };
 
   return (
     <div className="flex flex-col w-full">
-      <LinkedWalletComponent />
-      <PendingLinkedWalletComponent />
+      {connectedWallet && persona ? (
+        <>
+          <LinkedWalletTable
+            connectedWallet={connectedWallet}
+            persona={persona}
+            txn={txn}
+            registerWallet={registerWallet}
+            removeWallet={removeWallet}
+          />
+          <PendingLinkedWalletTable
+            registerWallet={registerWallet}
+            pendingPersonas={pendingPersonas}
+          />
+        </>
+      ) : (
+        <>
+          <LinkedWalletTableSkeleton />
+          <PendingLinkedWalletTableSkeleton />
+        </>
+      )}
     </div>
   );
 }

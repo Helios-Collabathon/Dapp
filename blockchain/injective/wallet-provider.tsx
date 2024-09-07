@@ -20,7 +20,7 @@ export const WalletContext = createContext<ContextType>({
   connectedWallet: {
     address: "",
     provider: WalletProdiver.Keplr,
-    chain: Chain.INJ,
+    chain: Chain.Injective,
   },
 });
 
@@ -34,11 +34,11 @@ export const WalletContextProvider = ({
   const [connectedWallet, setConnectedWallet] = useState<ConnectedWallet>();
 
   useEffect(() => {
-    const wallet = localStorage.getItem(Chain.INJ);
+    const wallet = localStorage.getItem(Chain.Injective);
     if (wallet) {
       setConnectedWallet({
         address: JSON.parse(wallet).address,
-        chain: Chain.INJ,
+        chain: Chain.Injective,
         provider: JSON.parse(wallet).provider,
       });
     }
@@ -49,10 +49,10 @@ export const WalletContextProvider = ({
     setConnectedWallet({
       address: address,
       provider: wallet as any,
-      chain: Chain.INJ,
+      chain: Chain.Injective,
     });
     localStorage.setItem(
-      Chain.INJ,
+      Chain.Injective,
       JSON.stringify({
         address: address,
         wallet: wallet,
@@ -63,7 +63,7 @@ export const WalletContextProvider = ({
 
   const disconnectWallet = () => {
     setConnectedWallet(undefined);
-    localStorage.removeItem(Chain.INJ);
+    localStorage.removeItem(Chain.Injective);
   };
 
   return (
