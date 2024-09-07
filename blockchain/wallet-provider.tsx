@@ -3,7 +3,6 @@ import dynamic from 'next/dynamic'
 import * as React from 'react'
 import { createContext, useContext, useEffect, useState } from 'react'
 import { Config } from '../app/config'
-import { Chain } from './types/connected-wallet'
 
 type AppWalletProvider = string
 
@@ -12,6 +11,8 @@ type ContextType = {
   disconnectWallet: () => void
   connectedWallet: { wallet?: AppWalletProvider; address?: string }
 }
+
+const WalletStorageKey = 'connected-wallet'
 
 export const DappProvider = dynamic(async () => (await import('@multiversx/sdk-dapp/wrappers/DappProvider')).DappProvider, { ssr: false })
 
@@ -32,7 +33,7 @@ export const WalletContextProvider = ({ children }: { children: React.ReactNode 
   }>({ address: '', wallet: undefined })
 
   useEffect(() => {
-    const wallet = localStorage.getItem(Chain.INJ)
+    const wallet = localStorage.getItem(WalletStorageKey)
     if (wallet) {
       setConnectedWallet({
         address: JSON.parse(wallet).address,
@@ -44,7 +45,7 @@ export const WalletContextProvider = ({ children }: { children: React.ReactNode 
   const connectWallet = async (wallet: AppWalletProvider, address: string) => {
     setConnectedWallet({ address, wallet })
     localStorage.setItem(
-      Chain.INJ,
+      WalletStorageKey,
       JSON.stringify({
         address: address,
         wallet: wallet,
@@ -55,7 +56,7 @@ export const WalletContextProvider = ({ children }: { children: React.ReactNode 
 
   const disconnectWallet = () => {
     setConnectedWallet({ address: '' })
-    localStorage.removeItem(Chain.INJ)
+    localStorage.removeItem(WalletStorageKey)
   }
 
   return (
