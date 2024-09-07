@@ -1,5 +1,7 @@
 'use client'
 import { Config } from '@/app/config'
+import { useWallet } from '@/blockchain/wallet-provider'
+import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks/account/useGetAccountInfo'
 import { useExtensionLogin } from '@multiversx/sdk-dapp/hooks/login/useExtensionLogin'
 import { useIframeLogin } from '@multiversx/sdk-dapp/hooks/login/useIframeLogin'
 import { usePasskeyLogin } from '@multiversx/sdk-dapp/hooks/login/usePasskeyLogin'
@@ -11,7 +13,7 @@ import { useEffect, useState } from 'react'
 import { Button } from '../controls/Button'
 import { Dialog } from '../controls/Dialog'
 
-export type WalletProviderId = 'browser_extension' | 'webwallet' | 'iframe' | 'walletconnect' | 'ledger' | 'passkeys'
+export type WalletProvider = 'browser_extension' | 'webwallet' | 'iframe' | 'walletconnect' | 'ledger' | 'passkeys'
 
 interface Props {
   isOpen: boolean
@@ -28,35 +30,41 @@ const LedgerLoginContainer = dynamic(async () => (await import('@multiversx/sdk-
 })
 
 export const MultiversXDialog = (props: Props) => {
-  const [active, setActive] = useState<WalletProviderId | null>(null)
+  const [walletProvider, setWalletProvider] = useState<WalletProvider | null>(null)
 
   const [initExtensionLogin] = useExtensionLogin({ nativeAuth: true })
   const [initWebWalletLogin] = useWebWalletLogin({ nativeAuth: true, callbackRoute: Config.Pages.Start })
   const [initIframeLogin] = useIframeLogin({ nativeAuth: true, walletAddress: Config.Services.MetamaskSnap() })
   const [initPasskeysLogin] = usePasskeyLogin({ nativeAuth: true })
 
+  const wallet = useWallet()
+  const { account } = useGetAccountInfo()
+
+  useEffect(() => {
+    if (!account.address || !walletProvider) return
+    try {
+      wallet.connectWallet(walletProvider, account.address)
+      props.onClose()
+    } catch (error) {
+      console.error('Error connecting wallet:', error)
+    }
+  }, [account.address])
+
   useEffect(() => {
     if (!props.isOpen) return
     logout(location.pathname, undefined, false)
   }, [props.isOpen])
 
-  const handleLoginRequest = async (provider: WalletProviderId) => {
-    if (provider === 'walletconnect') setActive(provider)
-    if (provider === 'browser_extension') await executeAndReset(initExtensionLogin)
-    if (provider === 'ledger') setActive(provider)
-    if (provider === 'webwallet') executeAndReset(initWebWalletLogin)
-    if (provider === 'iframe') await executeAndReset(() => initIframeLogin(IframeLoginTypes.metamask))
-    if (provider === 'passkeys') await executeAndReset(initPasskeysLogin)
-  }
-
-  const executeAndReset = async (func?: () => void) => {
-    props.onClose()
-    setActive(null)
-    func?.()
+  const handleLoginRequest = async (provider: WalletProvider) => {
+    setWalletProvider(provider)
+    if (provider === 'browser_extension') initExtensionLogin()
+    if (provider === 'webwallet') initWebWalletLogin()
+    if (provider === 'iframe') initIframeLogin(IframeLoginTypes.metamask)
+    if (provider === 'passkeys') initPasskeysLogin()
   }
 
   const handleClose = () => {
-    setActive(null)
+    setWalletProvider(null)
     props.onClose()
   }
 
@@ -66,7 +74,7 @@ export const MultiversXDialog = (props: Props) => {
         <Dialog open={props.isOpen} onClose={handleClose}>
           <div className="p-2 text-black dark:text-white">
             <h1 className="mb-4 text-center text-2xl font-bold">Multiversx Wallet Connection </h1>
-            {active === 'walletconnect' ? (
+            {walletProvider === 'walletconnect' ? (
               <WalletConnectLoginContainer
                 loginButtonText="Login with xPortal"
                 logoutRoute="/"
@@ -77,7 +85,7 @@ export const MultiversXDialog = (props: Props) => {
                 isWalletConnectV2
                 nativeAuth
               />
-            ) : active === 'ledger' ? (
+            ) : walletProvider === 'ledger' ? (
               <LedgerLoginContainer callbackRoute="/" wrapContentInsideModal={false} showScamPhishingAlert={false} nativeAuth />
             ) : (
               <div className="flex flex-col space-y-2">

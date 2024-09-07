@@ -1,4 +1,5 @@
 'use client'
+import { getAddresses } from '@/blockchain/injective/wallet'
 import { wallets } from '@/blockchain/injective/wallets'
 import { useWallet } from '@/blockchain/wallet-provider'
 import { Wallet } from '@injectivelabs/wallet-ts'
@@ -15,7 +16,8 @@ export const InjectiveLoginDialog = ({ isOpen, onClose }: InjectiveLoginDialogPr
   const wallet = useWallet()
   const handleWalletClick = async (walletValue: Wallet) => {
     try {
-      await wallet.connectWallet(walletValue)
+      const [address] = await getAddresses(walletValue)
+      await wallet.connectWallet(walletValue, address)
       onClose() // Close the dialog after successful connection
     } catch (error) {
       console.error('Error connecting wallet:', error)
