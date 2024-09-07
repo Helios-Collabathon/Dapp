@@ -14,7 +14,7 @@ export default function Home() {
         <Image className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert" src="/next.svg" alt="Next.js Logo" width={180} height={37} priority />
       </div>
 
-      <section className="w-full max-w-5xl px-4 py-16 text-center">
+      <section className="w-full max-w-5xl px-4 py-16 text-center text-black dark:text-white">
         <h2 className="mb-8 text-3xl font-bold">Key Features</h2>
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
           <div className="flex flex-col items-center rounded-lg border border-gray-300 p-6 shadow-lg dark:border-neutral-700 dark:bg-neutral-800/30">
