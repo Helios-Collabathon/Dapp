@@ -1,16 +1,14 @@
 'use client'
-import { Wallet } from '@injectivelabs/wallet-ts'
 import dynamic from 'next/dynamic'
 import * as React from 'react'
 import { createContext, useContext, useEffect, useState } from 'react'
 import { Config } from '../app/config'
-import { getAddresses } from './injective/wallet'
 import { Chain } from './types/connected-wallet'
 
 type AppWalletProvider = string
 
 type ContextType = {
-  connectWallet: (wallet: AppWalletProvider) => Promise<void>
+  connectWallet: (wallet: AppWalletProvider, address: string) => Promise<void>
   disconnectWallet: () => void
   connectedWallet: { wallet?: AppWalletProvider; address?: string }
 }
@@ -43,12 +41,8 @@ export const WalletContextProvider = ({ children }: { children: React.ReactNode 
     }
   }, [])
 
-  const connectWallet = async (wallet: AppWalletProvider) => {
-    const [address] = await getAddresses(wallet as Wallet)
-    setConnectedWallet({
-      address: address,
-      wallet: wallet,
-    })
+  const connectWallet = async (wallet: AppWalletProvider, address: string) => {
+    setConnectedWallet({ address, wallet })
     localStorage.setItem(
       Chain.INJ,
       JSON.stringify({
