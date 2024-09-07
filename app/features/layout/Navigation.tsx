@@ -17,7 +17,7 @@ export function Navigation(props: Props) {
     <Navbar>
       <Link href="/" aria-label="Home">
         <Image
-          src="/vercel.svg"
+          src="/heliosconnect.svg"
           alt="Logo"
           width={100} // Adjust the width as needed
           height={50} // Adjust the height as needed
@@ -31,7 +31,6 @@ export function Navigation(props: Props) {
         <NavbarItem href={Config.Pages.Faq} current={isCurrentPage(Config.Pages.Faq)}>
           FAQ
         </NavbarItem>
-        <NavbarItem href="#TODO">Docs</NavbarItem>
       </NavbarSection>
       <NavbarSpacer />
       <LoginDropDown />
