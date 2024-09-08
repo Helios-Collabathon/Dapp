@@ -3,10 +3,10 @@ import { Persona, Wallet } from "./types";
 
 export interface IRepository<T> {
   getPersonaFromWallet(address: string): Promise<Persona>;
-  getPersonasFromLinkedWallet(): Promise<{ data: T[] }>;
+  getPersonasFromLinkedWallet(wallet: Wallet): Promise<Persona[]>;
 
   addWallet(
     connectedWallet: ConnectedWallet,
-    wallet: Wallet
+    wallet: Wallet,
   ): Promise<{ txn: string; persona: Persona }>;
 }

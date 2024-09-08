@@ -7,8 +7,9 @@ export function getApiUrl() {
 export function parseMultiversXResponse(parsedResponse: any[]): Persona {
     if (parsedResponse.length == 0) {
         return {
-            adr: "",
-            linked_wallets: []
+            addr: undefined,
+            chain: undefined,
+            linked_wallets: undefined,
         }
     }
 

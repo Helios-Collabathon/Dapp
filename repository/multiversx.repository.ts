@@ -24,9 +24,8 @@ export class MultiversXRepository<T> implements IRepository<T> {
     async getPersonaFromWallet(address: string): Promise<Persona> {
         return this.personaSC.getPersonaByWallet(address);
     }
-
-    async getPersonasFromLinkedWallet(): Promise<{ data: T[] }> {
-        throw new Error("Method not implemented.");
-    }
     
+    async getPersonasFromLinkedWallet(wallet: Wallet): Promise<Persona[]> {
+        return this.personaSC.getPersonasByLinkedWallet(wallet);
+    }
 }

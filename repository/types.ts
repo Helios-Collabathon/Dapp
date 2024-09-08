@@ -1,11 +1,13 @@
 import { Chain } from "@/blockchain/types/connected-wallet";
 
 export type Wallet = {
-    chain: Chain;
-    address: string;
+  chain?: Chain;
+  address?: string;
+  verified?: boolean;
 };
 
 export type Persona = {
-    adr: string,
-    linked_wallets: Wallet[];
+  addr?: string;
+  chain?: Chain;
+  linked_wallets?: Wallet[];
 };
