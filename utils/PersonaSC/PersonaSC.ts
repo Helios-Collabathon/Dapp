@@ -85,7 +85,7 @@ export default class PersonaSC {
         const transaction = await this.factory.createTransactionForExecute({
             sender: sender,
             contract: new Address(this.scAddress),
-            function: "linkWallet",
+            function: "addWallet",
             gasLimit: BigInt(20000000),
             arguments: [wallet.chain, wallet.address]
         });
@@ -104,7 +104,7 @@ export default class PersonaSC {
         const transaction = await this.factory.createTransactionForExecute({
             sender: sender,
             contract: new Address(this.scAddress),
-            function: "unlinkWallet",
+            function: "removeWallet",
             gasLimit: BigInt(20000000),
             arguments: [wallet.chain, wallet.address]
         });

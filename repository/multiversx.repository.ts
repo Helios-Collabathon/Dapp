@@ -21,6 +21,16 @@ export class MultiversXRepository<T> implements IRepository<T> {
         };
     }
 
+    async removeWallet(connectedWallet: ConnectedWallet, wallet: Wallet): Promise<{ txn: string; persona: Persona; }> {
+        const txHash: TransactionHash = await this.personaSC.removeWallet(new Address(connectedWallet.address), wallet);
+        const persona: Persona = await this.personaSC.getPersonaByWallet(connectedWallet.address);
+
+        return { 
+            txn: `https://devnet-explorer.multiversx.com/transactions/${txHash}`, 
+            persona,
+        };
+    }
+
     async getPersonaFromWallet(address: string): Promise<Persona> {
         return this.personaSC.getPersonaByWallet(address);
     }

@@ -9,4 +9,9 @@ export interface IRepository<T> {
     connectedWallet: ConnectedWallet,
     wallet: Wallet,
   ): Promise<{ txn: string; persona: Persona }>;
+
+  removeWallet(
+    connectedWallet: ConnectedWallet,
+    wallet: Wallet,
+  ): Promise<{ txn: string; persona: Persona }>;
 }
