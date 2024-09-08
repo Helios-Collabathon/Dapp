@@ -32,7 +32,7 @@ export class VerificationService {
           break;
       }
 
-      wallet.verified = prsn?.linked_wallets.find((x) => x.chain === Chain.Injective && x.address === persona.address,) !== undefined;
+      wallet.verified = prsn?.linked_wallets.find((x) => x.chain === persona.chain && x.address === persona.address,) !== undefined;
     }
 
     return persona;

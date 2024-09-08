@@ -69,8 +69,6 @@ export default function PersonaPage() {
         chain: connectedWallet.chain,
       });
 
-      // console.log("personas", personas);
-
       personas = personas.filter((p) => {
         return !prsn.linked_wallets.some(
           (wlt) => wlt.address === p.address && wlt.verified,
@@ -80,7 +78,6 @@ export default function PersonaPage() {
       return personas;
     } catch (error) {
       toast.error(`Error fetching pending links! \n${error}`);
-      console.log(error);
       return [];
     }
   };

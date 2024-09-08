@@ -4,6 +4,7 @@ import {
   QueryRunnerAdapter,
   TransactionHash,
   TransactionsFactoryConfig,
+  TransactionComputer,
 } from "@multiversx/sdk-core";
 import {
   SmartContractQueriesController,
@@ -23,12 +24,14 @@ import { ChainUtils } from "@/blockchain/types/connected-wallet";
 export default class PersonaSC {
   factory!: SmartContractTransactionsFactory;
   controller!: SmartContractQueriesController;
+  transactionComputer!: TransactionComputer;
   scAddress: string = process.env.NEXT_PUBLIC_MVX_SC!;
 
   constructor() {
+    this.transactionComputer = new TransactionComputer();
     (async () => {
       let abi = AbiRegistry.create(personaAbi);
-      const apiProvider = new ApiNetworkProvider(getApiUrl());
+      const apiProvider = new ApiNetworkProvider(getApiUrl(), {clientName: "Helios"});
       const factoryConfig = new TransactionsFactoryConfig({
         chainID: process.env.NEXT_PUBLIC_MVX_CHAIN_ID!,
       });
@@ -79,7 +82,6 @@ export default class PersonaSC {
     const personas = parsedResponse.map((response: any) =>
       parseMultiversXResponse(response),
     );
-    console.log(personas);
 
     return personas;
   }
@@ -91,7 +93,7 @@ export default class PersonaSC {
   public async addWallet(
     sender: Address,
     wallet: Wallet,
-  ): Promise<TransactionHash> {
+  ): Promise<Uint8Array> {
     const transaction = this.factory.createTransactionForExecute({
       sender: sender,
       contract: new Address(this.scAddress),
@@ -100,17 +102,17 @@ export default class PersonaSC {
       arguments: [ChainUtils.toString(wallet.chain!), wallet.address],
     });
 
-    const response = await sendTransactions({
+    await sendTransactions({
       transactions: [transaction],
     });
 
-    return transaction.getHash();
+    return this.transactionComputer.computeTransactionHash(transaction);
   }
 
   public async removeWallet(
     sender: Address,
     wallet: Wallet,
-  ): Promise<TransactionHash> {
+  ): Promise<Uint8Array> {
     const transaction = await this.factory.createTransactionForExecute({
       sender: sender,
       contract: new Address(this.scAddress),
@@ -123,6 +125,6 @@ export default class PersonaSC {
       transactions: [transaction],
     });
 
-    return transaction.getHash();
+    return this.transactionComputer.computeTransactionHash(transaction);
   }
 }

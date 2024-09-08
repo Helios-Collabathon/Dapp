@@ -2,7 +2,7 @@ import { ConnectedWallet } from "@/blockchain/types/connected-wallet";
 import { IRepository } from "./repository.interface";
 import { Persona, Wallet } from "./types";
 import PersonaSC from "@/utils/PersonaSC/PersonaSC";
-import { Address, TransactionHash } from "@multiversx/sdk-core";
+import { Address } from "@multiversx/sdk-core";
 
 export class MultiversXRepository<T> implements IRepository<T> {
   personaSC!: PersonaSC;
@@ -16,7 +16,7 @@ export class MultiversXRepository<T> implements IRepository<T> {
     connectedWallet: ConnectedWallet,
     wallet: Wallet,
   ): Promise<{ txn: string; persona: Persona }> {
-    const txHash: TransactionHash = await this.personaSC.addWallet(
+    const txHash: Uint8Array = await this.personaSC.addWallet(
       new Address(connectedWallet.address),
       wallet,
     );
@@ -24,6 +24,10 @@ export class MultiversXRepository<T> implements IRepository<T> {
       connectedWallet.address,
     );
 
+    console.log(txHash);
+    console.log(Buffer.from(txHash));
+    console.log(Buffer.from(txHash).toString("hex"));
+    console.log(`${this.explorerEndpoint}/transactions/${txHash}`);
     return {
       txn: `${this.explorerEndpoint}/transactions/${txHash}`,
       persona,
@@ -34,7 +38,7 @@ export class MultiversXRepository<T> implements IRepository<T> {
     connectedWallet: ConnectedWallet,
     wallet: Wallet,
   ): Promise<{ txn: string; persona: Persona }> {
-    const txHash: TransactionHash = await this.personaSC.removeWallet(
+    const txHash: Uint8Array = await this.personaSC.removeWallet(
       new Address(connectedWallet.address),
       wallet,
     );
@@ -42,6 +46,10 @@ export class MultiversXRepository<T> implements IRepository<T> {
       connectedWallet.address,
     );
 
+    console.log(txHash);
+    console.log(Buffer.from(txHash));
+    console.log(Buffer.from(txHash).toString("utf-8"));
+    console.log(`${this.explorerEndpoint}/transactions/${txHash}`);
     return {
       txn: `${this.explorerEndpoint}/transactions/${txHash}`,
       persona,
