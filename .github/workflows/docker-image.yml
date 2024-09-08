@@ -31,15 +31,15 @@ jobs:
       - name: Build the Docker image
         run: |
           if [ "${{ github.ref_name }}" == "main" ]; then
-            docker build . --file Dockerfile --tag ghcr.io/helio-collabathon/dapp-frontend:mainnet
+            docker build . --file Dockerfile --tag ghcr.io/helios-collabathon/dapp-frontend:mainnet
           elif [ "${{ github.ref_name }}" == "develop" ]; then
-            docker build . --file Dockerfile --tag ghcr.io/helio-collabathon/dapp-frontend:devnet
+            docker build . --file Dockerfile --tag ghcr.io/helios-collabathon/dapp-frontend:devnet
           fi
 
       - name: Push the Docker image
         run: |
           if [ "${{ github.ref_name }}" == "main" ]; then
-            docker push ghcr.io/helio-collabathon/dapp-frontend:mainnet
+            docker push ghcr.io/helios-collabathon/dapp-frontend:mainnet
           elif [ "${{ github.ref_name }}" == "develop" ]; then
-            docker push ghcr.io/helio-collabathon/dapp-frontend:devnet
+            docker push ghcr.io/helios-collabathon/dapp-frontend:devnet
           fi
