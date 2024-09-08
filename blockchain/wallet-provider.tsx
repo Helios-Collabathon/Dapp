@@ -18,11 +18,15 @@ type ContextType = {
 
 const WalletStorageKey = "connected-wallet";
 
-export const DappProvider = dynamic(
-  async () =>
-    (await import("@multiversx/sdk-dapp/wrappers/DappProvider")).DappProvider,
-  { ssr: false },
-);
+const DappProvider = dynamic(async () => (await import('@multiversx/sdk-dapp/wrappers/DappProvider')).DappProvider, { ssr: false })
+
+const SignTransactionsModals = dynamic(
+  async () => (await import('@multiversx/sdk-dapp/UI/SignTransactionsModals/SignTransactionsModals')).SignTransactionsModals,
+  { ssr: false }
+)
+
+const TransactionsToastList = dynamic(async () => (await import('@multiversx/sdk-dapp/UI/TransactionsToastList')).TransactionsToastList, { ssr: false })
+const NotificationModal = dynamic(async () => (await import('@multiversx/sdk-dapp/UI/NotificationModal')).NotificationModal, { ssr: false })
 
 export const WalletContext = createContext<ContextType>({
   connectWallet: async () => {},
@@ -93,6 +97,9 @@ export const WalletContextProvider = ({
         }}
       >
         {children}
+        <TransactionsToastList />
+        <NotificationModal />
+        <SignTransactionsModals />
       </DappProvider>
     </WalletContext.Provider>
   );
