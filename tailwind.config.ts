@@ -9,6 +9,11 @@ const config: Config = {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
+      colors: {
+        'brand-deepblue': '#0A78C2',
+        'brand-skyblue': '#5AC8FA',
+        'brand-purple': '#9256F4',
+      },
     },
   },
   plugins: [],

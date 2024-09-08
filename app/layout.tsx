@@ -4,11 +4,13 @@ import "./globals.css";
 import { BaseLayout } from "./layouts/BaseLayout";
 import { Toaster } from "react-hot-toast";
 import WalletContextProvider from "@/blockchain/wallet-provider";
+import { Config } from "./config";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Helios Connect",
+  title: Config.App.Title,
+  description: Config.App.Description,
   metadataBase: new URL("https://www.heliosconnect.net/"),
   alternates: {
     canonical: "https://www.heliosconnect.net",
@@ -16,8 +18,6 @@ export const metadata: Metadata = {
       "en-US": "/en-US",
     },
   },
-  description:
-    "Helios Connect enables seamless verification of user identities across multiple blockchain ecosystems. This cross-chain compatibility connects  wallets on MultiversX and Injective, laying the groundwork for expansion into other chains.",
   icons: "/heliosconnect.png",
   openGraph: {
     images: "/heliosconnect.png",

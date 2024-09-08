@@ -15,7 +15,6 @@ import { useState, useCallback } from "react";
 import { Chain, ChainUtils } from "@/blockchain/types/connected-wallet";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
-import { CompletedTransactionDialog } from "./completed-transaction.dialog";
 import { Strong } from "@/app/features/controls/Text";
 import {
   Dropdown,
@@ -27,6 +26,7 @@ import { Field } from "@headlessui/react";
 import { Input } from "@/app/features/controls/Input";
 import { PersonaFilter } from "@/blockchain/types/persona-filter";
 import PersonaFilterComponent from "./filter-component";
+import { CompletedTransactionDialog } from "./completed-transaction.dialog";
 
 interface LinkedWalletTableProps {
   connectedWallet: Wallet;
@@ -64,6 +64,7 @@ export default function LinkedWalletTable({
   const handleRegisterWallet = async () => {
     if (walletToAdd) {
       registerWallet(walletToAdd);
+      setIsDialogOpen(false);
     }
   };
 
@@ -144,13 +145,13 @@ export default function LinkedWalletTable({
           ))}
         </TableBody>
       </Table>
-      <Button outline onClick={() => setIsDialogOpen(true)}>
-        Add Address
+      <Button className="mt-2" outline onClick={() => setIsDialogOpen(true)}>
+        Add Wallet
       </Button>
       <Dialog open={isDialogOpen} onClose={() => setIsDialogOpen(false)}>
         <div className="flex flex-col gap-2 justify-center">
           <h1 className="text-center text-2xl font-bold mb-4 text-black dark:text-white">
-            Add Address
+            Add Wallet
           </h1>
           <Dropdown>
             <DropdownButton outline>
@@ -199,17 +200,21 @@ export default function LinkedWalletTable({
             />
           </Field>
           <Button onClick={handleRegisterWallet}>Register</Button>
-          {txn && (
-            <a href={txn} target="__blank" className="text-blue-600 font-bold">
-              Successfully added wallet! Click to see on explorer
-            </a>
-          )}
+          {/* {!txn && (
+            <div className="flex w-full justify-end">
+              <Button
+                plain
+                href={txn}
+                target="__blank"
+                className="flex w-fit justify-end underline"
+              >
+                Check transaction on explorer
+              </Button>
+            </div>
+          )} */}
         </div>
       </Dialog>
-      <CompletedTransactionDialog
-        message="This is the message of a completed transaction"
-        txn={txn}
-      />
+      {txn && <CompletedTransactionDialog txn={txn} message="" />}
     </>
   );
 }

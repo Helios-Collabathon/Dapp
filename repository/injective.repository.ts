@@ -24,8 +24,8 @@ export class InjectiveRepository<T> implements IRepository<T> {
   chainGrpcWasmApi = new ChainGrpcWasmApi(this.ENDPOINTS.grpc);
   explorerEndpoint =
     process.env.NEXT_PUBLIC_NEXT_PUBLIC_NETWORK === "mainnet"
-      ? "https://testnet.explorer.injective.network"
-      : "https://explorer.injective.network";
+      ? "https://explorer.injective.network"
+      : "https://testnet.explorer.injective.network";
 
   async getPersonaFromWallet(address: string): Promise<Persona> {
     const query_raw = {

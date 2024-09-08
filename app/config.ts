@@ -5,6 +5,8 @@ const Env: AppEnv = (process.env.NEXT_PUBLIC_ENV as AppEnv | null) || "mainnet";
 export const Config = {
   App: {
     Env,
+    Title: 'Helios Connect',
+    Description: 'Helios Connect is an open-source platform enabling cross-chain identity verification across MultiversX and Injective.',
   },
   Services: {
     WalletConnect: {

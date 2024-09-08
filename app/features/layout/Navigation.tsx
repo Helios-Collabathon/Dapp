@@ -83,14 +83,16 @@ export function Navigation(props: Props) {
       </Field>
       <NavbarSpacer />
       <LoginDropDown />
-      <FontAwesomeIcon
-        className="cursor-pointer"
-        onClick={() => {
-          localStorage.removeItem("connected-wallet");
-          window.location.reload();
-        }}
-        icon={faRightFromBracket}
-      />
+      {connectedWallet.address && (
+        <FontAwesomeIcon
+          className="cursor-pointer"
+          onClick={() => {
+            localStorage.removeItem("connected-wallet");
+            window.location.reload();
+          }}
+          icon={faRightFromBracket}
+        />
+      )}
     </Navbar>
   );
 }

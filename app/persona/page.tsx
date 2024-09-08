@@ -15,9 +15,10 @@ export default function PersonaPage() {
   const { connectedWallet } = useContext(WalletContext);
   const [persona, setPersona] = useState<Persona | null>(null);
   const [pendingPersonas, setPendingPersonas] = useState<Persona[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [txn, setTxn] = useState("");
   const personaService = useMemo(() => new PersonaService(), []);
   const verificationService = useMemo(() => new VerificationService(), []);
-  const [txn, setTxn] = useState("");
 
   useEffect(() => {
     if (!connectedWallet?.address) return;
@@ -27,6 +28,7 @@ export default function PersonaPage() {
 
   const fetchAndVerifyPersona = async (connectedWallet: ConnectedWallet) => {
     try {
+      setLoading(true);
       const fetchedPersona = await personaService.getPersonaByWallet(
         connectedWallet.address,
         connectedWallet.chain,
@@ -51,8 +53,11 @@ export default function PersonaPage() {
     } catch (error) {
       toast.error(`Error fetching or verifying persona!\n${error}`);
       return undefined;
+    } finally {
+      setLoading(false);
     }
   };
+
   const fetchPendingLinks = async (
     connectedWallet: ConnectedWallet,
     prsn?: Persona | undefined,
@@ -85,6 +90,7 @@ export default function PersonaPage() {
     }
 
     try {
+      setLoading(true);
       let { txn, persona } = await personaService.addWallet(
         connectedWallet,
         walletToAdd,
@@ -97,6 +103,8 @@ export default function PersonaPage() {
       return persona;
     } catch (error) {
       toast.error(`Error registering wallet!\n${error}`);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -107,6 +115,7 @@ export default function PersonaPage() {
     }
 
     try {
+      setLoading(true);
       let { txn, persona } = await personaService.removeWallet(
         connectedWallet,
         walletToRemove,
@@ -119,31 +128,51 @@ export default function PersonaPage() {
       return persona;
     } catch (error) {
       toast.error(`Error removing wallet!\n${error}`);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="flex flex-col w-full">
-      {connectedWallet && persona ? (
-        <>
-          <LinkedWalletTable
-            connectedWallet={connectedWallet}
-            persona={persona}
-            txn={txn}
-            registerWallet={registerWallet}
-            removeWallet={removeWallet}
-          />
-          <PendingLinkedWalletTable
-            registerWallet={registerWallet}
-            pendingPersonas={pendingPersonas}
-          />
-        </>
-      ) : (
-        <>
-          <LinkedWalletTableSkeleton />
-          <PendingLinkedWalletTableSkeleton />
-        </>
+    <div className="relative flex flex-col w-full p-4">
+      {loading && (
+        <div className="absolute inset-0 flex justify-center items-center z-50">
+          <div className="flex flex-col items-center">
+            <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-500"></div>
+            <p className="mt-4 text-white font-semibold">
+              Processing your request...
+            </p>
+          </div>
+        </div>
       )}
+      <div
+        className={
+          loading
+            ? "filter blur-lg transition ease-in-out duration-300"
+            : "transition ease-in-out duration-300"
+        }
+      >
+        {connectedWallet && persona ? (
+          <>
+            <LinkedWalletTable
+              connectedWallet={connectedWallet}
+              persona={persona}
+              txn={txn}
+              registerWallet={registerWallet}
+              removeWallet={removeWallet}
+            />
+            <PendingLinkedWalletTable
+              registerWallet={registerWallet}
+              pendingPersonas={pendingPersonas}
+            />
+          </>
+        ) : (
+          <>
+            <LinkedWalletTableSkeleton />
+            <PendingLinkedWalletTableSkeleton />
+          </>
+        )}
+      </div>
     </div>
   );
 }

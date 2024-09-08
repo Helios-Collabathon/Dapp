@@ -3,7 +3,7 @@ import { Dialog, DialogDescription } from "@/app/features/controls/Dialog";
 import { Strong } from "@/app/features/controls/Text";
 import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export const CompletedTransactionDialog = ({
   message,
@@ -12,23 +12,26 @@ export const CompletedTransactionDialog = ({
   message: string;
   txn: string;
 }) => {
-  const [isOpen, setIsOpen] = useState(txn !== "");
+  const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    if (txn !== "") {
+      setIsOpen(true);
+    }
+  }, [txn]);
 
   return (
     <Dialog
-      size="md"
+      size="xs"
       open={isOpen}
-      onClose={setIsOpen}
-      className="flex flex-col gap-3"
+      onClose={() => setIsOpen(false)}
+      className="flex flex-col gap-3 items-center"
     >
-      <Strong className="text-center font-bold text-xl">SUCCESS</Strong>
-      <FontAwesomeIcon
-        icon={faCircleCheck}
-        color="green"
-        size="6x"
-        className="flex w-full mt-2 items-center"
-      />
-      <DialogDescription className="text-center">{message}</DialogDescription>
+      <Strong className="flex w-full gap-2 items-center">
+        <FontAwesomeIcon icon={faCircleCheck} />
+        Transaction Successful!
+      </Strong>
+      <DialogDescription>{message}</DialogDescription>
       <Button
         href={txn}
         target="__blank"
