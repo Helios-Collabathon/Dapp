@@ -32,11 +32,11 @@ export default function PersonaFilterComponent({
   }, [filterChain, filterVerified, searchQuery, onFilterChange]);
 
   return (
-    <div className="flex gap-4 mb-4">
+    <div className="flex flex-col gap-4 mb-4 sm:flex-row sm:items-center">
       <Dropdown>
         <DropdownButton outline>
           {filterChain ? (
-            <div className="flex justify-center gap-2 font-bold text-xl text-center items-center">
+            <div className="flex justify-center gap-2 font-bold text-base sm:text-xl text-center items-center">
               <Image
                 width={16}
                 height={16}
@@ -72,7 +72,7 @@ export default function PersonaFilterComponent({
               ? "Verified"
               : "Not Verified"}
         </DropdownButton>
-        <DropdownMenu className="min-w-[30%] text-xl">
+        <DropdownMenu className="min-w-[30%] text-base sm:text-xl">
           <DropdownItem onClick={() => setFilterVerified(null)}>
             <Strong>All</Strong>
           </DropdownItem>
@@ -89,6 +89,7 @@ export default function PersonaFilterComponent({
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="Search by Address"
+          className="w-full text-base sm:text-xl"
         />
       </Field>
     </div>

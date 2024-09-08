@@ -13,6 +13,11 @@ COPY package*.json ./
 # Install dependencies
 RUN npm install
 
+# Set a default value for NEXT_PUBLIC_ENV, this will be used if the build argument is not passed
+ARG NEXT_PUBLIC_ENV=mainnet
+# Set environment variable for production based on the build argument
+ENV NEXT_PUBLIC_ENV=$NEXT_PUBLIC_ENV
+
 # Copy the rest of the application code
 COPY . .
 

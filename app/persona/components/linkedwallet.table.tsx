@@ -79,55 +79,61 @@ export default function LinkedWalletTable({
 
   return (
     <>
+      <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-6">
+        My Persona
+      </h1>
+
       <PersonaFilterComponent onFilterChange={setFilters} />
 
       <Table
         striped
-        className="[--gutter:theme(spacing.6)] sm:[--gutter:theme(spacing.8)]"
+        className="w-full [--gutter:theme(spacing.4)] sm:[--gutter:theme(spacing.6)]"
       >
         <TableHead>
           <TableRow>
-            <TableHeader className="w-full">Address</TableHeader>
-            <TableHeader>Status</TableHeader>
-            <TableHeader>Action</TableHeader>
+            <TableHeader className="text-sm sm:text-base w-full">
+              Address
+            </TableHeader>
+            <TableHeader className="text-sm sm:text-base">Status</TableHeader>
+            <TableHeader className="text-sm sm:text-base">Action</TableHeader>
           </TableRow>
         </TableHead>
         <TableBody>
           {connectedWallet && (
             <TableRow key={connectedWallet.address}>
-              <TableCell className="font-medium">
-                <div className="flex items-center gap-4">
+              <TableCell className="font-medium text-sm sm:text-base">
+                <div className="flex items-center gap-2 sm:gap-4">
                   <Image
                     width={24}
                     height={24}
-                    alt="chain-avatr-logo"
+                    alt="chain-avatar-logo"
                     src={ChainUtils.getLogo(connectedWallet.chain!)}
                   />
-                  <div className="font-medium">{connectedWallet.address}</div>
+                  <div>{connectedWallet.address}</div>
                 </div>
               </TableCell>
-              <TableCell className="text-zinc-500"></TableCell>
+              <TableCell className="text-zinc-500 text-sm sm:text-base"></TableCell>
             </TableRow>
           )}
           {filteredWallets.map((user) => (
             <TableRow key={user.address}>
-              <TableCell className="font-medium">
-                <div className="flex items-center gap-4">
+              <TableCell className="font-medium text-sm sm:text-base">
+                <div className="flex items-center gap-2 sm:gap-4">
                   <Image
                     width={24}
                     height={24}
                     alt="chain-sel-logo"
                     src={ChainUtils.getLogo(user.chain!)}
                   />
-                  <div className="font-medium">{user.address}</div>
+                  <div>{user.address}</div>
                 </div>
               </TableCell>
-              <TableCell className="text-zinc-500">
+              <TableCell className="text-zinc-500 text-sm sm:text-base">
                 <Badge color={user.verified ? "lime" : "red"}>
                   {user.verified ? "Verified" : "Not Verified"}
                 </Badge>
               </TableCell>
-              <TableCell>
+              <TableCell className="text-sm sm:text-base">
                 <Button
                   outline
                   onClick={() =>
@@ -145,18 +151,22 @@ export default function LinkedWalletTable({
           ))}
         </TableBody>
       </Table>
-      <Button className="mt-2" outline onClick={() => setIsDialogOpen(true)}>
+      <Button
+        className="w-full sm:w-fit mt-2 text-sm sm:text-base"
+        outline
+        onClick={() => setIsDialogOpen(true)}
+      >
         Add Wallet
       </Button>
       <Dialog open={isDialogOpen} onClose={() => setIsDialogOpen(false)}>
-        <div className="flex flex-col gap-2 justify-center">
-          <h1 className="text-center text-2xl font-bold mb-4 text-black dark:text-white">
+        <div className="flex flex-col gap-2 justify-center p-4 sm:p-6">
+          <h1 className="text-center text-xl sm:text-2xl font-bold mb-4 text-black dark:text-white">
             Add Wallet
           </h1>
           <Dropdown>
             <DropdownButton outline>
               {walletToAdd?.chain ? (
-                <div className="flex justify-center gap-2 font-bold text-xl text-center items-center">
+                <div className="flex justify-center gap-2 font-bold text-lg sm:text-xl text-center items-center">
                   <Image
                     width={24}
                     height={24}
@@ -169,7 +179,7 @@ export default function LinkedWalletTable({
                 "Select Chain"
               )}
             </DropdownButton>
-            <DropdownMenu className="min-w-[30%] text-xl">
+            <DropdownMenu className="min-w-[50%] sm:min-w-[30%] text-sm sm:text-lg">
               {Object.keys(Chain).map((chain) => (
                 <DropdownItem
                   onClick={() => {
@@ -197,21 +207,15 @@ export default function LinkedWalletTable({
               onChange={handleInputChange}
               placeholder="Enter the address"
               name="address"
+              className="text-sm sm:text-base"
             />
           </Field>
-          <Button onClick={handleRegisterWallet}>Register</Button>
-          {/* {!txn && (
-            <div className="flex w-full justify-end">
-              <Button
-                plain
-                href={txn}
-                target="__blank"
-                className="flex w-fit justify-end underline"
-              >
-                Check transaction on explorer
-              </Button>
-            </div>
-          )} */}
+          <Button
+            className="text-sm sm:text-base"
+            onClick={handleRegisterWallet}
+          >
+            Register
+          </Button>
         </div>
       </Dialog>
       {txn && <CompletedTransactionDialog txn={txn} message="" />}

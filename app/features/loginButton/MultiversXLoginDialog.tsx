@@ -8,11 +8,17 @@ import { usePasskeyLogin } from "@multiversx/sdk-dapp/hooks/login/usePasskeyLogi
 import { useWebWalletLogin } from "@multiversx/sdk-dapp/hooks/login/useWebWalletLogin";
 import { logout } from "@multiversx/sdk-dapp/utils";
 import { IframeLoginTypes } from "@multiversx/sdk-web-wallet-iframe-provider/out/constants";
-import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import { Button } from "../controls/Button";
 import { Dialog } from "../controls/Dialog";
 import { Chain } from "@/blockchain/types/connected-wallet";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faKey } from "@fortawesome/free-solid-svg-icons";
+import Image from "next/image";
+import LedgerLogo from "../../images/ledger.svg";
+import MetamaskLogo from "../../images/metamask.svg";
+import MultiversxLogo from "../../images/multiversx.svg";
+import dynamic from "next/dynamic";
 
 export type WalletProvider =
   | "browser_extension"
@@ -120,23 +126,49 @@ export const MultiversXDialog = (props: Props) => {
                 nativeAuth
               />
             ) : (
-              <div className="flex flex-col space-y-2">
+              <div className="grid grid-cols-2 gap-2">
                 <Button onClick={() => handleLoginRequest("passkeys")}>
+                  <FontAwesomeIcon icon={faKey} className="mr-1 inline-block" />
                   Passkeys
                 </Button>
                 <Button onClick={() => handleLoginRequest("browser_extension")}>
+                  <Image
+                    src={MultiversxLogo}
+                    alt=""
+                    className="mr-1 inline-block size-6"
+                  />
                   Extension
                 </Button>
                 <Button onClick={() => handleLoginRequest("walletconnect")}>
+                  <Image
+                    src={MultiversxLogo}
+                    alt=""
+                    className="mr-1 inline-block size-6"
+                  />
                   xPortal
                 </Button>
                 <Button onClick={() => handleLoginRequest("ledger")}>
+                  <Image
+                    src={LedgerLogo}
+                    alt=""
+                    className="mr-1 inline-block size-6"
+                  />
                   Ledger
                 </Button>
                 <Button onClick={() => handleLoginRequest("webwallet")}>
+                  <Image
+                    src={MultiversxLogo}
+                    alt=""
+                    className="mr-1 inline-block size-6"
+                  />
                   Web Wallet
                 </Button>
                 <Button onClick={() => handleLoginRequest("iframe")}>
+                  <Image
+                    src={MetamaskLogo}
+                    alt=""
+                    className="mr-1 inline-block size-6"
+                  />
                   MetaMask
                 </Button>
               </div>
