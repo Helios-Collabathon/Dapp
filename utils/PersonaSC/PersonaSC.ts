@@ -18,13 +18,13 @@ import {
   SmartContractQuery,
   SmartContractQueryResponse,
 } from "@multiversx/sdk-core/out/smartContractQuery";
-import { Chain } from "@/blockchain/types/connected-wallet";
+import { ChainUtils } from "@/blockchain/types/connected-wallet";
 
 export default class PersonaSC {
   factory!: SmartContractTransactionsFactory;
   controller!: SmartContractQueriesController;
   scAddress: string =
-    "erd1qqqqqqqqqqqqqpgq6xwqc9w99t5m0ezqxyq6yrcje4v3nxxudy7s97x3qx";
+    "erd1qqqqqqqqqqqqqpgqqrhcqy3gfdmhtq4h50n0939xnajy004vdy7sm3pgcc";
 
   constructor() {
     (async () => {
@@ -71,7 +71,7 @@ export default class PersonaSC {
     const query: SmartContractQuery = this.controller.createQuery({
       contract: this.scAddress,
       function: "getPersonasByAddress",
-      arguments: [wallet.chain, wallet.address],
+      arguments: [ChainUtils.toString(wallet.chain!), wallet.address],
     });
 
     const response: SmartContractQueryResponse =
@@ -92,18 +92,19 @@ export default class PersonaSC {
     sender: Address,
     wallet: Wallet,
   ): Promise<TransactionHash> {
-    console.log(wallet);
+    console.log(sender);
     const transaction = this.factory.createTransactionForExecute({
       sender: sender,
       contract: new Address(this.scAddress),
       function: "addWallet",
       gasLimit: BigInt(20000000),
-      arguments: [wallet.chain, wallet.address],
+      arguments: [ChainUtils.toString(wallet.chain!), wallet.address],
     });
 
-    await sendTransactions({
+    const response = await sendTransactions({
       transactions: [transaction],
     });
+    console.log(response);
 
     return transaction.getHash();
   }
@@ -117,7 +118,7 @@ export default class PersonaSC {
       contract: new Address(this.scAddress),
       function: "removeWallet",
       gasLimit: BigInt(20000000),
-      arguments: [wallet.chain, wallet.address],
+      arguments: [ChainUtils.toString(wallet.chain!), wallet.address],
     });
 
     await sendTransactions({
