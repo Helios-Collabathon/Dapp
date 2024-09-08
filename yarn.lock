@@ -21,9 +21,9 @@
     "@jridgewell/trace-mapping" "^0.3.24"
 
 "@apollo/client@^3.5.8":
-  version "3.11.7"
-  resolved "https://registry.npmjs.org/@apollo/client/-/client-3.11.7.tgz"
-  integrity sha512-wcYTVZmdvTJlrDWfGYFMD5Kq4WZx9RK74KAuZa0rKtblVD/k21SqzhBqh6WHPT4dsXD2yvmWSgBSUYilxzFQ3Q==
+  version "3.11.8"
+  resolved "https://registry.npmjs.org/@apollo/client/-/client-3.11.8.tgz"
+  integrity sha512-CgG1wbtMjsV2pRGe/eYITmV5B8lXUCYljB2gB/6jWTFQcrvirUVvKg7qtFdjYkQSFbIffU1IDyxgeaN81eTjbA==
   dependencies:
     "@graphql-typed-document-node/core" "^3.1.1"
     "@wry/caches" "^1.0.0"
@@ -2701,37 +2701,37 @@
     "@json-rpc-tools/types" "^1.7.6"
     "@pedrouid/environment" "^1.0.1"
 
-"@keplr-wallet/common@0.12.125":
-  version "0.12.125"
-  resolved "https://registry.npmjs.org/@keplr-wallet/common/-/common-0.12.125.tgz"
-  integrity sha512-mWkbJ6or2RmM5JUObIc1WLLjFeCkAjeUBFi4tzdGR7D7NO/TCNhcixISN+UnziIbmuzECyVZRb0lQ9M1IA7Feg==
+"@keplr-wallet/common@0.12.126":
+  version "0.12.126"
+  resolved "https://registry.npmjs.org/@keplr-wallet/common/-/common-0.12.126.tgz"
+  integrity sha512-4SnqMK51iMZFqV30qdgmQj/HT5qBYib7bCriGq6ajgPYmK/3nHSnXxcrwM5UNJRJoa3pOO5FvT3KARYcjHLDpA==
   dependencies:
-    "@keplr-wallet/crypto" "0.12.125"
-    "@keplr-wallet/types" "0.12.125"
+    "@keplr-wallet/crypto" "0.12.126"
+    "@keplr-wallet/types" "0.12.126"
     buffer "^6.0.3"
     delay "^4.4.0"
 
 "@keplr-wallet/cosmos@^0.12.71":
-  version "0.12.125"
-  resolved "https://registry.npmjs.org/@keplr-wallet/cosmos/-/cosmos-0.12.125.tgz"
-  integrity sha512-015RMuWOTPnbRWWv0ixjbyW1mtROJmxi/J5hSEjJzi22w3BT8Mw6fb64kkfictnP7ur2qvFvYWA7vIvsknPHZA==
+  version "0.12.126"
+  resolved "https://registry.npmjs.org/@keplr-wallet/cosmos/-/cosmos-0.12.126.tgz"
+  integrity sha512-2Pfvbr60XF4nt1pnV/6JzniPO8qFYzUP6TBk/5spe5kHl/DEHsGwOp8PgGqYWrFmDO0nMe9JJi9ScS80K3CFXA==
   dependencies:
     "@ethersproject/address" "^5.6.0"
-    "@keplr-wallet/common" "0.12.125"
-    "@keplr-wallet/crypto" "0.12.125"
-    "@keplr-wallet/proto-types" "0.12.125"
-    "@keplr-wallet/simple-fetch" "0.12.125"
-    "@keplr-wallet/types" "0.12.125"
-    "@keplr-wallet/unit" "0.12.125"
+    "@keplr-wallet/common" "0.12.126"
+    "@keplr-wallet/crypto" "0.12.126"
+    "@keplr-wallet/proto-types" "0.12.126"
+    "@keplr-wallet/simple-fetch" "0.12.126"
+    "@keplr-wallet/types" "0.12.126"
+    "@keplr-wallet/unit" "0.12.126"
     bech32 "^1.1.4"
     buffer "^6.0.3"
     long "^4.0.0"
     protobufjs "^6.11.2"
 
-"@keplr-wallet/crypto@0.12.125":
-  version "0.12.125"
-  resolved "https://registry.npmjs.org/@keplr-wallet/crypto/-/crypto-0.12.125.tgz"
-  integrity sha512-BLthTKoH114w8Z3H0eeISflwkAEDO8focMd5xUubZurP9RJ5LCK2aiUbRJrmIVi27I0BvPJRi7FfUm+/j4GZ4A==
+"@keplr-wallet/crypto@0.12.126":
+  version "0.12.126"
+  resolved "https://registry.npmjs.org/@keplr-wallet/crypto/-/crypto-0.12.126.tgz"
+  integrity sha512-AmvE80cJ7wnLlbfJtoSgu3EBrcI6jGhSgDDfsQ0qZOMTawq6QxGxY7vQfS3y8F8q8c5d2VMgLCFFBL7y386Hxg==
   dependencies:
     "@ethersproject/keccak256" "^5.5.0"
     bip32 "^2.0.6"
@@ -2742,32 +2742,32 @@
     elliptic "^6.5.3"
     sha.js "^2.4.11"
 
-"@keplr-wallet/proto-types@0.12.125":
-  version "0.12.125"
-  resolved "https://registry.npmjs.org/@keplr-wallet/proto-types/-/proto-types-0.12.125.tgz"
-  integrity sha512-QzfEswz01ScbIB4cAMeDnGnZxR6hOR2GNqGzaC1YnQCtMkCZGotWHgIEFiC8yKtYb6y/cMJVQrFibenD3DxecQ==
+"@keplr-wallet/proto-types@0.12.126":
+  version "0.12.126"
+  resolved "https://registry.npmjs.org/@keplr-wallet/proto-types/-/proto-types-0.12.126.tgz"
+  integrity sha512-AoHTKOWgPMBozj4mswdevMg2HFYd0PriHaCQ4JTXr1zBP7vkI6bUZhhgSgbMj6kzSPaSn7EMoPPIdNzqqCOrnA==
   dependencies:
     long "^4.0.0"
     protobufjs "^6.11.2"
 
-"@keplr-wallet/simple-fetch@0.12.125":
-  version "0.12.125"
-  resolved "https://registry.npmjs.org/@keplr-wallet/simple-fetch/-/simple-fetch-0.12.125.tgz"
-  integrity sha512-wM44M/2JwQmP2FwxEf2sPu731/w6h8Jf9lXb5tyfW4CVO28U2Q4y316Vw1kd5uLr9ZCre1Jm0nr0qcblZBmfnw==
+"@keplr-wallet/simple-fetch@0.12.126":
+  version "0.12.126"
+  resolved "https://registry.npmjs.org/@keplr-wallet/simple-fetch/-/simple-fetch-0.12.126.tgz"
+  integrity sha512-xGAlOct/v8qoL/C3qQ+fSdu2CdbfXtbQp76832OaKqWnxBXn+oEYOk/CsJJKzxZCIS7kb2YZIr+cvgtFuRCXlQ==
 
-"@keplr-wallet/types@^0.12.71", "@keplr-wallet/types@0.12.125":
-  version "0.12.125"
-  resolved "https://registry.npmjs.org/@keplr-wallet/types/-/types-0.12.125.tgz"
-  integrity sha512-2dCwYMV1s1r/VAbyvjg5TluNYvu5d7xk2nxer6ljvjlQDW3Xrq5tQ490RSb5YI05AUnxWrWFGV2z6ItsGLpZJA==
+"@keplr-wallet/types@^0.12.71", "@keplr-wallet/types@0.12.126":
+  version "0.12.126"
+  resolved "https://registry.npmjs.org/@keplr-wallet/types/-/types-0.12.126.tgz"
+  integrity sha512-E7kLFz6ILLTavrIGuA0pstBwPCc5P8EyNDkCx+0qBRyD4vOVUumH64UHbhBc73OYwlTZ+VKN7wQsYkH9eH+qHQ==
   dependencies:
     long "^4.0.0"
 
-"@keplr-wallet/unit@0.12.125":
-  version "0.12.125"
-  resolved "https://registry.npmjs.org/@keplr-wallet/unit/-/unit-0.12.125.tgz"
-  integrity sha512-/pLmA8pkSBHzl6CisaAxX1mA4IuVcdR6TFoEMzkbsrklPjYEvpNT1J8RInD+aTz1Es28eheK8uPiCePc4NznwQ==
+"@keplr-wallet/unit@0.12.126":
+  version "0.12.126"
+  resolved "https://registry.npmjs.org/@keplr-wallet/unit/-/unit-0.12.126.tgz"
+  integrity sha512-2559KdzzAC+kDE9+osPgN8/IZHkpgtSSrlfTsOmybdz5hKicCWoI1xgaav0lcdXTDUyGcSMvx8W47w44a6d5HQ==
   dependencies:
-    "@keplr-wallet/types" "0.12.125"
+    "@keplr-wallet/types" "0.12.126"
     big-integer "^1.6.48"
     utility-types "^3.10.0"
 
@@ -3324,9 +3324,9 @@
   integrity sha512-EFvktZ/S1WQ1ie02nnKZHARC4r23JZWwoTFd5py1qi/Z/UoLHIzJ394HLjXFb6gBTsp4wnvNwIXBA/DNrd2Yeg==
 
 "@multiversx/sdk-dapp@^2.40.0":
-  version "2.40.0"
-  resolved "https://registry.npmjs.org/@multiversx/sdk-dapp/-/sdk-dapp-2.40.0.tgz"
-  integrity sha512-SRoDbecp/Z7RTePs6GG8KC+X8VguS4nKSwGc681XQaxV7TEVWKUw+tNWfFmfT4iUg5/NwwTf+pnoh9pYibg1yw==
+  version "2.40.1"
+  resolved "https://registry.npmjs.org/@multiversx/sdk-dapp/-/sdk-dapp-2.40.1.tgz"
+  integrity sha512-rW5FUPb+IFs/p1p32cmtW0QA6k9L7UafJyzMTG+KBUkuZqxjG78kvOpgb5TxLlvrcqowsbVi92CPYpV+10UOfw==
   dependencies:
     "@lifeomic/axios-fetch" "3.0.1"
     "@metamask/providers" "16.0.0"
@@ -3336,11 +3336,11 @@
     "@multiversx/sdk-metamask-provider" "0.0.5"
     "@multiversx/sdk-native-auth-client" "1.0.7"
     "@multiversx/sdk-opera-provider" "1.0.0-alpha.1"
-    "@multiversx/sdk-passkey-provider" "1.0.0"
+    "@multiversx/sdk-passkey-provider" "1.0.2"
     "@multiversx/sdk-wallet" "4.2.0"
     "@multiversx/sdk-wallet-connect-provider" "4.1.3"
     "@multiversx/sdk-web-wallet-cross-window-provider" "1.0.0"
-    "@multiversx/sdk-web-wallet-iframe-provider" "1.0.2"
+    "@multiversx/sdk-web-wallet-iframe-provider" "1.0.3"
     "@multiversx/sdk-web-wallet-provider" "3.2.1"
     "@multiversx/sdk-webview-provider" "1.0.0"
     "@reduxjs/toolkit" "1.8.2"
@@ -3403,15 +3403,25 @@
   dependencies:
     axios "^1.6.5"
 
+"@multiversx/sdk-network-providers@^2.7.1":
+  version "2.7.1"
+  resolved "https://registry.npmjs.org/@multiversx/sdk-network-providers/-/sdk-network-providers-2.7.1.tgz"
+  integrity sha512-pjKD16aadMP2APhLs5cfqYhh5D5tzhHSnFfm2eAhA3g8b13ML5Vjh1amWx0w2L+1lYc8QjRsMysa5ocputvHEg==
+  dependencies:
+    bech32 "1.1.4"
+    bignumber.js "9.0.1"
+    buffer "6.0.3"
+    json-bigint "1.0.0"
+
 "@multiversx/sdk-opera-provider@1.0.0-alpha.1":
   version "1.0.0-alpha.1"
   resolved "https://registry.npmjs.org/@multiversx/sdk-opera-provider/-/sdk-opera-provider-1.0.0-alpha.1.tgz"
   integrity sha512-5hrqn+kNpuy/S6eV5wh5mE4lvQo0PduZ7fLsh/2Srcaz3K5kM5lE1VyQmWk4DTxToZSldrGbgWz/olezoC6fPg==
 
-"@multiversx/sdk-passkey-provider@1.0.0":
-  version "1.0.0"
-  resolved "https://registry.npmjs.org/@multiversx/sdk-passkey-provider/-/sdk-passkey-provider-1.0.0.tgz"
-  integrity sha512-lUY2ZSWNPN6X3RIMtSXjQFL5Owh+zxPZoiIQkkbBG+IUepk3MzPpASvgPfcEMSEM755Ud9hJb13Jr1HtCtmazg==
+"@multiversx/sdk-passkey-provider@1.0.2":
+  version "1.0.2"
+  resolved "https://registry.npmjs.org/@multiversx/sdk-passkey-provider/-/sdk-passkey-provider-1.0.2.tgz"
+  integrity sha512-+gngXlSsBwK/i7YJPjWtL0PfPW9PcgxV2EcBMydcVnvSji0dsGb9QvcZr/PfVLS8w/ezriH1uoPlmj85SXrI8A==
   dependencies:
     "@types/jest" "^29.5.11"
 
@@ -3476,10 +3486,10 @@
     "@types/qs" "6.9.10"
     qs "6.11.2"
 
-"@multiversx/sdk-web-wallet-iframe-provider@1.0.2":
-  version "1.0.2"
-  resolved "https://registry.npmjs.org/@multiversx/sdk-web-wallet-iframe-provider/-/sdk-web-wallet-iframe-provider-1.0.2.tgz"
-  integrity sha512-2WpmhjfOaZySf1NOFV2L5yjfRiukaOLU3+zkmwg106oMNJq7+mP7ZM7rMe7y95xYPFgMW+1Ivtdc1DTKycIn+g==
+"@multiversx/sdk-web-wallet-iframe-provider@1.0.3":
+  version "1.0.3"
+  resolved "https://registry.npmjs.org/@multiversx/sdk-web-wallet-iframe-provider/-/sdk-web-wallet-iframe-provider-1.0.3.tgz"
+  integrity sha512-viKc7nmy66W+kjX6JIPm/adiwieX5K82Cuy9JtFS1xTx/Q7uZJOxktqC2+MIUPKudiYKWY1N07WaM5mzTIu5gQ==
   dependencies:
     "@types/jest" "^29.5.11"
     "@types/qs" "6.9.10"
@@ -4965,9 +4975,9 @@
     "@types/node" "*"
 
 "@types/node@*", "@types/node@^20", "@types/node@>=13.7.0":
-  version "20.16.4"
-  resolved "https://registry.npmjs.org/@types/node/-/node-20.16.4.tgz"
-  integrity sha512-ioyQ1zK9aGEomJ45zz8S8IdzElyxhvP1RVWnPrXDf6wFaUb+kk1tEcVVJkF7RPGM0VWI7cp5U57oCPIn5iN1qg==
+  version "20.16.5"
+  resolved "https://registry.npmjs.org/@types/node/-/node-20.16.5.tgz"
+  integrity sha512-VwYCweNo3ERajwy0IUlqqcyZ8/A7Zwa9ZP3MnENWcB11AejO+tLy3pu850goUW2FC/IJMdZUfKpX/yxL1gymCA==
   dependencies:
     undici-types "~6.19.2"
 
@@ -4977,9 +4987,9 @@
   integrity sha512-J8xLz7q2OFulZ2cyGTLE1TbbZcjpno7FaN6zdJNrgAdrJ+DZzh/uFR6YrTb4C+nXakvud8Q4+rbhoIWlYQbUFQ==
 
 "@types/node@^18.0.0":
-  version "18.19.49"
-  resolved "https://registry.npmjs.org/@types/node/-/node-18.19.49.tgz"
-  integrity sha512-ALCeIR6n0nQ7j0FUF1ycOhrp6+XutJWqEu/vtdEqXFUQwkBfgUA5cEg3ZNmjWGF/ZYA/FcF9QMkL55Ar0O6UrA==
+  version "18.19.50"
+  resolved "https://registry.npmjs.org/@types/node/-/node-18.19.50.tgz"
+  integrity sha512-xonK+NRrMBRtkL1hVCc3G+uXtjh1Al4opBLjqVmipe5ZAaBYWW6cNAiBVZ1BvmkBhep698rP3UM3aRAdSALuhg==
   dependencies:
     undici-types "~5.26.4"
 
@@ -5986,7 +5996,7 @@ axios@^0.26.1:
   dependencies:
     follow-redirects "^1.14.8"
 
-axios@^1.3.4, axios@^1.6.0, axios@^1.6.4, axios@^1.6.5, axios@>=1.6.5:
+axios@^1.3.4, axios@^1.6.0, axios@^1.6.4, axios@^1.6.5, axios@^1.7.4, axios@>=1.6.5:
   version "1.7.7"
   resolved "https://registry.npmjs.org/axios/-/axios-1.7.7.tgz"
   integrity sha512-S4kL7XrjgBmvdGut0sN3yJxqYzrDOnivkBiN0OFs6hLiUam3UPvswUo0kqGyhqUZGEOytHyumEdXsAkgCOUf3Q==
@@ -6557,9 +6567,9 @@ camelcase@^5.0.0:
   integrity sha512-L28STB170nwWS63UjtlEOE3dldQApaJXZkOI1uMFfzf3rRuPegHaHesyee+YxQ+W6SvRDQV6UrdOdRiR153wJg==
 
 caniuse-lite@^1.0.30001579, caniuse-lite@^1.0.30001646:
-  version "1.0.30001655"
-  resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001655.tgz"
-  integrity sha512-jRGVy3iSGO5Uutn2owlb5gR6qsGngTw9ZTb4ali9f3glshcNmJ2noam4Mo9zia5P9Dk3jNNydy7vQjuE5dQmfg==
+  version "1.0.30001657"
+  resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001657.tgz"
+  integrity sha512-DPbJAlP8/BAXy3IgiWmZKItubb3TYGP0WscQQlVGIfT4s/YlFYVuJgyOsQNP7rJRChx/qdMeLJQJP0Sgg2yjNA==
 
 cashaddrjs@0.4.4:
   version "0.4.4"
@@ -7382,9 +7392,9 @@ eip55@^2.1.1:
     keccak "^3.0.3"
 
 electron-to-chromium@^1.5.4:
-  version "1.5.13"
-  resolved "https://registry.npmjs.org/electron-to-chromium/-/electron-to-chromium-1.5.13.tgz"
-  integrity sha512-lbBcvtIJ4J6sS4tb5TLp1b4LyfCdMkwStzXPyAgVgTRAsep4bvrAGaBOP7ZJtQMNJpSQ9SqG4brWOroNaQtm7Q==
+  version "1.5.14"
+  resolved "https://registry.npmjs.org/electron-to-chromium/-/electron-to-chromium-1.5.14.tgz"
+  integrity sha512-bEfPECb3fJ15eaDnu9LEJ2vPGD6W1vt7vZleSVyFhYuMIKm3vz/g9lt7IvEzgdwj58RjbPKUF2rXTCN/UW47tQ==
 
 elliptic@^6.4.0, elliptic@^6.5.2, elliptic@^6.5.3, elliptic@^6.5.4, elliptic@^6.5.5, elliptic@^6.5.7:
   version "6.5.7"
@@ -8432,9 +8442,9 @@ flatted@^3.2.9:
   integrity sha512-X8cqMLLie7KsNUDSdzeN8FYK9rEt4Dt67OsG/DNGnYTSDBG4uFAJFBnUeiV+zCVAvwFy56IjM9sH51jVaEhNxw==
 
 flow-parser@0.*:
-  version "0.245.1"
-  resolved "https://registry.npmjs.org/flow-parser/-/flow-parser-0.245.1.tgz"
-  integrity sha512-KaVIjRdCY+APtxQijfV1c7GN1bofByIlR7E6omQLW0sghkA8hh8uufQOqTf3oAAVTExsSLafmdL/QwyvE/gdEg==
+  version "0.245.2"
+  resolved "https://registry.npmjs.org/flow-parser/-/flow-parser-0.245.2.tgz"
+  integrity sha512-FU4yuqC1j2IeWWicpzG0YJrXHJgKjK/AU8QKK/7MvQaNhcoGisDoE7FJLGCtbvnifzsgDWdm9/jtTF7Mp+PJXQ==
 
 follow-redirects@^1.14.0, follow-redirects@^1.14.8, follow-redirects@^1.15.6:
   version "1.15.8"
@@ -8480,9 +8490,9 @@ form-data@^4.0.0:
     mime-types "^2.1.12"
 
 framer-motion@^11.4.0:
-  version "11.5.2"
-  resolved "https://registry.npmjs.org/framer-motion/-/framer-motion-11.5.2.tgz"
-  integrity sha512-dZLb7F+orjs+y2ggdl3tL5wuIDsHV1p28gloOSrDWH+nwmt0RTC7myq9FdfWZcQZ47qzv4RrqHEtHoeaBK57dg==
+  version "11.5.3"
+  resolved "https://registry.npmjs.org/framer-motion/-/framer-motion-11.5.3.tgz"
+  integrity sha512-SvoshQ/iH2oaZrkmIcAht2Ko76DsZtD2f6SNMIVLe2N1l1RNDkCkyuygF8FkUGN7TXrhhH7UYDNwhRB94wCCfA==
   dependencies:
     tslib "^2.4.0"
 

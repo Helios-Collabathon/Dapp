@@ -26,6 +26,7 @@ export const InjectiveLoginDialog = ({
         Chain.Injective,
         walletValue.toString(),
       );
+      window.location.href = `${window.location.origin}/persona`;
       onClose(); // Close the dialog after successful connection
     } catch (error) {
       console.error("Error connecting wallet:", error);
@@ -38,14 +39,15 @@ export const InjectiveLoginDialog = ({
         <Dialog open={isOpen} onClose={onClose}>
           <div className="p-2">
             {/* Title Section */}
-            <h1 className="mb-4 text-center text-2xl font-bold text-black">
+            <h1 className="mb-4 text-center text-2xl font-bold dark:text-white text-black">
               Injective Wallet Connection
             </h1>
 
             {/* Button Section */}
-            <div className="flex justify-center space-x-2">
+            <div className="grid grid-cols-2 gap-2">
               {wallets.map((wlt) => (
                 <Button
+                  outline
                   key={wlt.name}
                   onClick={() => handleWalletClick(wlt.value)}
                 >

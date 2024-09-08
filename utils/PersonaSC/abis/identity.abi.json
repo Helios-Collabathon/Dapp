@@ -1,0 +1,138 @@
+{
+  "buildInfo": {
+    "rustc": {
+      "version": "1.80.0",
+      "commitHash": "051478957371ee0084a7c0913941d2a8c4757bb9",
+      "commitDate": "2024-07-21",
+      "channel": "Stable",
+      "short": "rustc 1.80.0 (051478957 2024-07-21)"
+    },
+    "contractCrate": {
+      "name": "identity",
+      "version": "0.1.0"
+    },
+    "framework": {
+      "name": "multiversx-sc",
+      "version": "0.51.1"
+    }
+  },
+  "name": "Identity",
+  "constructor": {
+    "inputs": [],
+    "outputs": []
+  },
+  "upgradeConstructor": {
+    "inputs": [],
+    "outputs": []
+  },
+  "endpoints": [
+    {
+      "name": "getPersona",
+      "mutability": "readonly",
+      "inputs": [
+        {
+          "name": "address",
+          "type": "Address"
+        }
+      ],
+      "outputs": [
+        {
+          "type": "optional<Persona>",
+          "multi_result": true
+        }
+      ]
+    },
+    {
+      "name": "getPersonasByAddress",
+      "mutability": "readonly",
+      "inputs": [
+        {
+          "name": "chain",
+          "type": "Chain"
+        },
+        {
+          "name": "address",
+          "type": "Address"
+        }
+      ],
+      "outputs": [
+        {
+          "type": "List<Persona>"
+        }
+      ]
+    },
+    {
+      "name": "addWallet",
+      "mutability": "mutable",
+      "inputs": [
+        {
+          "name": "chain",
+          "type": "Chain"
+        },
+        {
+          "name": "address",
+          "type": "Address"
+        }
+      ],
+      "outputs": []
+    },
+    {
+      "name": "removeWallet",
+      "mutability": "mutable",
+      "inputs": [
+        {
+          "name": "chain",
+          "type": "Chain"
+        },
+        {
+          "name": "address",
+          "type": "Address"
+        }
+      ],
+      "outputs": []
+    }
+  ],
+  "esdtAttributes": [],
+  "hasCallback": false,
+  "types": {
+    "Chain": {
+      "type": "enum",
+      "variants": [
+        {
+          "name": "injective",
+          "discriminant": 0
+        },
+        {
+          "name": "multivers_x",
+          "discriminant": 1
+        }
+      ]
+    },
+    "Persona": {
+      "type": "struct",
+      "fields": [
+        {
+          "name": "address",
+          "type": "Address"
+        },
+        {
+          "name": "linked_wallets",
+          "type": "List<Wallet>"
+        }
+      ]
+    },
+    "Wallet": {
+      "type": "struct",
+      "fields": [
+        {
+          "name": "address",
+          "type": "Address"
+        },
+        {
+          "name": "chain",
+          "type": "Chain"
+        }
+      ]
+    }
+  }
+}

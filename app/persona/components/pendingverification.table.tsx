@@ -14,7 +14,8 @@ import { Persona, Wallet } from "@/repository/types";
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
-
+import Image from "next/image";
+import { ChainUtils } from "@/blockchain/types/connected-wallet";
 interface PendingLinkedWalletTableProps {
   pendingPersonas: Persona[];
   registerWallet: (walletToAdd: Wallet) => void;
@@ -47,24 +48,35 @@ export default function PendingLinkedWalletTable({
       >
         <TableHead>
           <TableRow>
-            <TableHeader className="w-1/4">Chain</TableHeader>
             <TableHeader className="w-full">Address</TableHeader>
             <TableHeader>Action</TableHeader>
           </TableRow>
         </TableHead>
         <TableBody>
-          {pendingPersonas?.map((prsn) => (
-            <TableRow key={JSON.stringify(prsn)}>
-              <TableCell className="font-medium">{prsn.chain}</TableCell>
-              <TableCell>{prsn.address}</TableCell>
-              <TableCell className="flex justify-end">
-                <Button outline onClick={() => handleRegisterWallet(prsn)}>
-                  <FontAwesomeIcon icon={faCircleCheck} />
-                  Accept
-                </Button>
-              </TableCell>
-            </TableRow>
-          ))}
+          {pendingPersonas?.map(
+            (prsn) =>
+              prsn.address && (
+                <TableRow key={JSON.stringify(prsn)}>
+                  <TableCell className="font-medium">
+                    <div className="flex items-center gap-4">
+                      <Image
+                        width={24}
+                        height={24}
+                        alt="chain-sel-logo"
+                        src={ChainUtils.getLogo(prsn.chain!)}
+                      />
+                      <div className="font-medium">{prsn.address}</div>
+                    </div>
+                  </TableCell>
+                  <TableCell className="flex justify-end">
+                    <Button outline onClick={() => handleRegisterWallet(prsn)}>
+                      <FontAwesomeIcon icon={faCircleCheck} />
+                      Accept
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ),
+          )}
         </TableBody>
       </Table>
     </div>

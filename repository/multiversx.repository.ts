@@ -1,24 +1,57 @@
 import { ConnectedWallet } from "@/blockchain/types/connected-wallet";
 import { IRepository } from "./repository.interface";
 import { Persona, Wallet } from "./types";
+import PersonaSC from "@/utils/PersonaSC/PersonaSC";
+import { Address, TransactionHash } from "@multiversx/sdk-core";
 
 export class MultiversXRepository<T> implements IRepository<T> {
-  removeWallet(
+  personaSC!: PersonaSC;
+
+  constructor() {
+    this.personaSC = new PersonaSC();
+  }
+
+  async addWallet(
     connectedWallet: ConnectedWallet,
     wallet: Wallet,
   ): Promise<{ txn: string; persona: Persona }> {
-    throw new Error("Method not implemented.");
+    const txHash: TransactionHash = await this.personaSC.addWallet(
+      new Address(connectedWallet.address),
+      wallet,
+    );
+    const persona: Persona = await this.personaSC.getPersonaByWallet(
+      connectedWallet.address,
+    );
+
+    return {
+      txn: `https://devnet-explorer.multiversx.com/transactions/${txHash}`,
+      persona,
+    };
   }
-  getPersonaFromWallet(address: string): Promise<Persona> {
-    throw new Error("Method not implemented.");
-  }
-  getPersonasFromLinkedWallet(wallet: Wallet): Promise<Persona[]> {
-    throw new Error("Method not implemented.");
-  }
-  addWallet(
+
+  async removeWallet(
     connectedWallet: ConnectedWallet,
     wallet: Wallet,
   ): Promise<{ txn: string; persona: Persona }> {
-    throw new Error("Method not implemented.");
+    const txHash: TransactionHash = await this.personaSC.removeWallet(
+      new Address(connectedWallet.address),
+      wallet,
+    );
+    const persona: Persona = await this.personaSC.getPersonaByWallet(
+      connectedWallet.address,
+    );
+
+    return {
+      txn: `https://devnet-explorer.multiversx.com/transactions/${txHash}`,
+      persona,
+    };
+  }
+
+  async getPersonaFromWallet(address: string): Promise<Persona> {
+    return this.personaSC.getPersonaByWallet(address);
+  }
+
+  async getPersonasFromLinkedWallet(wallet: Wallet): Promise<Persona[]> {
+    return this.personaSC.getPersonasByLinkedWallet(wallet);
   }
 }

@@ -12,7 +12,7 @@ export const CompletedTransactionDialog = ({
   message: string;
   txn: string;
 }) => {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(txn !== "");
 
   return (
     <Dialog
