@@ -13,21 +13,18 @@ import MultiversXLoginDialog from "./MultiversXLoginDialog";
 import InjectiveLoginDialog from "./InjectiveLoginDialog";
 import Image from "next/image";
 import { APP_IMAGES } from "@/app/app-images";
-import { WalletContext } from "@/blockchain/injective/wallet-provider";
-import { Chain } from "@/blockchain/types/connected-wallet";
+import { WalletContext } from "@/blockchain/wallet-provider";
 
 export function LoginDropDown() {
-  const [MvxLoginIsOpened, setMvxLoginIsOpened] = useState(false);
-  const [InjectiveLoginIsOpened, setInjectiveLoginIsOpened] = useState(false);
-  // const [connectedWallet, setConnectedWallet] = useState<ConnectedWallet>();
+  const [mvxLoginIsOpened, setMvxLoginIsOpened] = useState(false);
+  const [injectiveLoginIsOpened, setInjectiveLoginIsOpened] = useState(false);
+
   let { connectedWallet } = useContext(WalletContext);
 
   useEffect(() => {
     const getConnectedWallet = async () => {
-      Object.keys(Chain).map((chain: string) => {
-        const wallet = localStorage.getItem(chain);
-        if (wallet) connectedWallet = JSON.parse(wallet);
-      });
+      const wallet = localStorage.getItem("connected-wallet");
+      if (wallet) connectedWallet = JSON.parse(wallet);
     };
 
     getConnectedWallet();
@@ -70,11 +67,19 @@ export function LoginDropDown() {
       </Dropdown>
 
       <MultiversXLoginDialog
-        isOpen={MvxLoginIsOpened}
+        isOpen={mvxLoginIsOpened}
         onClose={() => setMvxLoginIsOpened(false)}
       />
       <InjectiveLoginDialog
-        isOpen={InjectiveLoginIsOpened}
+        isOpen={injectiveLoginIsOpened}
+        onClose={() => setInjectiveLoginIsOpened(false)}
+      />
+      <MultiversXLoginDialog
+        isOpen={mvxLoginIsOpened}
+        onClose={() => setMvxLoginIsOpened(false)}
+      />
+      <InjectiveLoginDialog
+        isOpen={injectiveLoginIsOpened}
         onClose={() => setInjectiveLoginIsOpened(false)}
       />
     </>

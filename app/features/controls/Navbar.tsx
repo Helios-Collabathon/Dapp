@@ -61,9 +61,7 @@ export const NavbarItem = forwardRef(function NavbarItem(
 
   return (
     <span className={clsx(className, 'relative')}>
-      {current && (
-        <motion.span layoutId="current-indicator" className="absolute inset-x-2 -bottom-2.5 h-0.5 rounded-full bg-zinc-950 dark:bg-white" />
-      )}
+      {current && <motion.span layoutId="current-indicator" className="absolute inset-x-2 -bottom-2.5 h-0.5 rounded-full bg-zinc-950 dark:bg-white" />}
       {'href' in props ? (
         <Link {...props} className={classes} data-current={current ? 'true' : undefined} ref={ref as React.ForwardedRef<HTMLAnchorElement>}>
           <TouchTarget>{children}</TouchTarget>

@@ -14,31 +14,20 @@ export function SidebarHeader({ className, ...props }: React.ComponentPropsWitho
   return (
     <div
       {...props}
-      className={clsx(
-        className,
-        'flex flex-col border-b border-zinc-950/5 p-4 dark:border-white/5 [&>[data-slot=section]+[data-slot=section]]:mt-2.5'
-      )}
+      className={clsx(className, 'flex flex-col border-b border-zinc-950/5 p-4 dark:border-white/5 [&>[data-slot=section]+[data-slot=section]]:mt-2.5')}
     />
   )
 }
 
 export function SidebarBody({ className, ...props }: React.ComponentPropsWithoutRef<'div'>) {
-  return (
-    <div
-      {...props}
-      className={clsx(className, 'flex flex-1 flex-col overflow-y-auto p-4 [&>[data-slot=section]+[data-slot=section]]:mt-8')}
-    />
-  )
+  return <div {...props} className={clsx(className, 'flex flex-1 flex-col overflow-y-auto p-4 [&>[data-slot=section]+[data-slot=section]]:mt-8')} />
 }
 
 export function SidebarFooter({ className, ...props }: React.ComponentPropsWithoutRef<'div'>) {
   return (
     <div
       {...props}
-      className={clsx(
-        className,
-        'flex flex-col border-t border-zinc-950/5 p-4 dark:border-white/5 [&>[data-slot=section]+[data-slot=section]]:mt-2.5'
-      )}
+      className={clsx(className, 'flex flex-col border-t border-zinc-950/5 p-4 dark:border-white/5 [&>[data-slot=section]+[data-slot=section]]:mt-2.5')}
     />
   )
 }
@@ -101,9 +90,7 @@ export const SidebarItem = forwardRef(function SidebarItem(
 
   return (
     <span className={clsx(className, 'relative')}>
-      {current && (
-        <motion.span layoutId="current-indicator" className="absolute inset-y-2 -left-4 w-0.5 rounded-full bg-zinc-950 dark:bg-white" />
-      )}
+      {current && <motion.span layoutId="current-indicator" className="absolute inset-y-2 -left-4 w-0.5 rounded-full bg-zinc-950 dark:bg-white" />}
       {'href' in props ? (
         <Headless.CloseButton as={Fragment} ref={ref}>
           <Link className={classes} {...props} data-current={current ? 'true' : undefined}>

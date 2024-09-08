@@ -1,6 +1,5 @@
 "use client";
 import { useContext, useEffect, useMemo, useState } from "react";
-import { WalletContext } from "@/blockchain/injective/wallet-provider";
 import { Persona, Wallet } from "@/repository/types";
 import { VerificationService } from "@/repository/verification.service";
 import LinkedWalletTable from "./components/linkedwallet.table";
@@ -10,6 +9,7 @@ import { ConnectedWallet } from "@/blockchain/types/connected-wallet";
 import LinkedWalletTableSkeleton from "./components/linkedwallet.skeleton";
 import PendingLinkedWalletTableSkeleton from "./components/pendingverification.skeleton";
 import toast from "react-hot-toast";
+import { WalletContext } from "@/blockchain/wallet-provider";
 
 export default function PersonaPage() {
   const { connectedWallet } = useContext(WalletContext);

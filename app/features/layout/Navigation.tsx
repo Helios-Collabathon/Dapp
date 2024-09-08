@@ -10,6 +10,8 @@ import {
   NavbarSpacer,
 } from "../controls/Navbar";
 import LoginDropDown from "../loginButton/LoginDropDown";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 
 type Props = {};
 
@@ -20,7 +22,15 @@ export function Navigation(props: Props) {
 
   return (
     <Navbar>
-      <Link href="/" aria-label="Home"></Link>
+      <Link href="/" aria-label="Home">
+        <Image
+          src="/heliosconnect.svg"
+          alt="Logo"
+          width={50} // Adjust the width as needed
+          height={50} // Adjust the height as needed
+          priority
+        />
+      </Link>
       <NavbarSection>
         <NavbarItem
           href={Config.Pages.Start}
@@ -34,10 +44,17 @@ export function Navigation(props: Props) {
         >
           FAQ
         </NavbarItem>
-        <NavbarItem href="#TODO">Docs</NavbarItem>
       </NavbarSection>
       <NavbarSpacer />
       <LoginDropDown />
+      <FontAwesomeIcon
+        className="cursor-pointer"
+        onClick={() => {
+          localStorage.removeItem("connected-wallet");
+          window.location.reload();
+        }}
+        icon={faRightFromBracket}
+      />
     </Navbar>
   );
 }

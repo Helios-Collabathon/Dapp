@@ -4,14 +4,6 @@ import { MultiversXRepository } from "@/repository/multiversx.repository";
 import { IRepository } from "@/repository/repository.interface";
 import { Persona } from "@/repository/types";
 
-export enum WalletProdiver {
-  Keplr,
-  Leap,
-  Ninji,
-  Metamask,
-  XAlliance,
-}
-
 export enum Chain {
   Injective = "injective",
   MultiversX = "multivers_x",
@@ -50,6 +42,6 @@ export const ChainUtils = {
 
 export type ConnectedWallet = {
   address: string;
-  provider: WalletProdiver;
   chain: Chain;
+  provider: string;
 };
