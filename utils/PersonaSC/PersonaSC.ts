@@ -79,6 +79,7 @@ export default class PersonaSC {
     const personas = parsedResponse.map((response: any) =>
       parseMultiversXResponse(response),
     );
+    console.log(personas);
 
     return personas;
   }
