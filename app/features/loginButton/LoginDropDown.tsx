@@ -30,7 +30,7 @@ export function LoginDropDown() {
   return (
     <>
       <Dropdown>
-        <DropdownButton color="teal">
+        <DropdownButton color="primary">
           <FontAwesomeIcon icon={faKey} />
           {connectedWallet.address ? `${connectedWallet.address.slice(0, 5)}...${connectedWallet.address.slice(-5)}` : 'Login'}
         </DropdownButton>
@@ -40,7 +40,7 @@ export function LoginDropDown() {
             MultiversX
           </DropdownItem>
           <DropdownItem onClick={() => setInjectiveLoginIsOpened(true)}>
-            <Image src={APP_IMAGES.INGLogo} alt="MultiversX" width={20} height={20} className="pr-2" />
+            <Image src={APP_IMAGES.INGLogo} alt="Injective" width={20} height={20} className="pr-2" />
             Injective
           </DropdownItem>
         </DropdownMenu>
