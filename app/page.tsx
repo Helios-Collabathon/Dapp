@@ -11,8 +11,7 @@ export default function Home() {
         <Heading>Welcome to Helios Connect: The Future of Cross-Chain Verification.</Heading>
         <p>An open-source project from the Helios Collabathon! Explore our features or contribute to the project.</p>
       </section>
-
-      <section className="w-full max-w-5xl px-4 py-16 text-center text-black dark:text-white">
+      <section className="mx-auto max-w-5xl px-4 py-16 text-center text-black dark:text-white">
         <h2 className="mb-8 text-3xl font-bold">Key Features</h2>
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
           <div className="flex flex-col items-center rounded-lg border border-gray-300 p-6 shadow-lg dark:border-neutral-700 dark:bg-neutral-800/30">
@@ -22,7 +21,6 @@ export default function Home() {
               wallets on MultiversX and Injective, laying the groundwork for expansion into other chains.
             </p>
           </div>
-
           <div className="flex flex-col items-center rounded-lg border border-gray-300 p-6 shadow-lg dark:border-neutral-700 dark:bg-neutral-800/30">
             <h3 className="mb-4 text-2xl font-semibold">Open-Source Innovation</h3>
             <p className="text-sm opacity-70">
@@ -30,7 +28,6 @@ export default function Home() {
               of the dApp, fostering innovation across the Web3 space.
             </p>
           </div>
-
           <div className="flex flex-col items-center rounded-lg border border-gray-300 p-6 shadow-lg dark:border-neutral-700 dark:bg-neutral-800/30">
             <h3 className="mb-4 text-2xl font-semibold">Future-Proof & Scalable</h3>
             <p className="text-sm opacity-70">
@@ -40,8 +37,7 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-3 lg:text-left">
+      <div className="mx-auto mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-3 lg:text-left">
         <LinkCard
           title="Get Involved"
           description="Contribute to the project, explore the codebase, and help us shape the future of cross-chain verification dApp."
