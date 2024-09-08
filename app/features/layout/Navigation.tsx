@@ -3,6 +3,7 @@ import { Config } from '@/app/config'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import AppLogo from '../../images/logo.svg'
 import { Navbar, NavbarItem, NavbarSection, NavbarSpacer } from '../controls/Navbar'
 import LoginDropDown from '../loginButton/LoginDropDown'
 
@@ -16,13 +17,7 @@ export function Navigation(props: Props) {
   return (
     <Navbar>
       <Link href="/" aria-label="Home">
-        <Image
-          src="/heliosconnect.svg"
-          alt="Logo"
-          width={100} // Adjust the width as needed
-          height={50} // Adjust the height as needed
-          priority
-        />
+        <Image src={AppLogo} alt="Logo" className="size-10" priority />
       </Link>
       <NavbarSection>
         <NavbarItem href={Config.Pages.Start} current={isCurrentPage(Config.Pages.Start)}>
