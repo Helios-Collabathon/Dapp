@@ -17,6 +17,7 @@
     "@heroicons/react": "^2.1.5",
     "@injectivelabs/networks": "^1.14.13",
     "@injectivelabs/sdk-ts": "^1.14.13",
+    "@injectivelabs/ts-types": "^1.14.13",
     "@injectivelabs/wallet-ts": "^1.14.13",
     "@multiversx/sdk-dapp": "^2.40.0",
     "@multiversx/sdk-network-providers": "^2.7.1",

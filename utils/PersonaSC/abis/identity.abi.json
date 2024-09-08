@@ -52,7 +52,7 @@
         },
         {
           "name": "address",
-          "type": "Address"
+          "type": "bytes"
         }
       ],
       "outputs": [
@@ -71,7 +71,7 @@
         },
         {
           "name": "address",
-          "type": "Address"
+          "type": "bytes"
         }
       ],
       "outputs": []
@@ -86,7 +86,7 @@
         },
         {
           "name": "address",
-          "type": "Address"
+          "type": "bytes"
         }
       ],
       "outputs": []
@@ -99,11 +99,11 @@
       "type": "enum",
       "variants": [
         {
-          "name": "injective",
+          "name": "Injective",
           "discriminant": 0
         },
         {
-          "name": "multivers_x",
+          "name": "MultiversX",
           "discriminant": 1
         }
       ]
@@ -125,12 +125,12 @@
       "type": "struct",
       "fields": [
         {
-          "name": "address",
-          "type": "Address"
-        },
-        {
           "name": "chain",
           "type": "Chain"
+        },
+        {
+          "name": "address",
+          "type": "bytes"
         }
       ]
     }
