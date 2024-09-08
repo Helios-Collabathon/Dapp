@@ -33,7 +33,7 @@ export function LoginDropDown() {
   return (
     <>
       <Dropdown>
-        <DropdownButton color="primary">
+        <DropdownButton color="primary" className="w-full">
           <FontAwesomeIcon icon={faKey} />
           {connectedWallet?.address
             ? `${connectedWallet.address.slice(
