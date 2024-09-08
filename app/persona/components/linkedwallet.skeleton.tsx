@@ -43,7 +43,6 @@ export default function LinkedWalletTableSkeleton() {
           ))}
         </TableBody>
       </Table>
-      <SkeletonButton className="mt-4 w-32" />
     </>
   );
 }

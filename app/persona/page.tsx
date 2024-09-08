@@ -9,6 +9,7 @@ import { PersonaService } from "@/repository/persona.service";
 import { ConnectedWallet } from "@/blockchain/types/connected-wallet";
 import LinkedWalletTableSkeleton from "./components/linkedwallet.skeleton";
 import PendingLinkedWalletTableSkeleton from "./components/pendingverification.skeleton";
+import toast from "react-hot-toast";
 
 export default function PersonaPage() {
   const { connectedWallet } = useContext(WalletContext);
@@ -48,7 +49,7 @@ export default function PersonaPage() {
         return verifiedPersona;
       } else return undefined;
     } catch (error) {
-      console.error("Error fetching or verifying persona:", error);
+      toast.error(`Error fetching or verifying persona!\n${error}`);
       return undefined;
     }
   };
@@ -78,7 +79,7 @@ export default function PersonaPage() {
 
   const registerWallet = async (walletToAdd: Wallet) => {
     if (!connectedWallet?.address) {
-      alert("Wallet not connected");
+      toast.error("Wallet not connected");
       return;
     }
 
@@ -94,13 +95,13 @@ export default function PersonaPage() {
       setTxn(txn);
       return persona;
     } catch (error) {
-      console.error("Error registering wallet:", error);
+      toast.error(`Error registering wallet!\n${error}`);
     }
   };
 
   const removeWallet = async (walletToRemove: Wallet) => {
     if (!connectedWallet?.address) {
-      alert("Wallet not connected");
+      toast.error("Wallet not connected");
       return;
     }
 
@@ -116,7 +117,7 @@ export default function PersonaPage() {
       setTxn(txn);
       return persona;
     } catch (error) {
-      console.error("Error removing wallet:", error);
+      toast.error(`Error removing wallet!\n${error}`);
     }
   };
 

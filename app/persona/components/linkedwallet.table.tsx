@@ -1,4 +1,3 @@
-"use client";
 import {
   Table,
   TableBody,
@@ -11,19 +10,23 @@ import { Badge } from "../../features/controls/Badge";
 import { Wallet, Persona } from "@/repository/types";
 import { Button } from "../../features/controls/Button";
 import { Dialog } from "../../features/controls/Dialog";
+import Image from "next/image";
+import { useState, useCallback } from "react";
+import { Chain, ChainUtils } from "@/blockchain/types/connected-wallet";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
+import { CompletedTransactionDialog } from "./completed-transaction.dialog";
+import { Strong } from "@/app/features/controls/Text";
 import {
   Dropdown,
   DropdownButton,
   DropdownItem,
   DropdownMenu,
-} from "../../features/controls/Dropdown";
-import Image from "next/image";
-import { Input } from "../../features/controls/Input";
-import { Field } from "../../features/controls/Fieldset";
-import { useState, useCallback } from "react";
-import { Chain, ChainUtils } from "@/blockchain/types/connected-wallet";
-import { Text } from "@/app/features/controls/Text";
-import { XCircleIcon } from "@heroicons/react/16/solid";
+} from "@/app/features/controls/Dropdown";
+import { Field } from "@headlessui/react";
+import { Input } from "@/app/features/controls/Input";
+import { PersonaFilter } from "@/blockchain/types/persona-filter";
+import PersonaFilterComponent from "./filter-component";
 
 interface LinkedWalletTableProps {
   connectedWallet: Wallet;
@@ -42,6 +45,12 @@ export default function LinkedWalletTable({
 }: LinkedWalletTableProps) {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [walletToAdd, setWalletToAdd] = useState<Wallet | undefined>();
+  const [filters, setFilters] = useState<PersonaFilter>({
+    chain: null,
+    verified: null,
+    query: "",
+  });
+
   const handleInputChange = useCallback(
     (e: { target: { value: any } }) => {
       setWalletToAdd((prevState) => ({
@@ -58,60 +67,76 @@ export default function LinkedWalletTable({
     }
   };
 
+  const filteredWallets =
+    persona?.linked_wallets.filter((user) => {
+      return (
+        (!filters.chain || user.chain === filters.chain) &&
+        (filters.verified === null || user.verified === filters.verified) &&
+        (filters.query === "" || user.address?.includes(filters.query))
+      );
+    }) || [];
+
   return (
     <>
-      <Table>
+      <PersonaFilterComponent onFilterChange={setFilters} />
+
+      <Table
+        striped
+        className="[--gutter:theme(spacing.6)] sm:[--gutter:theme(spacing.8)]"
+      >
         <TableHead>
           <TableRow>
-            <TableHeader>Chain</TableHeader>
-            <TableHeader>Address</TableHeader>
+            <TableHeader className="w-full">Address</TableHeader>
             <TableHeader>Status</TableHeader>
-            <TableHeader className="flex justify-center">Action</TableHeader>
+            <TableHeader>Action</TableHeader>
           </TableRow>
         </TableHead>
         <TableBody>
           {connectedWallet && (
             <TableRow key={connectedWallet.address}>
               <TableCell className="font-medium">
-                <Image
-                  width={32}
-                  height={32}
-                  alt="chain-avatr-logo"
-                  src={ChainUtils.getLogo(connectedWallet.chain!)}
-                />
+                <div className="flex items-center gap-4">
+                  <Image
+                    width={24}
+                    height={24}
+                    alt="chain-avatr-logo"
+                    src={ChainUtils.getLogo(connectedWallet.chain!)}
+                  />
+                  <div className="font-medium">{connectedWallet.address}</div>
+                </div>
               </TableCell>
-              <TableCell>{connectedWallet.address}</TableCell>
               <TableCell className="text-zinc-500"></TableCell>
             </TableRow>
           )}
-          {persona?.linked_wallets.map((user) => (
+          {filteredWallets.map((user) => (
             <TableRow key={user.address}>
               <TableCell className="font-medium">
-                <Image
-                  width={32}
-                  height={32}
-                  alt="chain-sel-logo"
-                  src={ChainUtils.getLogo(user.chain!)}
-                />
+                <div className="flex items-center gap-4">
+                  <Image
+                    width={24}
+                    height={24}
+                    alt="chain-sel-logo"
+                    src={ChainUtils.getLogo(user.chain!)}
+                  />
+                  <div className="font-medium">{user.address}</div>
+                </div>
               </TableCell>
-              <TableCell>{user.address}</TableCell>
               <TableCell className="text-zinc-500">
                 <Badge color={user.verified ? "lime" : "red"}>
                   {user.verified ? "Verified" : "Not Verified"}
                 </Badge>
               </TableCell>
-              <TableCell className="flex justify-end">
+              <TableCell>
                 <Button
+                  outline
                   onClick={() =>
                     removeWallet({
                       address: user.address,
                       chain: user.chain,
                     })
                   }
-                  color="red"
-                  className="w-fit"
                 >
-                  <XCircleIcon />
+                  <FontAwesomeIcon icon={faCircleXmark} />
                   Remove
                 </Button>
               </TableCell>
@@ -119,7 +144,9 @@ export default function LinkedWalletTable({
           ))}
         </TableBody>
       </Table>
-      <Button onClick={() => setIsDialogOpen(true)}>Add Address</Button>
+      <Button outline onClick={() => setIsDialogOpen(true)}>
+        Add Address
+      </Button>
       <Dialog open={isDialogOpen} onClose={() => setIsDialogOpen(false)}>
         <div className="flex flex-col gap-2 justify-center">
           <h1 className="text-center text-2xl font-bold mb-4 text-black dark:text-white">
@@ -128,20 +155,20 @@ export default function LinkedWalletTable({
           <Dropdown>
             <DropdownButton outline>
               {walletToAdd?.chain ? (
-                <div className="flex justify-center gap-2 font-bold text-lg text-center items-center">
+                <div className="flex justify-center gap-2 font-bold text-xl text-center items-center">
                   <Image
-                    width={32}
-                    height={32}
+                    width={24}
+                    height={24}
                     alt="chain-sel-logo"
                     src={ChainUtils.getLogo(walletToAdd.chain)}
                   />
-                  <p>{ChainUtils.toString(walletToAdd.chain)}</p>
+                  <Strong>{ChainUtils.toString(walletToAdd.chain)}</Strong>
                 </div>
               ) : (
                 "Select Chain"
               )}
             </DropdownButton>
-            <DropdownMenu className="min-w-96 text-xl">
+            <DropdownMenu className="min-w-[30%] text-xl">
               {Object.keys(Chain).map((chain) => (
                 <DropdownItem
                   onClick={() => {
@@ -155,11 +182,11 @@ export default function LinkedWalletTable({
                   <Image
                     src={ChainUtils.getLogo(ChainUtils.fromString(chain))}
                     alt="logo"
-                    width={20}
-                    height={20}
-                    className="pr-2"
+                    width={32}
+                    height={32}
+                    className="pr-3"
                   />
-                  <Text>{chain}</Text>
+                  <Strong>{chain}</Strong>
                 </DropdownItem>
               ))}
             </DropdownMenu>
@@ -179,6 +206,10 @@ export default function LinkedWalletTable({
           )}
         </div>
       </Dialog>
+      <CompletedTransactionDialog
+        message="This is the message of a completed transaction"
+        txn={txn}
+      />
     </>
   );
 }

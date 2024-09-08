@@ -16,9 +16,16 @@ import { ChainId } from "@injectivelabs/ts-types";
 import { Chain, ConnectedWallet } from "@/blockchain/types/connected-wallet";
 
 export class InjectiveRepository<T> implements IRepository<T> {
-  NETWORK = Network.TestnetSentry;
+  NETWORK =
+    process.env.NEXT_PUBLIC_NEXT_PUBLIC_NETWORK === "mainnet"
+      ? Network.Mainnet
+      : Network.TestnetSentry;
   ENDPOINTS = getNetworkEndpoints(this.NETWORK);
   chainGrpcWasmApi = new ChainGrpcWasmApi(this.ENDPOINTS.grpc);
+  explorerEndpoint =
+    process.env.NEXT_PUBLIC_NEXT_PUBLIC_NETWORK === "mainnet"
+      ? "https://testnet.explorer.injective.network"
+      : "https://explorer.injective.network";
 
   async getPersonaFromWallet(address: string): Promise<Persona> {
     const query_raw = {
@@ -26,7 +33,7 @@ export class InjectiveRepository<T> implements IRepository<T> {
     };
     const query = encodedBase64(query_raw);
     const contractState = await this.chainGrpcWasmApi.fetchSmartContractState(
-      process.env.NEXT_PUBLIC_INJ_SC ?? "",
+      process.env.NEXT_PUBLIC_INJ_SC!,
       query,
     );
     const persona: Persona = JSON.parse(
@@ -71,7 +78,7 @@ export class InjectiveRepository<T> implements IRepository<T> {
     };
     const msg = MsgExecuteContract.fromJSON({
       sender: connectedWallet.address,
-      contractAddress: process.env.NEXT_PUBLIC_INJ_SC ?? "",
+      contractAddress: process.env.NEXT_PUBLIC_INJ_SC!,
       msg: addPersonaMsg,
     });
 
@@ -90,7 +97,7 @@ export class InjectiveRepository<T> implements IRepository<T> {
     const persona = await this.getPersonaFromWallet(connectedWallet.address);
 
     return {
-      txn: `https://testnet.explorer.injective.network/transaction/${txn.txHash}`,
+      txn: `${this.explorerEndpoint}/transaction/${txn.txHash}`,
       persona,
     };
   }
@@ -106,7 +113,7 @@ export class InjectiveRepository<T> implements IRepository<T> {
     };
     const msg = MsgExecuteContract.fromJSON({
       sender: connectedWallet.address,
-      contractAddress: process.env.NEXT_PUBLIC_INJ_SC ?? "",
+      contractAddress: process.env.NEXT_PUBLIC_INJ_SC!,
       msg: removeWalletMsg,
     });
 
@@ -125,7 +132,7 @@ export class InjectiveRepository<T> implements IRepository<T> {
     const persona = await this.getPersonaFromWallet(connectedWallet.address);
 
     return {
-      txn: `https://testnet.explorer.injective.network/transaction/${txn.txHash}`,
+      txn: `${this.explorerEndpoint}/transaction/${txn.txHash}`,
       persona,
     };
   }
