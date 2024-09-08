@@ -1,14 +1,15 @@
 import { Chain } from "@/blockchain/types/connected-wallet";
 import { InjectiveRepository } from "./injective.repository";
 import { Persona } from "./types";
+import { MultiversXRepository } from "./multiversx.repository";
 
 export class VerificationService {
   private injectiveRepository: InjectiveRepository<Persona>;
-  //   private multiversxRepository: InjectiveRepository<Persona>;
+  private multiversxRepository: MultiversXRepository<Persona>;
 
   constructor() {
     this.injectiveRepository = new InjectiveRepository();
-    //todo: multiversX
+    this.multiversxRepository = new MultiversXRepository();
   }
 
   async verifyPersonaLinkedWallets(
@@ -16,24 +17,22 @@ export class VerificationService {
     persona: Persona,
   ): Promise<Persona> {
     for (const wallet of persona.linked_wallets) {
+      let prsn;
       switch (wallet.chain) {
         case Chain.Injective: {
-          const prsn = await this.injectiveRepository.getPersonaFromWallet(
+          prsn = await this.injectiveRepository.getPersonaFromWallet(
             wallet.address!,
           );
-
-          wallet.verified =
-            prsn.linked_wallets.find(
-              (x) =>
-                x.chain === Chain.Injective && x.address === persona.address,
-            ) !== undefined;
-
           break;
         }
         case Chain.MultiversX:
-          wallet.verified = false;
+          prsn = await this.multiversxRepository.getPersonaFromWallet(
+            wallet.address!,
+          );
           break;
       }
+
+      wallet.verified = prsn?.linked_wallets.find((x) => x.chain === Chain.Injective && x.address === persona.address,) !== undefined;
     }
 
     return persona;

@@ -23,15 +23,14 @@ import { ChainUtils } from "@/blockchain/types/connected-wallet";
 export default class PersonaSC {
   factory!: SmartContractTransactionsFactory;
   controller!: SmartContractQueriesController;
-  scAddress: string =
-    "erd1qqqqqqqqqqqqqpgqqrhcqy3gfdmhtq4h50n0939xnajy004vdy7sm3pgcc";
+  scAddress: string = process.env.NEXT_PUBLIC_MVX_SC!;
 
   constructor() {
     (async () => {
       let abi = AbiRegistry.create(personaAbi);
       const apiProvider = new ApiNetworkProvider(getApiUrl());
       const factoryConfig = new TransactionsFactoryConfig({
-        chainID: "D",
+        chainID: process.env.NEXT_PUBLIC_MVX_CHAIN_ID!,
       });
       this.factory = new SmartContractTransactionsFactory({
         config: factoryConfig,
@@ -92,7 +91,6 @@ export default class PersonaSC {
     sender: Address,
     wallet: Wallet,
   ): Promise<TransactionHash> {
-    console.log(sender);
     const transaction = this.factory.createTransactionForExecute({
       sender: sender,
       contract: new Address(this.scAddress),
@@ -104,7 +102,6 @@ export default class PersonaSC {
     const response = await sendTransactions({
       transactions: [transaction],
     });
-    console.log(response);
 
     return transaction.getHash();
   }

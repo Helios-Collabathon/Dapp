@@ -75,7 +75,6 @@ export default function PersonaPage() {
         );
       });
 
-      console.log(personas);
       return personas;
     } catch (error) {
       console.error("Error fetching pending links:", error);

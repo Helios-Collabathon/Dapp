@@ -28,6 +28,7 @@ export class InjectiveRepository<T> implements IRepository<T> {
       : "https://testnet.explorer.injective.network";
 
   async getPersonaFromWallet(address: string): Promise<Persona> {
+    console.log(address);
     const query_raw = {
       get_persona: { address },
     };
@@ -39,6 +40,7 @@ export class InjectiveRepository<T> implements IRepository<T> {
     const persona: Persona = JSON.parse(
       Buffer.from(contractState.data).toString(),
     );
+    console.log(persona);
     return persona;
   }
 

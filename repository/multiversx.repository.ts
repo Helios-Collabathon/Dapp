@@ -6,6 +6,7 @@ import { Address, TransactionHash } from "@multiversx/sdk-core";
 
 export class MultiversXRepository<T> implements IRepository<T> {
   personaSC!: PersonaSC;
+  explorerEndpoint: string = process.env.NEXT_PUBLIC_MVX_EXPLORER ?? "https://explorer.multiversx.com";
 
   constructor() {
     this.personaSC = new PersonaSC();
@@ -24,7 +25,7 @@ export class MultiversXRepository<T> implements IRepository<T> {
     );
 
     return {
-      txn: `https://devnet-explorer.multiversx.com/transactions/${txHash}`,
+      txn: `${this.explorerEndpoint}/transactions/${txHash}`,
       persona,
     };
   }
@@ -42,7 +43,7 @@ export class MultiversXRepository<T> implements IRepository<T> {
     );
 
     return {
-      txn: `https://devnet-explorer.multiversx.com/transactions/${txHash}`,
+      txn: `${this.explorerEndpoint}/transactions/${txHash}`,
       persona,
     };
   }
