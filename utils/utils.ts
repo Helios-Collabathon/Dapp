@@ -11,11 +11,11 @@ export function getApiUrl() {
 }
 
 export function parseMultiversXResponse(parsedResponse: any): Persona {
-  return parsedResponse[0]
+  return parsedResponse
     ? {
-        address: (parsedResponse[0].address as Address).bech32(),
+        address: (parsedResponse.address as Address).bech32(),
         chain: Chain.MultiversX,
-        linked_wallets: parsedResponse[0].linked_wallets.map((wallet: any) => ({
+        linked_wallets: parsedResponse.linked_wallets.map((wallet: any) => ({
           chain: ChainUtils.fromString(wallet.chain.name),
           address: new TextDecoder().decode(wallet.address),
         })),

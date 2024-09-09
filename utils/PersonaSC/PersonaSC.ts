@@ -52,7 +52,7 @@ export default class PersonaSC {
 
     const response: SmartContractQueryResponse = await this.controller.runQuery(query)
     const parsedResponse = this.controller.parseQueryResponse(response)
-    const persona: Persona = parseMultiversXResponse(parsedResponse)
+    const persona: Persona = parseMultiversXResponse(parsedResponse[0])
     persona.address = address
 
     return persona
@@ -66,8 +66,8 @@ export default class PersonaSC {
     })
 
     const response: SmartContractQueryResponse = await this.controller.runQuery(query)
-    const parsedResponse = this.controller.parseQueryResponse(response)
-    const personas = parsedResponse.map((response: any) => parseMultiversXResponse(response))
+    let parsedResponse = this.controller.parseQueryResponse(response)
+    const personas = parsedResponse[0].map((response: any) => parseMultiversXResponse(response))
 
     return personas
   }
