@@ -1,18 +1,11 @@
-import React from "react";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "../../features/controls/Table";
-import { SkeletonText } from "@/app/features/controls/SkeletonText";
+import React from 'react'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../../features/controls/Table'
+import { SkeletonText } from '@/app/features/controls/SkeletonText'
 
 export default function PendingLinkedWalletTableSkeleton() {
   return (
     <div className="mt-20">
-      <SkeletonText className="h-6 w-1/4 mb-4" />
+      <SkeletonText className="mb-4 h-6 w-1/4" />
       <Table>
         <TableHead>
           <TableRow>
@@ -44,5 +37,5 @@ export default function PendingLinkedWalletTableSkeleton() {
         </TableBody>
       </Table>
     </div>
-  );
+  )
 }

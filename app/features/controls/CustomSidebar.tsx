@@ -1,41 +1,34 @@
-"use client";
-import {
-  Sidebar,
-  SidebarSection,
-  SidebarItem,
-  SidebarHeader,
-  SidebarBody,
-  SidebarFooter,
-} from "./Sidebar";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
-import { usePathname } from "next/navigation";
-import { Config } from "@/app/config";
-import { useContext, useState } from "react";
-import { WalletContext } from "@/blockchain/wallet-provider";
-import { Input } from "../controls/Input";
-import Link from "next/link";
-import LoginDropDown from "../loginButton/LoginDropDown";
-import Image from "next/image";
+'use client'
+import { Sidebar, SidebarSection, SidebarItem, SidebarHeader, SidebarBody, SidebarFooter } from './Sidebar'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons'
+import { usePathname } from 'next/navigation'
+import { Config } from '@/app/config'
+import { useContext, useState } from 'react'
+import { WalletContext } from '@/blockchain/wallet-provider'
+import { Input } from '../controls/Input'
+import Link from 'next/link'
+import LoginDropDown from '../loginButton/LoginDropDown'
+import Image from 'next/image'
 
 export function CustomSidebar() {
-  const currentPath = usePathname();
-  const { connectedWallet } = useContext(WalletContext);
-  const [searchQuery, setSearchQuery] = useState("");
+  const currentPath = usePathname()
+  const { connectedWallet } = useContext(WalletContext)
+  const [searchQuery, setSearchQuery] = useState('')
 
-  const isCurrentPage = (path: string) => currentPath === path;
+  const isCurrentPage = (path: string) => currentPath === path
 
   const onSearch = () => {
     if (searchQuery.trim()) {
-      window.location.href = `${window.location.origin}/persona/${searchQuery.trim()}`;
+      window.location.href = `${window.location.origin}/persona/${searchQuery.trim()}`
     }
-  };
+  }
 
   const onKeyDownHandler = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === "Enter") {
-      onSearch();
+    if (event.key === 'Enter') {
+      onSearch()
     }
-  };
+  }
 
   return (
     <Sidebar>
@@ -54,23 +47,14 @@ export function CustomSidebar() {
 
       <SidebarBody>
         <SidebarSection>
-          <SidebarItem
-            current={isCurrentPage(Config.Pages.Start)}
-            href={Config.Pages.Start}
-          >
+          <SidebarItem current={isCurrentPage(Config.Pages.Start)} href={Config.Pages.Start}>
             Start
           </SidebarItem>
-          <SidebarItem
-            current={isCurrentPage(Config.Pages.Faq)}
-            href={Config.Pages.Faq}
-          >
+          <SidebarItem current={isCurrentPage(Config.Pages.Faq)} href={Config.Pages.Faq}>
             FAQ
           </SidebarItem>
           {connectedWallet.address && (
-            <SidebarItem
-              current={isCurrentPage(Config.Pages.Persona)}
-              href={Config.Pages.Persona}
-            >
+            <SidebarItem current={isCurrentPage(Config.Pages.Persona)} href={Config.Pages.Persona}>
               My Persona
             </SidebarItem>
           )}
@@ -88,15 +72,15 @@ export function CustomSidebar() {
       </SidebarBody>
 
       <SidebarFooter>
-        <div className="flex gap-4 items-centers place-items-center">
+        <div className="items-centers flex place-items-center gap-4">
           <LoginDropDown />
           {connectedWallet.address && (
             <FontAwesomeIcon
               size="xl"
               className="cursor-pointer"
               onClick={() => {
-                localStorage.removeItem("connected-wallet");
-                window.location.reload();
+                localStorage.removeItem('connected-wallet')
+                window.location.reload()
               }}
               icon={faRightFromBracket}
             />
@@ -104,5 +88,5 @@ export function CustomSidebar() {
         </div>
       </SidebarFooter>
     </Sidebar>
-  );
+  )
 }

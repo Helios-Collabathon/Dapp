@@ -1,13 +1,13 @@
-import { Wallet } from "@/repository/types";
+import { Wallet } from '@/repository/types'
 
 export type AddWalletMsg = {
   add_wallet: {
-    wallet: Wallet;
-  };
-};
+    wallet: Wallet
+  }
+}
 
 export type RemoveWalletMsg = {
   remove_wallet: {
-    wallet: Wallet;
-  };
-};
+    wallet: Wallet
+  }
+}

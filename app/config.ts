@@ -1,6 +1,6 @@
-type AppEnv = "mainnet" | "testnet" | "devnet" | "local";
+type AppEnv = 'mainnet' | 'testnet' | 'devnet' | 'local'
 
-const Env: AppEnv = (process.env.NEXT_PUBLIC_ENV as AppEnv | null) || "mainnet";
+const Env: AppEnv = (process.env.NEXT_PUBLIC_ENV as AppEnv | null) || 'mainnet'
 
 export const Config = {
   App: {
@@ -10,18 +10,17 @@ export const Config = {
   },
   Services: {
     WalletConnect: {
-      ProjectId: process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID || "",
+      ProjectId: process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID || '',
     },
     MetamaskSnap: () => {
-      if (Env === "devnet") return "https://devnet-snap-wallet.multiversx.com";
-      if (Env === "testnet")
-        return "https://testnet-snap-wallet.multiversx.com";
-      return "https://snap-wallet.multiversx.com";
+      if (Env === 'devnet') return 'https://devnet-snap-wallet.multiversx.com'
+      if (Env === 'testnet') return 'https://testnet-snap-wallet.multiversx.com'
+      return 'https://snap-wallet.multiversx.com'
     },
   },
   Pages: {
-    Start: "/",
-    Faq: "/faq",
-    Persona: "/persona",
+    Start: '/',
+    Faq: '/faq',
+    Persona: '/persona',
   },
-};
+}

@@ -1,14 +1,7 @@
-import React from "react";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "../../features/controls/Table";
-import { SkeletonText } from "@/app/features/controls/SkeletonText";
-import { SkeletonButton } from "@/app/features/controls/SkeletonButton";
+import React from 'react'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../../features/controls/Table'
+import { SkeletonText } from '@/app/features/controls/SkeletonText'
+import { SkeletonButton } from '@/app/features/controls/SkeletonButton'
 
 export default function LinkedWalletTableSkeleton() {
   return (
@@ -44,5 +37,5 @@ export default function LinkedWalletTableSkeleton() {
         </TableBody>
       </Table>
     </>
-  );
+  )
 }
