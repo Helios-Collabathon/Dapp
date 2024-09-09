@@ -1,80 +1,105 @@
-'use client'
-import { Config } from '@/app/config'
-import Image from 'next/image'
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import { Navbar, NavbarItem, NavbarSection, NavbarSpacer } from '../controls/Navbar'
-import LoginDropDown from '../loginButton/LoginDropDown'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faRightFromBracket, faSun, faMoon } from '@fortawesome/free-solid-svg-icons'
-import { Field } from '../controls/Fieldset'
-import { Input } from '../controls/Input'
-import { useContext, useState, useEffect } from 'react'
-import { WalletContext } from '@/blockchain/wallet-provider'
+"use client";
+import { Config } from "@/app/config";
+import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import {
+  Navbar,
+  NavbarItem,
+  NavbarSection,
+  NavbarSpacer,
+} from "../controls/Navbar";
+import LoginDropDown from "../loginButton/LoginDropDown";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faRightFromBracket,
+  faSun,
+  faMoon,
+} from "@fortawesome/free-solid-svg-icons";
+import { Field } from "../controls/Fieldset";
+import { Input } from "../controls/Input";
+import { useContext, useState, useEffect } from "react";
+import { WalletContext } from "@/blockchain/wallet-provider";
 
-type Props = {}
+type Props = {};
 
 export function Navigation(props: Props) {
-  const currentPath = usePathname()
-  const [searchQuery, setSearchQuery] = useState('')
-  const { connectedWallet } = useContext(WalletContext)
+  const currentPath = usePathname();
+  const [searchQuery, setSearchQuery] = useState("");
+  const { connectedWallet } = useContext(WalletContext);
 
   const [isDarkMode, setIsDarkMode] = useState(() => {
-    if (typeof window !== 'undefined') {
-      const storedTheme = localStorage.getItem('theme')
+    if (typeof window !== "undefined") {
+      const storedTheme = localStorage.getItem("theme");
       // Default to dark mode if no theme is set in localStorage
       if (storedTheme) {
-        return storedTheme === 'dark'
+        return storedTheme === "dark";
       } else {
-        return true
+        return true;
       }
     }
-    return false
-  })
+    return false;
+  });
 
   useEffect(() => {
     if (isDarkMode) {
-      document.documentElement.classList.add('dark')
-      localStorage.setItem('theme', 'dark')
+      document.documentElement.classList.add("dark");
+      localStorage.setItem("theme", "dark");
     } else {
-      document.documentElement.classList.remove('dark')
-      localStorage.setItem('theme', 'light')
+      document.documentElement.classList.remove("dark");
+      localStorage.setItem("theme", "light");
     }
-  }, [isDarkMode])
+  }, [isDarkMode]);
 
   const toggleTheme = () => {
-    setIsDarkMode(!isDarkMode)
-  }
+    setIsDarkMode(!isDarkMode);
+  };
 
-  const isCurrentPage = (path: string) => currentPath === path
+  const isCurrentPage = (path: string) => currentPath === path;
 
   const onSearch = () => {
     if (searchQuery.trim()) {
-      window.location.href = `${window.location.origin}/persona/${searchQuery.trim()}`
+      window.location.href = `${window.location.origin}/persona/${searchQuery.trim()}`;
     }
-  }
+  };
 
   const onKeyDownHandler = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter') {
-      onSearch()
+    if (event.key === "Enter") {
+      onSearch();
     }
-  }
+  };
 
   return (
     <Navbar className="flex flex-wrap items-center p-4 sm:flex-nowrap sm:justify-between">
       <div className="hidden items-center sm:flex">
         <Link href="/" aria-label="Home">
-          <Image src="/heliosconnect.svg" alt="Logo" width={40} height={40} priority className="mr-4" />
+          <Image
+            src="/heliosconnect.svg"
+            alt="Logo"
+            width={40}
+            height={40}
+            priority
+            className="mr-4"
+          />
         </Link>
         <NavbarSection className="hidden md:flex">
-          <NavbarItem href={Config.Pages.Start} current={isCurrentPage(Config.Pages.Start)}>
+          <NavbarItem
+            href={Config.Pages.Start}
+            current={isCurrentPage(Config.Pages.Start)}
+          >
             Start
           </NavbarItem>
-          <NavbarItem href={Config.Pages.Faq} current={isCurrentPage(Config.Pages.Faq)}>
+          <NavbarItem
+            href={Config.Pages.Faq}
+            current={isCurrentPage(Config.Pages.Faq)}
+          >
             FAQ
           </NavbarItem>
           {connectedWallet.address && (
-            <NavbarItem href={Config.Pages.Persona} current={isCurrentPage(Config.Pages.Persona)}>
+            <NavbarItem
+              href={Config.Pages.Persona}
+              current={isCurrentPage(Config.Pages.Persona)}
+            >
               My Persona
             </NavbarItem>
           )}
@@ -91,19 +116,25 @@ export function Navigation(props: Props) {
       </Field>
       <NavbarSpacer className="hidden sm:flex" />
       <div className="hidden items-center gap-3 sm:flex">
-        <FontAwesomeIcon onClick={toggleTheme} icon={isDarkMode ? faSun : faMoon} cursor={'pointer'} color={isDarkMode ? 'white' : 'black'} />
+        <FontAwesomeIcon
+          onClick={toggleTheme}
+          icon={isDarkMode ? faSun : faMoon}
+          cursor={"pointer"}
+          color={isDarkMode ? "white" : "black"}
+        />
         <LoginDropDown />
         {connectedWallet.address && (
           <FontAwesomeIcon
             className="ml-4 cursor-pointer"
             onClick={() => {
-              localStorage.removeItem('connected-wallet')
-              window.location.href = `${window.location.origin}`
+              localStorage.removeItem("connected-wallet");
+              window.location.href = `${window.location.origin}`;
             }}
             icon={faRightFromBracket}
+            color={isDarkMode ? "white" : "black"}
           />
         )}
       </div>
     </Navbar>
-  )
+  );
 }
