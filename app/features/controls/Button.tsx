@@ -48,6 +48,14 @@ const styles = {
     // Icon
     '[--btn-icon:theme(colors.zinc.500)] data-[active]:[--btn-icon:theme(colors.zinc.700)] data-[hover]:[--btn-icon:theme(colors.zinc.700)] dark:data-[active]:[--btn-icon:theme(colors.zinc.400)] dark:data-[hover]:[--btn-icon:theme(colors.zinc.400)]',
   ],
+  outlineGreen: [
+    // Add this for green outline
+    'border-green-600 text-green-600 data-[hover]:bg-green-100 data-[hover]:border-green-700',
+    // Dark mode
+    'dark:border-green-500 dark:text-green-500 dark:data-[hover]:bg-green-700/20 dark:data-[hover]:border-green-600',
+    // Icon color
+    '[--btn-icon:theme(colors.green.500)] data-[hover]:[--btn-icon:theme(colors.green.600)] dark:data-[hover]:[--btn-icon:theme(colors.green.500)]',
+  ],
   plain: [
     // Base
     'border-transparent text-zinc-950 data-[active]:bg-zinc-950/5 data-[hover]:bg-zinc-950/5',
@@ -180,7 +188,7 @@ export const Button = forwardRef(function Button({ color, outline, plain, classN
       <TouchTarget>{children}</TouchTarget>
     </Link>
   ) : (
-    <Headless.Button {...props} className={clsx(classes, 'cursor-default')} ref={ref}>
+    <Headless.Button {...props} className={clsx(classes, 'cursor-pointer')} ref={ref}>
       <TouchTarget>{children}</TouchTarget>
     </Headless.Button>
   )

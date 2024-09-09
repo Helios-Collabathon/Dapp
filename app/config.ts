@@ -21,5 +21,6 @@ export const Config = {
   Pages: {
     Start: '/',
     Faq: '/faq',
+    Persona: '/persona',
   },
 }

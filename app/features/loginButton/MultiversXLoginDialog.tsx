@@ -1,8 +1,6 @@
 'use client'
 import { Config } from '@/app/config'
 import { useWallet } from '@/blockchain/wallet-provider'
-import { faKey } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks/account/useGetAccountInfo'
 import { useExtensionLogin } from '@multiversx/sdk-dapp/hooks/login/useExtensionLogin'
 import { useIframeLogin } from '@multiversx/sdk-dapp/hooks/login/useIframeLogin'
@@ -10,14 +8,17 @@ import { usePasskeyLogin } from '@multiversx/sdk-dapp/hooks/login/usePasskeyLogi
 import { useWebWalletLogin } from '@multiversx/sdk-dapp/hooks/login/useWebWalletLogin'
 import { logout } from '@multiversx/sdk-dapp/utils'
 import { IframeLoginTypes } from '@multiversx/sdk-web-wallet-iframe-provider/out/constants'
-import dynamic from 'next/dynamic'
-import Image from 'next/image'
 import { useEffect, useState } from 'react'
+import { Button } from '../controls/Button'
+import { Dialog } from '../controls/Dialog'
+import { Chain } from '@/blockchain/types/connected-wallet'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faKey } from '@fortawesome/free-solid-svg-icons'
+import Image from 'next/image'
 import LedgerLogo from '../../images/ledger.svg'
 import MetamaskLogo from '../../images/metamask.svg'
 import MultiversxLogo from '../../images/multiversx.svg'
-import { Button } from '../controls/Button'
-import { Dialog } from '../controls/Dialog'
+import dynamic from 'next/dynamic'
 
 export type WalletProvider = 'browser_extension' | 'webwallet' | 'iframe' | 'walletconnect' | 'ledger' | 'passkeys'
 
@@ -55,7 +56,7 @@ export const MultiversXDialog = (props: Props) => {
   useEffect(() => {
     if (!account.address || !walletProvider) return
     try {
-      wallet.connectWallet(account.address, walletProvider)
+      wallet.connectWallet(account.address, Chain.MultiversX, walletProvider)
       props.onClose()
     } catch (error) {
       console.error('Error connecting wallet:', error)

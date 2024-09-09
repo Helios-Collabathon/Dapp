@@ -1,25 +1,38 @@
 'use client'
 import dynamic from 'next/dynamic'
-import * as React from 'react'
 import { createContext, useContext, useEffect, useState } from 'react'
 import { Config } from '../app/config'
+import { Chain, ConnectedWallet } from './types/connected-wallet'
+import { NotificationModal } from '@multiversx/sdk-dapp/UI'
 
 type AppWalletProvider = string
 
 type ContextType = {
-  connectWallet: (wallet: AppWalletProvider, address: string) => Promise<void>
+  connectWallet: (address: string, chain: Chain, provider: AppWalletProvider) => Promise<void>
   disconnectWallet: () => void
-  connectedWallet: { wallet?: AppWalletProvider; address?: string }
+  connectedWallet: ConnectedWallet
 }
 
 const WalletStorageKey = 'connected-wallet'
 
-export const DappProvider = dynamic(async () => (await import('@multiversx/sdk-dapp/wrappers/DappProvider')).DappProvider, { ssr: false })
+const DappProvider = dynamic(async () => (await import('@multiversx/sdk-dapp/wrappers/DappProvider')).DappProvider, { ssr: false })
+
+const SignTransactionsModals = dynamic(
+  async () => (await import('@multiversx/sdk-dapp/UI/SignTransactionsModals/SignTransactionsModals')).SignTransactionsModals,
+  { ssr: false }
+)
+
+const TransactionsToastList = dynamic(async () => (await import('@multiversx/sdk-dapp/UI/TransactionsToastList')).TransactionsToastList, { ssr: false })
+// const NotificationModal = dynamic(async () => (await import('@multiversx/sdk-dapp/UI/NotificationModal')).NotificationModal, { ssr: false })
 
 export const WalletContext = createContext<ContextType>({
   connectWallet: async () => {},
   disconnectWallet: () => {},
-  connectedWallet: { address: '', wallet: undefined },
+  connectedWallet: {
+    address: '',
+    chain: Chain.Injective,
+    provider: '',
+  },
 })
 
 export const useWallet = () => useContext(WalletContext)
@@ -27,35 +40,31 @@ export const useWallet = () => useContext(WalletContext)
 export const WalletContextProvider = ({ children }: { children: React.ReactNode }) => {
   const env = Config.App.Env === 'local' ? 'devnet' : Config.App.Env
 
-  const [connectedWallet, setConnectedWallet] = useState<{
-    address: string
-    wallet?: AppWalletProvider
-  }>({ address: '', wallet: undefined })
+  const [connectedWallet, setConnectedWallet] = useState<ConnectedWallet>({
+    address: '',
+    chain: Chain.Injective,
+    provider: '',
+  })
 
   useEffect(() => {
-    const wallet = localStorage.getItem(WalletStorageKey)
-    if (wallet) {
-      setConnectedWallet({
-        address: JSON.parse(wallet).address,
-        wallet: JSON.parse(wallet).wallet,
-      })
+    try {
+      const storedWallet = localStorage.getItem(WalletStorageKey)
+      if (storedWallet) {
+        setConnectedWallet(JSON.parse(storedWallet))
+      }
+    } catch (error) {
+      console.error('Failed to parse stored wallet from localStorage', error)
     }
   }, [])
 
-  const connectWallet = async (wallet: AppWalletProvider, address: string) => {
-    setConnectedWallet({ address, wallet })
-    localStorage.setItem(
-      WalletStorageKey,
-      JSON.stringify({
-        address: address,
-        wallet: wallet,
-        provider: wallet as unknown,
-      })
-    )
+  const connectWallet = async (address: string, chain: Chain, provider: AppWalletProvider) => {
+    const wallet: ConnectedWallet = { address, chain, provider }
+    setConnectedWallet(wallet)
+    localStorage.setItem(WalletStorageKey, JSON.stringify(wallet))
   }
 
   const disconnectWallet = () => {
-    setConnectedWallet({ address: '' })
+    setConnectedWallet({ address: '', provider: '', chain: Chain.Injective })
     localStorage.removeItem(WalletStorageKey)
   }
 
@@ -71,10 +80,13 @@ export const WalletContextProvider = ({ children }: { children: React.ReactNode 
         }}
         dappConfig={{
           shouldUseWebViewProvider: true,
-          isSSR: true,
+          isSSR: typeof window === 'undefined', // SSR detection
         }}
       >
         {children}
+        <TransactionsToastList />
+        <NotificationModal />
+        <SignTransactionsModals />
       </DappProvider>
     </WalletContext.Provider>
   )

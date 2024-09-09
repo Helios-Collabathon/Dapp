@@ -70,7 +70,7 @@ function LinkCard(props: { title: string; description: string; icon: IconDefinit
           <FontAwesomeIcon icon={props.icon} className="opacity-80" />
         </span>
       </h2>
-      <p className="m-0 max-w-[30ch] text-sm opacity-50">{props.description}</p>
+      <p className="m-0 text-sm opacity-50">{props.description}</p>
     </Link>
   )
 }

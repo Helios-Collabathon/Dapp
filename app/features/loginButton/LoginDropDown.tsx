@@ -1,27 +1,25 @@
 'use client'
-import { APP_IMAGES } from '@/app/app-images'
-import { Chain } from '@/blockchain/types/connected-wallet'
-import { WalletContext } from '@/blockchain/wallet-provider'
-import { faKey } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import Image from 'next/image'
+
 import { useContext, useEffect, useState } from 'react'
 import { Dropdown, DropdownButton, DropdownItem, DropdownMenu } from '../controls/Dropdown'
-import InjectiveLoginDialog from './InjectiveLoginDialog'
+import { faKey } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import MultiversXLoginDialog from './MultiversXLoginDialog'
+import InjectiveLoginDialog from './InjectiveLoginDialog'
+import Image from 'next/image'
+import { APP_IMAGES } from '@/app/app-images'
+import { WalletContext } from '@/blockchain/wallet-provider'
 
 export function LoginDropDown() {
   const [mvxLoginIsOpened, setMvxLoginIsOpened] = useState(false)
   const [injectiveLoginIsOpened, setInjectiveLoginIsOpened] = useState(false)
-  // const [connectedWallet, setConnectedWallet] = useState<ConnectedWallet>();
+
   let { connectedWallet } = useContext(WalletContext)
 
   useEffect(() => {
     const getConnectedWallet = async () => {
-      Object.keys(Chain).map((chain: string) => {
-        const wallet = localStorage.getItem(chain)
-        if (wallet) connectedWallet = JSON.parse(wallet)
-      })
+      const wallet = localStorage.getItem('connected-wallet')
+      if (wallet) connectedWallet = JSON.parse(wallet)
     }
 
     getConnectedWallet()
@@ -30,9 +28,9 @@ export function LoginDropDown() {
   return (
     <>
       <Dropdown>
-        <DropdownButton color="primary">
+        <DropdownButton color="primary" className="w-full">
           <FontAwesomeIcon icon={faKey} />
-          {connectedWallet.address ? `${connectedWallet.address.slice(0, 5)}...${connectedWallet.address.slice(-5)}` : 'Login'}
+          {connectedWallet?.address ? `${connectedWallet.address.slice(0, 5)}...${connectedWallet.address.slice(-5)}` : 'Login'}
         </DropdownButton>
         <DropdownMenu>
           <DropdownItem onClick={() => setMvxLoginIsOpened(true)}>
@@ -40,12 +38,14 @@ export function LoginDropDown() {
             MultiversX
           </DropdownItem>
           <DropdownItem onClick={() => setInjectiveLoginIsOpened(true)}>
-            <Image src={APP_IMAGES.INGLogo} alt="Injective" width={20} height={20} className="pr-2" />
+            <Image src={APP_IMAGES.INGLogo} alt="MultiversX" width={20} height={20} className="pr-2" />
             Injective
           </DropdownItem>
         </DropdownMenu>
       </Dropdown>
 
+      <MultiversXLoginDialog isOpen={mvxLoginIsOpened} onClose={() => setMvxLoginIsOpened(false)} />
+      <InjectiveLoginDialog isOpen={injectiveLoginIsOpened} onClose={() => setInjectiveLoginIsOpened(false)} />
       <MultiversXLoginDialog isOpen={mvxLoginIsOpened} onClose={() => setMvxLoginIsOpened(false)} />
       <InjectiveLoginDialog isOpen={injectiveLoginIsOpened} onClose={() => setInjectiveLoginIsOpened(false)} />
     </>
