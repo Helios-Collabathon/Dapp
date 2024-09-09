@@ -85,14 +85,14 @@ export function Navigation(props: Props) {
         />
       </Field>
       <NavbarSpacer className="hidden sm:flex" />
-      <div className="hidden sm:flex items-center mt-4 sm:mt-0">
+      <div className="hidden sm:flex items-center">
         <LoginDropDown />
         {connectedWallet.address && (
           <FontAwesomeIcon
             className="cursor-pointer ml-4"
             onClick={() => {
               localStorage.removeItem("connected-wallet");
-              // window.location.reload();
+              window.location.href = `${window.location.origin}`;
             }}
             icon={faRightFromBracket}
           />
