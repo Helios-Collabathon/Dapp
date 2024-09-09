@@ -6,10 +6,10 @@ import { usePathname } from 'next/navigation'
 import { Navbar, NavbarItem, NavbarSection, NavbarSpacer } from '../controls/Navbar'
 import LoginDropDown from '../loginButton/LoginDropDown'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons'
+import { faRightFromBracket, faSun, faMoon } from '@fortawesome/free-solid-svg-icons'
 import { Field } from '../controls/Fieldset'
 import { Input } from '../controls/Input'
-import { useContext, useState } from 'react'
+import { useContext, useState, useEffect } from 'react'
 import { WalletContext } from '@/blockchain/wallet-provider'
 
 type Props = {}
@@ -18,6 +18,33 @@ export function Navigation(props: Props) {
   const currentPath = usePathname()
   const [searchQuery, setSearchQuery] = useState('')
   const { connectedWallet } = useContext(WalletContext)
+
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const storedTheme = localStorage.getItem('theme')
+      // Default to dark mode if no theme is set in localStorage
+      if (storedTheme) {
+        return storedTheme === 'dark'
+      } else {
+        return true
+      }
+    }
+    return false
+  })
+
+  useEffect(() => {
+    if (isDarkMode) {
+      document.documentElement.classList.add('dark')
+      localStorage.setItem('theme', 'dark')
+    } else {
+      document.documentElement.classList.remove('dark')
+      localStorage.setItem('theme', 'light')
+    }
+  }, [isDarkMode])
+
+  const toggleTheme = () => {
+    setIsDarkMode(!isDarkMode)
+  }
 
   const isCurrentPage = (path: string) => currentPath === path
 
@@ -37,14 +64,7 @@ export function Navigation(props: Props) {
     <Navbar className="flex flex-wrap items-center p-4 sm:flex-nowrap sm:justify-between">
       <div className="hidden items-center sm:flex">
         <Link href="/" aria-label="Home">
-          <Image
-            src="/heliosconnect.svg"
-            alt="Logo"
-            width={40} // Adjust the width as needed
-            height={40} // Adjust the height as needed
-            priority
-            className="mr-4"
-          />
+          <Image src="/heliosconnect.svg" alt="Logo" width={40} height={40} priority className="mr-4" />
         </Link>
         <NavbarSection className="hidden md:flex">
           <NavbarItem href={Config.Pages.Start} current={isCurrentPage(Config.Pages.Start)}>
@@ -60,7 +80,6 @@ export function Navigation(props: Props) {
           )}
         </NavbarSection>
       </div>
-      {/* <NavbarSpacer className="flex-1 sm:hidden" /> */}
       <Field className="mt-4 hidden sm:mt-0 sm:flex sm:w-1/2 sm:flex-none">
         <Input
           value={searchQuery}
@@ -71,7 +90,8 @@ export function Navigation(props: Props) {
         />
       </Field>
       <NavbarSpacer className="hidden sm:flex" />
-      <div className="hidden items-center sm:flex">
+      <div className="hidden items-center gap-3 sm:flex">
+        <FontAwesomeIcon onClick={toggleTheme} icon={isDarkMode ? faSun : faMoon} cursor={'pointer'} color={isDarkMode ? 'white' : 'black'} />
         <LoginDropDown />
         {connectedWallet.address && (
           <FontAwesomeIcon
