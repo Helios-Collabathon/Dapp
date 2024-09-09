@@ -2,15 +2,12 @@ import { faXTwitter, IconDefinition } from '@fortawesome/free-brands-svg-icons'
 import { faBook, faScrewdriverWrench } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Link from 'next/link'
-import { Heading } from './features/controls/Heading'
+import { HeroSection } from './features/marketing/HeroSection'
 
 export default function Home() {
   return (
     <>
-      <section className="p-4 text-center sm:p-8 md:p-12">
-        <Heading>Welcome to Helios Connect: The Future of Cross-Chain Verification.</Heading>
-        <p>An open-source project from the Helios Collabathon! Explore our features or contribute to the project.</p>
-      </section>
+      <HeroSection />
       <section className="mx-auto max-w-5xl px-4 py-16 text-center text-black dark:text-white">
         <h2 className="mb-8 text-3xl font-bold">Key Features</h2>
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
