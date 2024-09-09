@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import BackgroundImage from '../../images/helios-lighthing.svg'
+import BackgroundImage from '../../images/helios-lightning.jpg'
 import { Button } from '../controls/Button'
 
 export function HeroSection() {
