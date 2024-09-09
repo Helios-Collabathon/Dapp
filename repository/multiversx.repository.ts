@@ -23,13 +23,10 @@ export class MultiversXRepository<T> implements IRepository<T> {
     const persona: Persona = await this.personaSC.getPersonaByWallet(
       connectedWallet.address,
     );
-
-    console.log(txHash);
-    console.log(Buffer.from(txHash));
-    console.log(Buffer.from(txHash).toString("hex"));
-    console.log(`${this.explorerEndpoint}/transactions/${txHash}`);
+  
     return {
-      txn: `${this.explorerEndpoint}/transactions/${txHash}`,
+      // txn: `${this.explorerEndpoint}/transactions/${txHash}`,
+      txn: `${txHash}`,
       persona,
     };
   }
@@ -46,12 +43,8 @@ export class MultiversXRepository<T> implements IRepository<T> {
       connectedWallet.address,
     );
 
-    console.log(txHash);
-    console.log(Buffer.from(txHash));
-    console.log(Buffer.from(txHash).toString("utf-8"));
-    console.log(`${this.explorerEndpoint}/transactions/${txHash}`);
     return {
-      txn: `${this.explorerEndpoint}/transactions/${txHash}`,
+      txn: `${txHash}`,
       persona,
     };
   }

@@ -2,7 +2,6 @@ import {
   AbiRegistry,
   Address,
   QueryRunnerAdapter,
-  TransactionHash,
   TransactionsFactoryConfig,
   TransactionComputer,
 } from "@multiversx/sdk-core";
@@ -11,6 +10,7 @@ import {
   SmartContractTransactionsFactory,
 } from "@multiversx/sdk-core/out";
 import { sendTransactions } from "@multiversx/sdk-dapp/services";
+import { useTrackTransactionStatus } from "@multiversx/sdk-dapp/hooks";
 import personaAbi from "./abis/identity.abi.json";
 import { ApiNetworkProvider } from "@multiversx/sdk-network-providers";
 import { getApiUrl, parseMultiversXResponse } from "../utils";
@@ -101,13 +101,11 @@ export default class PersonaSC {
       arguments: [ChainUtils.toString(wallet.chain!), wallet.address],
     });
 
-    await sendTransactions({
+    const {sessionId, _} = await sendTransactions({
       transactions: [transaction],
     });
 
-    console.log(transaction.getHash());
-
-    return this.transactionComputer.computeTransactionHash(transaction);
+    return sessionId;
   }
 
   public async removeWallet(
@@ -122,10 +120,10 @@ export default class PersonaSC {
       arguments: [ChainUtils.toString(wallet.chain!), wallet.address],
     });
 
-    await sendTransactions({
+    const {sessionId, _} = await sendTransactions({
       transactions: [transaction],
     });
 
-    return this.transactionComputer.computeTransactionHash(transaction);
+    return sessionId;
   }
 }

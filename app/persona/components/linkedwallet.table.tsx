@@ -247,7 +247,7 @@ export default function LinkedWalletTable({
           </Button>
         </div>
       </Dialog>
-      {txn && <CompletedTransactionDialog txn={txn} message="" />}
+      {txn && connectedWallet.chain != Chain.MultiversX && <CompletedTransactionDialog txn={txn} message="" />}
     </>
   );
 }

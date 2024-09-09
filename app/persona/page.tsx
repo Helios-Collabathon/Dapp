@@ -5,11 +5,12 @@ import { VerificationService } from "@/repository/verification.service";
 import LinkedWalletTable from "./components/linkedwallet.table";
 import PendingLinkedWalletTable from "./components/pendingverification.table";
 import { PersonaService } from "@/repository/persona.service";
-import { ConnectedWallet } from "@/blockchain/types/connected-wallet";
+import { Chain, ConnectedWallet } from "@/blockchain/types/connected-wallet";
 import LinkedWalletTableSkeleton from "./components/linkedwallet.skeleton";
 import PendingLinkedWalletTableSkeleton from "./components/pendingverification.skeleton";
 import toast from "react-hot-toast";
 import { WalletContext } from "@/blockchain/wallet-provider";
+import { useTrackTransactionStatus } from "@multiversx/sdk-dapp/hooks";
 
 export default function PersonaPage() {
   const { connectedWallet } = useContext(WalletContext);
@@ -19,6 +20,15 @@ export default function PersonaPage() {
   const [txn, setTxn] = useState("");
   const personaService = useMemo(() => new PersonaService(), []);
   const verificationService = useMemo(() => new VerificationService(), []);
+
+  useTrackTransactionStatus({
+    transactionId: txn,
+    onSuccess: async () => { 
+        const updatePersona = await fetchAndVerifyPersona(connectedWallet);
+        if (updatePersona) setPersona(updatePersona);
+      },
+    onFail: () => setTxn(""),
+  });
 
   useEffect(() => {
     if (!connectedWallet?.address) return;
@@ -95,6 +105,7 @@ export default function PersonaPage() {
         connectedWallet,
         walletToAdd,
       );
+
       const updatePersona = await fetchAndVerifyPersona(connectedWallet);
 
       if (updatePersona) persona = updatePersona;

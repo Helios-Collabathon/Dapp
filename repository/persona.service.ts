@@ -34,7 +34,7 @@ export class PersonaService {
     connectedWallet: ConnectedWallet,
     wallet: Wallet,
   ): Promise<{ txn: string; persona: Persona }> {
-    return ChainUtils.getRepository(connectedWallet.chain).addWallet(
+    return await ChainUtils.getRepository(connectedWallet.chain).addWallet(
       connectedWallet,
       wallet,
     );
@@ -44,7 +44,7 @@ export class PersonaService {
     connectedWallet: ConnectedWallet,
     wallet: Wallet,
   ): Promise<{ txn: string; persona: Persona }> {
-    return ChainUtils.getRepository(connectedWallet.chain).removeWallet(
+    return await ChainUtils.getRepository(connectedWallet.chain).removeWallet(
       connectedWallet,
       wallet,
     );
