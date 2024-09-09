@@ -32,7 +32,7 @@ export default function PersonaFilterComponent({
   }, [filterChain, filterVerified, searchQuery, onFilterChange]);
 
   return (
-    <div className="flex flex-col gap-4 mb-4 sm:flex-row sm:items-center">
+    <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:w-1/2">
       <Dropdown>
         <DropdownButton outline>
           {filterChain ? (
@@ -84,8 +84,9 @@ export default function PersonaFilterComponent({
           </DropdownItem>
         </DropdownMenu>
       </Dropdown>
-      <Field className="flex-1">
+      <Field className="flex-1 w-full">
         <Input
+          size={1}
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="Search by Address"

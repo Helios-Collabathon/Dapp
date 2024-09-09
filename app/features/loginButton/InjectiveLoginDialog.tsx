@@ -26,7 +26,7 @@ export const InjectiveLoginDialog = ({
         Chain.Injective,
         walletValue.toString(),
       );
-      window.location.href = `${window.location.origin}/persona`;
+      // window.location.href = `${window.location.origin}/persona`;
       onClose(); // Close the dialog after successful connection
     } catch (error) {
       console.error("Error connecting wallet:", error);

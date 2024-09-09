@@ -3,6 +3,7 @@ import dynamic from "next/dynamic";
 import { createContext, useContext, useEffect, useState } from "react";
 import { Config } from "../app/config";
 import { Chain, ConnectedWallet } from "./types/connected-wallet";
+import { NotificationModal } from "@multiversx/sdk-dapp/UI";
 
 type AppWalletProvider = string;
 
@@ -18,15 +19,29 @@ type ContextType = {
 
 const WalletStorageKey = "connected-wallet";
 
-const DappProvider = dynamic(async () => (await import('@multiversx/sdk-dapp/wrappers/DappProvider')).DappProvider, { ssr: false })
+const DappProvider = dynamic(
+  async () =>
+    (await import("@multiversx/sdk-dapp/wrappers/DappProvider")).DappProvider,
+  { ssr: false },
+);
 
 const SignTransactionsModals = dynamic(
-  async () => (await import('@multiversx/sdk-dapp/UI/SignTransactionsModals/SignTransactionsModals')).SignTransactionsModals,
-  { ssr: false }
-)
+  async () =>
+    (
+      await import(
+        "@multiversx/sdk-dapp/UI/SignTransactionsModals/SignTransactionsModals"
+      )
+    ).SignTransactionsModals,
+  { ssr: false },
+);
 
-const TransactionsToastList = dynamic(async () => (await import('@multiversx/sdk-dapp/UI/TransactionsToastList')).TransactionsToastList, { ssr: false })
-const NotificationModal = dynamic(async () => (await import('@multiversx/sdk-dapp/UI/NotificationModal')).NotificationModal, { ssr: false })
+const TransactionsToastList = dynamic(
+  async () =>
+    (await import("@multiversx/sdk-dapp/UI/TransactionsToastList"))
+      .TransactionsToastList,
+  { ssr: false },
+);
+// const NotificationModal = dynamic(async () => (await import('@multiversx/sdk-dapp/UI/NotificationModal')).NotificationModal, { ssr: false })
 
 export const WalletContext = createContext<ContextType>({
   connectWallet: async () => {},

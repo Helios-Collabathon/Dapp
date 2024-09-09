@@ -46,6 +46,9 @@ export default function PersonaPage() {
           fetchedPersona,
         );
 
+        verifiedPersona.linked_wallets = verifiedPersona.linked_wallets.sort(
+          (a, b) => Number(a) - Number(b),
+        );
         setPersona(verifiedPersona);
         setPendingPersonas(pendingLinks);
         return verifiedPersona;
@@ -70,9 +73,7 @@ export default function PersonaPage() {
       });
 
       personas = personas.filter((p) => {
-        return !prsn.linked_wallets.some(
-          (wlt) => wlt.address === p.address && wlt.verified,
-        );
+        return !prsn.linked_wallets.some((wlt) => wlt.address === p.address);
       });
 
       return personas;
@@ -159,6 +160,7 @@ export default function PersonaPage() {
               txn={txn}
               registerWallet={registerWallet}
               removeWallet={removeWallet}
+              refreshPersona={fetchAndVerifyPersona}
             />
             <PendingLinkedWalletTable
               registerWallet={registerWallet}

@@ -31,7 +31,9 @@ export default class PersonaSC {
     this.transactionComputer = new TransactionComputer();
     (async () => {
       let abi = AbiRegistry.create(personaAbi);
-      const apiProvider = new ApiNetworkProvider(getApiUrl(), {clientName: "Helios"});
+      const apiProvider = new ApiNetworkProvider(getApiUrl(), {
+        clientName: "Helios",
+      });
       const factoryConfig = new TransactionsFactoryConfig({
         chainID: process.env.NEXT_PUBLIC_MVX_CHAIN_ID!,
       });
@@ -90,10 +92,7 @@ export default class PersonaSC {
   //                   User Actions
   //----------------------------------------------
 
-  public async addWallet(
-    sender: Address,
-    wallet: Wallet,
-  ): Promise<Uint8Array> {
+  public async addWallet(sender: Address, wallet: Wallet): Promise<Uint8Array> {
     const transaction = this.factory.createTransactionForExecute({
       sender: sender,
       contract: new Address(this.scAddress),
@@ -105,6 +104,8 @@ export default class PersonaSC {
     await sendTransactions({
       transactions: [transaction],
     });
+
+    console.log(transaction.getHash());
 
     return this.transactionComputer.computeTransactionHash(transaction);
   }

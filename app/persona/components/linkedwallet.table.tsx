@@ -12,9 +12,13 @@ import { Button } from "../../features/controls/Button";
 import { Dialog } from "../../features/controls/Dialog";
 import Image from "next/image";
 import { useState, useCallback } from "react";
-import { Chain, ChainUtils } from "@/blockchain/types/connected-wallet";
+import {
+  Chain,
+  ChainUtils,
+  ConnectedWallet,
+} from "@/blockchain/types/connected-wallet";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
+import { faCircleXmark, faSyncAlt } from "@fortawesome/free-solid-svg-icons";
 import { Strong } from "@/app/features/controls/Text";
 import {
   Dropdown,
@@ -29,11 +33,12 @@ import PersonaFilterComponent from "./filter-component";
 import { CompletedTransactionDialog } from "./completed-transaction.dialog";
 
 interface LinkedWalletTableProps {
-  connectedWallet: Wallet;
+  connectedWallet: ConnectedWallet;
   persona: Persona | null;
   txn: string;
   registerWallet: (walletToAdd: Wallet) => void;
   removeWallet: (walletToRemove: Wallet) => void;
+  refreshPersona: (connectedWallet: ConnectedWallet) => void;
 }
 
 export default function LinkedWalletTable({
@@ -42,6 +47,7 @@ export default function LinkedWalletTable({
   txn,
   registerWallet,
   removeWallet,
+  refreshPersona,
 }: LinkedWalletTableProps) {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [walletToAdd, setWalletToAdd] = useState<Wallet | undefined>();
@@ -68,6 +74,10 @@ export default function LinkedWalletTable({
     }
   };
 
+  const handleRefresh = () => {
+    refreshPersona(connectedWallet);
+  };
+
   const filteredWallets =
     persona?.linked_wallets.filter((user) => {
       return (
@@ -79,15 +89,34 @@ export default function LinkedWalletTable({
 
   return (
     <>
-      <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-6">
-        My Persona
-      </h1>
+      <div className="flex flex-col mb-8 gap-2">
+        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-start ">
+          My Persona
+        </h1>
+        <div className="flex gap-2">
+          <Image
+            width={16}
+            height={16}
+            alt="chain-sel-logo"
+            src={ChainUtils.getLogo(connectedWallet.chain!)}
+          />
+          <p className="text-xs font-mono">{connectedWallet.address}</p>
+        </div>
+      </div>
 
-      <PersonaFilterComponent onFilterChange={setFilters} />
+      <div className="flex w-full gap-4 items-center place-items-center">
+        <PersonaFilterComponent onFilterChange={setFilters} />
+        <FontAwesomeIcon
+          cursor={"pointer"}
+          className="cursor-pointer"
+          onClick={handleRefresh}
+          icon={faSyncAlt}
+        />
+      </div>
 
       <Table
         striped
-        className="w-full [--gutter:theme(spacing.4)] sm:[--gutter:theme(spacing.6)]"
+        className="[--gutter:theme(spacing.6)] sm:[--gutter:theme(spacing.8)]"
       >
         <TableHead>
           <TableRow>
@@ -99,7 +128,7 @@ export default function LinkedWalletTable({
           </TableRow>
         </TableHead>
         <TableBody>
-          {connectedWallet && (
+          {/* {connectedWallet && (
             <TableRow key={connectedWallet.address}>
               <TableCell className="font-medium text-sm sm:text-base">
                 <div className="flex items-center gap-2 sm:gap-4">
@@ -114,7 +143,7 @@ export default function LinkedWalletTable({
               </TableCell>
               <TableCell className="text-zinc-500 text-sm sm:text-base"></TableCell>
             </TableRow>
-          )}
+          )} */}
           {filteredWallets.map((user) => (
             <TableRow key={user.address}>
               <TableCell className="font-medium text-sm sm:text-base">

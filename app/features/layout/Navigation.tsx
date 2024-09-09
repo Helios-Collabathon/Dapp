@@ -51,7 +51,7 @@ export function Navigation(props: Props) {
             className="mr-4"
           />
         </Link>
-        <NavbarSection className="hidden sm:flex">
+        <NavbarSection className="hidden md:flex">
           <NavbarItem
             href={Config.Pages.Start}
             current={isCurrentPage(Config.Pages.Start)}
@@ -74,14 +74,14 @@ export function Navigation(props: Props) {
           )}
         </NavbarSection>
       </div>
-      <NavbarSpacer className="flex-1 sm:hidden" />
-      <Field className="hidden order-3 sm:order-none sm:flex-none sm:w-auto mt-4 sm:mt-0">
+      {/* <NavbarSpacer className="flex-1 sm:hidden" /> */}
+      <Field className="hidden  sm:flex sm:flex-none sm:w-1/2 mt-4 sm:mt-0">
         <Input
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           onKeyDown={onKeyDownHandler}
           placeholder="Search Persona"
-          className="w-full sm:w-auto"
+          className="w-full sm:w-full"
         />
       </Field>
       <NavbarSpacer className="hidden sm:flex" />
@@ -92,7 +92,7 @@ export function Navigation(props: Props) {
             className="cursor-pointer ml-4"
             onClick={() => {
               localStorage.removeItem("connected-wallet");
-              window.location.reload();
+              // window.location.reload();
             }}
             icon={faRightFromBracket}
           />
