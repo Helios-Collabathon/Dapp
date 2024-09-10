@@ -9,6 +9,7 @@ import InjectiveLoginDialog from './InjectiveLoginDialog'
 import Image from 'next/image'
 import { APP_IMAGES } from '@/app/app-images'
 import { WalletContext } from '@/blockchain/wallet-provider'
+import { useGetAccountInfo, useGetIsLoggedIn, useGetLoginInfo } from '@multiversx/sdk-dapp/hooks'
 
 export function LoginDropDown() {
   const [mvxLoginIsOpened, setMvxLoginIsOpened] = useState(false)
@@ -44,8 +45,6 @@ export function LoginDropDown() {
         </DropdownMenu>
       </Dropdown>
 
-      <MultiversXLoginDialog isOpen={mvxLoginIsOpened} onClose={() => setMvxLoginIsOpened(false)} />
-      <InjectiveLoginDialog isOpen={injectiveLoginIsOpened} onClose={() => setInjectiveLoginIsOpened(false)} />
       <MultiversXLoginDialog isOpen={mvxLoginIsOpened} onClose={() => setMvxLoginIsOpened(false)} />
       <InjectiveLoginDialog isOpen={injectiveLoginIsOpened} onClose={() => setInjectiveLoginIsOpened(false)} />
     </>

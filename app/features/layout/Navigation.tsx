@@ -12,6 +12,7 @@ import { Field } from '../controls/Fieldset'
 import { Input } from '../controls/Input'
 import { Navbar, NavbarItem, NavbarSection, NavbarSpacer } from '../controls/Navbar'
 import LoginDropDown from '../loginButton/LoginDropDown'
+import { logout } from '@multiversx/sdk-dapp/utils'
 
 type Props = {}
 
@@ -98,6 +99,10 @@ export function Navigation(props: Props) {
           <FontAwesomeIcon
             className="ml-4 cursor-pointer"
             onClick={() => {
+              if (connectedWallet.provider === 'webwallet') {
+                logout(Config.Pages.Start, undefined, false)
+                localStorage.removeItem('wallet-provider')
+              }
               localStorage.removeItem('connected-wallet')
               window.location.href = `${window.location.origin}`
             }}

@@ -37,7 +37,8 @@ const LedgerLoginContainer = dynamic(async () => (await import('@multiversx/sdk-
 })
 
 export const MultiversXDialog = (props: Props) => {
-  const [walletProvider, setWalletProvider] = useState<WalletProvider | null>(null)
+  const pastWalletProvider = localStorage.getItem('wallet-provider')
+  const [walletProvider, setWalletProvider] = useState<WalletProvider | null>(pastWalletProvider as WalletProvider)
 
   const [initExtensionLogin] = useExtensionLogin({ nativeAuth: true })
   const [initWebWalletLogin] = useWebWalletLogin({
@@ -71,7 +72,10 @@ export const MultiversXDialog = (props: Props) => {
   const handleLoginRequest = async (provider: WalletProvider) => {
     setWalletProvider(provider)
     if (provider === 'browser_extension') initExtensionLogin()
-    if (provider === 'webwallet') initWebWalletLogin()
+    if (provider === 'webwallet') {
+      localStorage.setItem('wallet-provider', JSON.stringify(provider))
+      initWebWalletLogin()
+    }
     if (provider === 'iframe') initIframeLogin(IframeLoginTypes.metamask)
     if (provider === 'passkeys') initPasskeysLogin()
   }

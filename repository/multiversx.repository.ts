@@ -24,7 +24,6 @@ export class MultiversXRepository<T> implements IRepository<T> {
     const persona: Persona = await this.personaSC.getPersonaByWallet(connectedWallet.address)
 
     return {
-      // txn: `${this.explorerEndpoint}/transactions/${txHash}`,
       txn: `${txHash}`,
       persona,
     }
