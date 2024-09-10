@@ -101,6 +101,7 @@ export function Navigation(props: Props) {
               localStorage.removeItem('connected-wallet')
               window.location.href = `${window.location.origin}`
             }}
+            color={isDarkMode ? 'white' : 'black'}
             icon={faRightFromBracket}
           />
         )}

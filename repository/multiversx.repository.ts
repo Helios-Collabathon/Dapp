@@ -3,13 +3,20 @@ import { IRepository } from './repository.interface'
 import { Persona, Wallet } from './types'
 import PersonaSC from '@/utils/PersonaSC/PersonaSC'
 import { Address } from '@multiversx/sdk-core'
-
+import axios from 'axios'
 export class MultiversXRepository<T> implements IRepository<T> {
   personaSC!: PersonaSC
   explorerEndpoint: string = process.env.NEXT_PUBLIC_MVX_EXPLORER ?? 'https://explorer.multiversx.com'
 
   constructor() {
     this.personaSC = new PersonaSC()
+  }
+
+  async getBalance(address: string): Promise<number> {
+    const acc_resp = await axios.get(`https://devnet-api.multiversx.com/accounts/${address}`)
+
+    const acc = acc_resp.data
+    return Number((parseInt(acc.balance) / Math.pow(10, 18)).toFixed(3))
   }
 
   async addWallet(connectedWallet: ConnectedWallet, wallet: Wallet): Promise<{ txn: string; persona: Persona }> {

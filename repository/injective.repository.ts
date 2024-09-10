@@ -1,4 +1,4 @@
-import { ChainGrpcWasmApi, MsgExecuteContract, Msgs } from '@injectivelabs/sdk-ts'
+import { ChainGrpcBankApi, ChainGrpcWasmApi, MsgExecuteContract, Msgs } from '@injectivelabs/sdk-ts'
 import { IRepository } from './repository.interface'
 import { Network, getNetworkEndpoints } from '@injectivelabs/networks'
 import { encodedBase64 } from '@/utils/utils'
@@ -12,8 +12,18 @@ export class InjectiveRepository<T> implements IRepository<T> {
   NETWORK = process.env.NEXT_PUBLIC_NEXT_PUBLIC_NETWORK === 'mainnet' ? Network.Mainnet : Network.TestnetSentry
   ENDPOINTS = getNetworkEndpoints(this.NETWORK)
   chainGrpcWasmApi = new ChainGrpcWasmApi(this.ENDPOINTS.grpc)
+  chainGrpcBankApi = new ChainGrpcBankApi(this.ENDPOINTS.grpc)
   explorerEndpoint =
     process.env.NEXT_PUBLIC_NEXT_PUBLIC_NETWORK === 'mainnet' ? 'https://explorer.injective.network' : 'https://testnet.explorer.injective.network'
+
+  async getBalance(address: string): Promise<number> {
+    const b = await this.chainGrpcBankApi.fetchBalance({
+      accountAddress: address,
+      denom: 'inj',
+    })
+
+    return Number((parseInt(b.amount) / Math.pow(10, 18)).toFixed(3))
+  }
 
   async getPersonaFromWallet(address: string): Promise<Persona> {
     const query_raw = {

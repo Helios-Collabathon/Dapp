@@ -8,4 +8,6 @@ export interface IRepository<T> {
   addWallet(connectedWallet: ConnectedWallet, wallet: Wallet): Promise<{ txn: string; persona: Persona }>
 
   removeWallet(connectedWallet: ConnectedWallet, wallet: Wallet): Promise<{ txn: string; persona: Persona }>
+
+  getBalance(address: string): Promise<number>
 }

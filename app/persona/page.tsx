@@ -11,6 +11,7 @@ import PendingLinkedWalletTableSkeleton from './components/pendingverification.s
 import toast from 'react-hot-toast'
 import { WalletContext } from '@/blockchain/wallet-provider'
 import { useTrackTransactionStatus } from '@multiversx/sdk-dapp/hooks'
+import axios from 'axios'
 
 export default function PersonaPage() {
   const { connectedWallet } = useContext(WalletContext)
@@ -18,6 +19,10 @@ export default function PersonaPage() {
   const [pendingPersonas, setPendingPersonas] = useState<Persona[]>([])
   const [loading, setLoading] = useState(false)
   const [txn, setTxn] = useState('')
+  const [injBalance, setInjBalance] = useState({ coin: 0, usdt: 0 })
+  const [mvxBalance, setMvxBalance] = useState({ coin: 0, usdt: 0 })
+  const [injUsdtPrice, setInjUsdtPrice] = useState(0)
+  const [mvxUsdtPrice, setMvxUsdtPrce] = useState(0)
   const personaService = useMemo(() => new PersonaService(), [])
   const verificationService = useMemo(() => new VerificationService(), [])
 
@@ -33,7 +38,10 @@ export default function PersonaPage() {
   useEffect(() => {
     if (!connectedWallet?.address) return
 
-    fetchAndVerifyPersona(connectedWallet)
+    fetchAndVerifyPersona(connectedWallet).then(async (persona) => {
+      const { injP, mvxP } = await getUsdtPrices()
+      await getBalances(persona!, injP, mvxP)
+    })
   }, [connectedWallet])
 
   const fetchAndVerifyPersona = async (connectedWallet: ConnectedWallet) => {
@@ -123,6 +131,51 @@ export default function PersonaPage() {
     }
   }
 
+  const getUsdtPrices = async () => {
+    const inj_usdt_resp = (await axios.get('https://api.binance.com/api/v3/ticker/price?symbol=INJUSDT')).data.price
+    const mvx_usdt_resp = (await axios.get('https://api.binance.com/api/v3/ticker/price?symbol=EGLDUSDT')).data.price
+
+    setInjUsdtPrice(Number(inj_usdt_resp))
+    setInjUsdtPrice(Number(mvx_usdt_resp))
+    return { injP: Number(inj_usdt_resp), mvxP: Number(mvx_usdt_resp) }
+  }
+
+  const fetchINJBalance = async (prsn: Persona | undefined) => {
+    if (!prsn) return
+    let _injBalance = 0
+    for (const wallet of prsn?.linked_wallets.filter((wallet) => wallet.chain === Chain.Injective)) {
+      if (!wallet.verified) continue
+      const inj_toadd = await personaService.getBalance(wallet.address!, wallet.chain!)
+      _injBalance += inj_toadd
+    }
+
+    if (connectedWallet.chain === Chain.Injective) _injBalance += await personaService.getBalance(connectedWallet.address, connectedWallet.chain)
+    return _injBalance
+  }
+
+  const fetchMVXBalance = async (prsn: Persona | undefined) => {
+    if (!prsn) return
+    let _mvxBalance = 0
+    for (const wallet of prsn?.linked_wallets.filter((wallet) => wallet.chain === Chain.MultiversX)) {
+      if (!wallet.verified) continue
+      const mvx_toadd = await personaService.getBalance(wallet.address!, wallet.chain!)
+      _mvxBalance += mvx_toadd
+    }
+
+    if (connectedWallet.chain === Chain.MultiversX) _mvxBalance += await personaService.getBalance(connectedWallet.address, connectedWallet.chain)
+
+    return _mvxBalance
+  }
+
+  const getBalances = async (prsn: Persona, injP: number, mvxP: number) => {
+    const injBlnc = await fetchINJBalance(prsn)
+    const mvxBlnc = await fetchMVXBalance(prsn)
+    let usd = 0
+
+    setInjBalance({ coin: injBlnc ?? 0, usdt: injP * (injBlnc ?? 0) })
+    setMvxBalance({ coin: mvxBlnc ?? 0, usdt: mvxP * (mvxBlnc ?? 0) })
+  }
+
   return (
     <div className="relative flex w-full flex-col p-4">
       {loading && (
@@ -140,6 +193,8 @@ export default function PersonaPage() {
               connectedWallet={connectedWallet}
               persona={persona}
               txn={txn}
+              injBalance={injBalance}
+              mvxBalance={mvxBalance}
               registerWallet={registerWallet}
               removeWallet={removeWallet}
               refreshPersona={fetchAndVerifyPersona}

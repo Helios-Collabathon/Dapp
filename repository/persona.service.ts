@@ -31,4 +31,8 @@ export class PersonaService {
   async removeWallet(connectedWallet: ConnectedWallet, wallet: Wallet): Promise<{ txn: string; persona: Persona }> {
     return await ChainUtils.getRepository(connectedWallet.chain).removeWallet(connectedWallet, wallet)
   }
+
+  async getBalance(address: string, chain: Chain): Promise<number> {
+    return await ChainUtils.getRepository(chain).getBalance(address)
+  }
 }
