@@ -7,7 +7,7 @@ export function encodedBase64(obj: any) {
 }
 
 export function getApiUrl() {
-  return 'https://devnet-api.multiversx.com'
+  return process.env.NEXT_PUBLIC_MVX_ENDPOINT!
 }
 
 export function parseMultiversXResponse(parsedResponse: any): Persona {
