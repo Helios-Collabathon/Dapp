@@ -3,9 +3,11 @@ import { Network, getNetworkEndpoints } from "@injectivelabs/networks";
 import { MsgBroadcaster } from "@injectivelabs/wallet-ts";
 import { walletStrategy } from "./wallet";
 
-export const NETWORK = process.env.NEXT_PUBLIC_NETWORK
-  ? Network.MainnetSentry
-  : Network.TestnetSentry;
+export const NETWORK =
+  process.env.NEXT_PUBLIC_NETWORK === "mainnet"
+    ? Network.MainnetSentry
+    : Network.TestnetSentry;
+
 export const ENDPOINTS = getNetworkEndpoints(NETWORK);
 
 export const WasmAPI = new ChainGrpcWasmApi(ENDPOINTS.grpc);
