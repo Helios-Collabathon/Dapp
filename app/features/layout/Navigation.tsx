@@ -128,12 +128,13 @@ export function Navigation(props: Props) {
           <FontAwesomeIcon
             className="cursor-pointer"
             onClick={() => {
-              if (connectedWallet.provider === "webwallet") {
-                logout(Config.Pages.Start, undefined, false);
-                localStorage.removeItem("wallet-provider");
+              localStorage.removeItem('connected-wallet')
+              if (JSON.parse(connectedWallet.provider) === "webwallet") {
+                localStorage.removeItem('wallet-provider')
+                logout(Config.Pages.Start, undefined, false)
+              } else {
+                window.location.href = `${window.location.origin}`
               }
-              localStorage.removeItem("connected-wallet");
-              window.location.href = `${window.location.origin}`;
             }}
             color={"red"}
             icon={faRightFromBracket}
