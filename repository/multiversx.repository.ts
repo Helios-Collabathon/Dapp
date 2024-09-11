@@ -25,6 +25,13 @@ export class MultiversXRepository<T> implements IRepository<T> {
     connectedWallet: ConnectedWallet,
     wallet: Wallet,
   ): Promise<{ txn: string; persona: Persona }> {
+    try {
+      new Address(wallet.address!);
+    } catch (error) {
+      console.error(error);
+      throw new Error("Invalid wallet address");
+    }
+
     const txHash: Uint8Array = await this.personaSC.addWallet(
       new Address(connectedWallet.address),
       wallet,
