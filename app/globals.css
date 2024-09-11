@@ -18,7 +18,12 @@
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(to bottom, transparent, rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
 }
 
 @layer utilities {
@@ -75,4 +80,34 @@ h4 {
 
 p {
   @apply whitespace-pre-line break-words text-lg leading-relaxed text-zinc-600 antialiased dark:text-zinc-400;
+}
+
+.dapp-core-component__dappModalStyles__dappModalContent,
+.dapp-modal-dialog-content {
+  border: 0px !important;
+}
+
+.dapp-core-component__transactionsToastList-styles__toasts.dapp-core-component__transactionsToastList-styles__toastWrapper {
+  background-color: black !important;
+}
+
+.dapp-core-component__transactionsToastList-styles__toasts {
+  background-color: transparent !important;
+}
+
+.dapp-core-component__main__h5 {
+  color: green !important;
+}
+
+.dapp-core-component__transactionToast-styles__close,
+.dapp-core-component__customToast-styles__close {
+  color: white !important;
+}
+
+.dapp-core-component__dappModalStyles__dappModalBody,
+.dapp-modal-dialog-content-body,
+.dapp-modal-dialog-content-body {
+  background-color: rgb(24 24 27) !important;
+  border-color: transparent;
+  border-radius: 0;
 }
