@@ -31,3 +31,83 @@ body {
     text-wrap: balance;
   }
 }
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  @apply font-bold text-zinc-900 antialiased dark:text-zinc-100;
+  line-height: 1.2 !important;
+}
+
+h1 {
+  @apply text-4xl;
+}
+@screen lg {
+  h1 {
+    @apply text-5xl;
+  }
+}
+
+h2 {
+  @apply text-3xl;
+}
+@screen lg {
+  h2 {
+    @apply text-4xl;
+  }
+}
+
+h3 {
+  @apply text-xl;
+}
+@screen lg {
+  h3 {
+    @apply text-2xl;
+  }
+}
+
+h4 {
+  @apply text-lg;
+}
+@screen lg {
+  h4 {
+    @apply text-xl;
+  }
+}
+
+p {
+  @apply whitespace-pre-line break-words text-lg leading-relaxed text-zinc-600 antialiased dark:text-zinc-400;
+}
+
+.dapp-core-component__dappModalStyles__dappModalContent,
+.dapp-modal-dialog-content {
+  border: 0px !important;
+}
+
+.dapp-core-component__transactionsToastList-styles__toasts.dapp-core-component__transactionsToastList-styles__toastWrapper {
+  background-color: black !important;
+}
+
+.dapp-core-component__transactionsToastList-styles__toasts {
+  background-color: transparent !important;
+}
+
+.dapp-core-component__main__h5 {
+  color: green !important;
+}
+
+.dapp-core-component__transactionToast-styles__close,
+.dapp-core-component__customToast-styles__close {
+  color: white !important;
+}
+
+.dapp-core-component__dappModalStyles__dappModalBody,
+.dapp-modal-dialog-content-body,
+.dapp-modal-dialog-content-body {
+  background-color: rgb(24 24 27) !important;
+  border-color: transparent;
+  border-radius: 0;
+}

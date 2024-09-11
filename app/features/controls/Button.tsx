@@ -48,6 +48,14 @@ const styles = {
     // Icon
     '[--btn-icon:theme(colors.zinc.500)] data-[active]:[--btn-icon:theme(colors.zinc.700)] data-[hover]:[--btn-icon:theme(colors.zinc.700)] dark:data-[active]:[--btn-icon:theme(colors.zinc.400)] dark:data-[hover]:[--btn-icon:theme(colors.zinc.400)]',
   ],
+  outlineGreen: [
+    // Add this for green outline
+    'border-green-600 text-green-600 data-[hover]:bg-green-100 data-[hover]:border-green-700',
+    // Dark mode
+    'dark:border-green-500 dark:text-green-500 dark:data-[hover]:bg-green-700/20 dark:data-[hover]:border-green-600',
+    // Icon color
+    '[--btn-icon:theme(colors.green.500)] data-[hover]:[--btn-icon:theme(colors.green.600)] dark:data-[hover]:[--btn-icon:theme(colors.green.500)]',
+  ],
   plain: [
     // Base
     'border-transparent text-zinc-950 data-[active]:bg-zinc-950/5 data-[hover]:bg-zinc-950/5',
@@ -57,6 +65,11 @@ const styles = {
     '[--btn-icon:theme(colors.zinc.500)] data-[active]:[--btn-icon:theme(colors.zinc.700)] data-[hover]:[--btn-icon:theme(colors.zinc.700)] dark:[--btn-icon:theme(colors.zinc.500)] dark:data-[active]:[--btn-icon:theme(colors.zinc.400)] dark:data-[hover]:[--btn-icon:theme(colors.zinc.400)]',
   ],
   colors: {
+    primary: [
+      'text-white [--btn-bg:theme(colors.brand-deepblue)] [--btn-border:theme(colors.brand-deepblue/90%)] [--btn-hover-overlay:theme(colors.white/10%)]',
+      'dark:text-white dark:[--btn-bg:theme(colors.brand-deepblue)] dark:[--btn-hover-overlay:theme(colors.white/5%)]',
+      '[--btn-icon:theme(colors.brand-deepblue)] data-[active]:[--btn-icon:theme(colors.brand-deepblue)] data-[hover]:[--btn-icon:theme(colors.brand-deepblue)]',
+    ],
     'dark/zinc': [
       'text-white [--btn-bg:theme(colors.zinc.900)] [--btn-border:theme(colors.zinc.950/90%)] [--btn-hover-overlay:theme(colors.white/10%)]',
       'dark:text-white dark:[--btn-bg:theme(colors.zinc.600)] dark:[--btn-hover-overlay:theme(colors.white/5%)]',
@@ -167,34 +180,15 @@ type ButtonProps = (
     | Omit<React.ComponentPropsWithoutRef<typeof Link>, 'className'>
   )
 
-export const Button = forwardRef(function Button(
-  { color, outline, plain, className, children, ...props }: ButtonProps,
-  ref: React.ForwardedRef<HTMLElement>
-) {
-  let classes = clsx(
-    className,
-    styles.base,
-    outline
-      ? styles.outline
-      : plain
-      ? styles.plain
-      : clsx(styles.solid, styles.colors[color ?? 'dark/zinc'])
-  )
+export const Button = forwardRef(function Button({ color, outline, plain, className, children, ...props }: ButtonProps, ref: React.ForwardedRef<HTMLElement>) {
+  let classes = clsx(className, styles.base, outline ? styles.outline : plain ? styles.plain : clsx(styles.solid, styles.colors[color ?? 'dark/zinc']))
 
   return 'href' in props ? (
-    <Link
-      {...props}
-      className={classes}
-      ref={ref as React.ForwardedRef<HTMLAnchorElement>}
-    >
+    <Link {...props} className={classes} ref={ref as React.ForwardedRef<HTMLAnchorElement>}>
       <TouchTarget>{children}</TouchTarget>
     </Link>
   ) : (
-    <Headless.Button
-      {...props}
-      className={clsx(classes, 'cursor-default')}
-      ref={ref}
-    >
+    <Headless.Button {...props} className={clsx(classes, 'cursor-pointer')} ref={ref}>
       <TouchTarget>{children}</TouchTarget>
     </Headless.Button>
   )
@@ -206,10 +200,7 @@ export const Button = forwardRef(function Button(
 export function TouchTarget({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <span
-        className="absolute left-1/2 top-1/2 size-[max(100%,2.75rem)] -translate-x-1/2 -translate-y-1/2 [@media(pointer:fine)]:hidden"
-        aria-hidden="true"
-      />
+      <span className="absolute left-1/2 top-1/2 size-[max(100%,2.75rem)] -translate-x-1/2 -translate-y-1/2 [@media(pointer:fine)]:hidden" aria-hidden="true" />
       {children}
     </>
   )
