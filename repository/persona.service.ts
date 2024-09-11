@@ -37,10 +37,7 @@ export class PersonaService {
   ): Promise<{ txn: string; persona: Persona }> {
     try {
       if (wallet.chain === Chain.MultiversX) new Address(wallet.address!);
-      else if (
-        wallet.address?.length !== 42 ||
-        wallet.address.startsWith("inj1")
-      ) {
+      else if (!wallet.address?.startsWith("inj1")) {
         throw new Error("Invalid wallet address");
       }
     } catch (error) {
