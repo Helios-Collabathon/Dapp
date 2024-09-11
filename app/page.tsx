@@ -39,9 +39,14 @@ export default function Home() {
           title="Get Involved"
           description="Contribute to the project, explore the codebase, and help us shape the future of cross-chain verification dApp."
           icon={faScrewdriverWrench}
-          href="####"
+          href="https://github.com/Helios-Collabathon"
         />
-        <LinkCard title="Documentation" description="Read our documentation to learn how to use and contribute to Helios Connect." icon={faBook} href="####" />
+        <LinkCard
+          title="Documentation"
+          description="Read our documentation to learn how to use and contribute to Helios Connect."
+          icon={faBook}
+          href="https://docs.heliosconnect.net/Contributors"
+        />
         <LinkCard
           title="Socials"
           description="Follow @HeliosStaking to stay updated with the latest developments and community news."
