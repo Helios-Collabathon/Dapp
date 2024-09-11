@@ -1,9 +1,10 @@
-import { ConnectedWallet } from "@/blockchain/types/connected-wallet";
+import { Chain, ConnectedWallet } from "@/blockchain/types/connected-wallet";
 import { IRepository } from "./repository.interface";
 import { Persona, Wallet } from "./types";
 import PersonaSC from "@/utils/PersonaSC/PersonaSC";
 import { Address } from "@multiversx/sdk-core";
 import axios from "axios";
+
 export class MultiversXRepository<T> implements IRepository<T> {
   personaSC!: PersonaSC;
   explorerEndpoint: string =
@@ -25,13 +26,6 @@ export class MultiversXRepository<T> implements IRepository<T> {
     connectedWallet: ConnectedWallet,
     wallet: Wallet,
   ): Promise<{ txn: string; persona: Persona }> {
-    try {
-      new Address(wallet.address!);
-    } catch (error) {
-      console.error(error);
-      throw new Error("Invalid wallet address");
-    }
-
     const txHash: Uint8Array = await this.personaSC.addWallet(
       new Address(connectedWallet.address),
       wallet,
