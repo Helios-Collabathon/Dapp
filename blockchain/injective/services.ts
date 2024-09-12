@@ -7,6 +7,7 @@ export const NETWORK =
   process.env.NEXT_PUBLIC_NETWORK === "mainnet"
     ? Network.MainnetSentry
     : Network.TestnetSentry;
+
 export const ENDPOINTS = getNetworkEndpoints(NETWORK);
 
 export const WasmAPI = new ChainGrpcWasmApi(ENDPOINTS.grpc);
