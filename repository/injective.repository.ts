@@ -28,6 +28,10 @@ export class InjectiveRepository<T> implements IRepository<T> {
     process.env.NEXT_PUBLIC_NETWORK === "mainnet"
       ? "https://explorer.injective.network"
       : "https://testnet.explorer.injective.network";
+  chainId =
+    process.env.NEXT_PUBLIC_NETWORK === "mainnet"
+      ? ChainId.Mainnet
+      : ChainId.Testnet;
 
   async getBalance(address: string): Promise<number> {
     const b = await this.chainGrpcBankApi.fetchBalance({
@@ -87,6 +91,7 @@ export class InjectiveRepository<T> implements IRepository<T> {
         wallet,
       },
     };
+
     const msg = MsgExecuteContract.fromJSON({
       sender: connectedWallet.address,
       contractAddress: process.env.NEXT_PUBLIC_INJ_SC!,
@@ -95,11 +100,11 @@ export class InjectiveRepository<T> implements IRepository<T> {
 
     const walletStrategy = new WalletStrategy({
       wallet: connectedWallet.provider as any,
-      chainId: ChainId.Testnet,
+      chainId: this.chainId,
     });
 
     const txn = await this.broadcastTransactionWindow(
-      false,
+      process.env.NEXT_PUBLIC_NETWORK === "mainnet",
       walletStrategy,
       msg,
       connectedWallet.address,
@@ -130,7 +135,7 @@ export class InjectiveRepository<T> implements IRepository<T> {
 
     const walletStrategy = new WalletStrategy({
       wallet: connectedWallet.provider as any,
-      chainId: ChainId.Testnet,
+      chainId: ChainId.Mainnet,
     });
 
     const txn = await this.broadcastTransactionWindow(
