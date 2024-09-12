@@ -96,9 +96,6 @@ export const MultiversXDialog = (props: Props) => {
     }
     if (provider === "iframe") initIframeLogin(IframeLoginTypes.metamask);
     if (provider === "passkeys") initPasskeysLogin();
-
-    if (wallet.connectedWallet && !window.location.href.includes("persona"))
-      window.location.href = `${window.location.origin}/persona`;
   };
 
   const handleClose = () => {

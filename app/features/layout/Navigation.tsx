@@ -129,7 +129,7 @@ export function Navigation(props: Props) {
             className="cursor-pointer"
             onClick={() => {
               localStorage.removeItem('connected-wallet')
-              if (JSON.parse(connectedWallet.provider) === "webwallet") {
+              if (connectedWallet.provider === "\"webwallet\"") {
                 localStorage.removeItem('wallet-provider')
                 logout(Config.Pages.Start, undefined, false)
               } else {
