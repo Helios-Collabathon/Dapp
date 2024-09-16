@@ -96,9 +96,6 @@ export const MultiversXDialog = (props: Props) => {
     }
     if (provider === "iframe") initIframeLogin(IframeLoginTypes.metamask);
     if (provider === "passkeys") initPasskeysLogin();
-
-    if (wallet.connectedWallet && !window.location.href.includes("persona"))
-      window.location.href = `${window.location.origin}/persona`;
   };
 
   const handleClose = () => {
@@ -134,10 +131,11 @@ export const MultiversXDialog = (props: Props) => {
               />
             ) : (
               <div className="grid grid-cols-2 gap-2">
-                <Button onClick={() => handleLoginRequest("passkeys")}>
+                {/* TODO: Add passkeys back in when officially released by MultiversX */}
+                {/* <Button onClick={() => handleLoginRequest("passkeys")}>
                   <FontAwesomeIcon icon={faKey} className="mr-1 inline-block" />
                   Passkeys
-                </Button>
+                </Button> */}
                 <Button onClick={() => handleLoginRequest("browser_extension")}>
                   <Image
                     src={MultiversxLogo}

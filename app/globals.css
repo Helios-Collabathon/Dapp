@@ -24,12 +24,7 @@ body {
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  background: linear-gradient(to bottom, transparent, rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
   height: 100vh;
   width: 100vw;
   position: absolute;
@@ -121,4 +116,17 @@ p {
   background-color: rgb(24 24 27) !important;
   border-color: transparent;
   border-radius: 0;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.cursor-default {
+  cursor: default;
+}
+
+.no-click {
+  pointer-events: none; /* Prevents any click events */
+  opacity: 1; /* Ensures the button does not dim like a disabled button */
 }
