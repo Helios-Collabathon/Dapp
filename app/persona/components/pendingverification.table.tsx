@@ -14,17 +14,13 @@ interface PendingLinkedWalletTableProps {
   registerWallet: (walletToAdd: Wallet) => void
 }
 
-export default function PendingLinkedWalletTable({ pendingPersonas, registerWallet }: PendingLinkedWalletTableProps) {
-  const [walletToAdd, setWalletToAdd] = useState<Wallet | undefined>()
-
+export default function PendingLinkedWalletTable({ pendingPersonas, registerWallet }: Readonly<PendingLinkedWalletTableProps>) {
   const handleRegisterWallet = async (prsn: Persona) => {
-    setWalletToAdd({
+    const wltToAdd = {
       address: prsn.address,
       chain: prsn.chain,
-    })
-    if (walletToAdd) {
-      registerWallet(walletToAdd)
     }
+    registerWallet(wltToAdd)
   }
 
   return (
