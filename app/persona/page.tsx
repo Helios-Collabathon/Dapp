@@ -192,7 +192,7 @@ export default function PersonaPage() {
       )}
       <div className={loading ? 'blur-lg filter transition duration-300 ease-in-out' : 'transition duration-300 ease-in-out'}>
         {connectedWallet && persona ? (
-          <>
+          <div>
             <div className="flex flex-col justify-between gap-4 md:flex-row">
               <div className="mb-8 flex flex-col gap-2">
                 <div className="flex items-center gap-4">
@@ -239,12 +239,12 @@ export default function PersonaPage() {
 
             <LinkedWalletTable connectedWallet={connectedWallet} persona={persona} txn={txn} registerWallet={registerWallet} removeWallet={removeWallet} />
             <PendingLinkedWalletTable registerWallet={registerWallet} pendingPersonas={pendingPersonas} />
-          </>
+          </div>
         ) : (
-          <>
+          <div>
             <LinkedWalletTableSkeleton />
             <PendingLinkedWalletTableSkeleton />
-          </>
+          </div>
         )}
       </div>
     </div>

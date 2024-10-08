@@ -20,6 +20,7 @@ export default function PendingLinkedWalletTable({ pendingPersonas, registerWall
       address: prsn.address,
       chain: prsn.chain,
     }
+
     registerWallet(wltToAdd)
   }
 
