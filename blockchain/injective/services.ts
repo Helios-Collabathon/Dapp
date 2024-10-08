@@ -1,19 +1,16 @@
-import { ChainGrpcBankApi, ChainGrpcWasmApi } from "@injectivelabs/sdk-ts";
-import { Network, getNetworkEndpoints } from "@injectivelabs/networks";
-import { MsgBroadcaster } from "@injectivelabs/wallet-ts";
-import { walletStrategy } from "./wallet";
+import { ChainGrpcBankApi, ChainGrpcWasmApi } from '@injectivelabs/sdk-ts'
+import { Network, getNetworkEndpoints } from '@injectivelabs/networks'
+import { MsgBroadcaster } from '@injectivelabs/wallet-ts'
+import { walletStrategy } from './wallet'
 
-export const NETWORK =
-  process.env.NEXT_PUBLIC_NETWORK === "mainnet"
-    ? Network.MainnetSentry
-    : Network.TestnetSentry;
+export const NETWORK = process.env.NEXT_PUBLIC_NETWORK === 'mainnet' ? Network.MainnetSentry : Network.TestnetSentry
 
-export const ENDPOINTS = getNetworkEndpoints(NETWORK);
+export const ENDPOINTS = getNetworkEndpoints(NETWORK)
 
-export const WasmAPI = new ChainGrpcWasmApi(ENDPOINTS.grpc);
-export const BankAPI = new ChainGrpcBankApi(ENDPOINTS.grpc);
+export const WasmAPI = new ChainGrpcWasmApi(ENDPOINTS.grpc)
+export const BankAPI = new ChainGrpcBankApi(ENDPOINTS.grpc)
 
 export const BroadcastClient = new MsgBroadcaster({
   walletStrategy,
   network: NETWORK,
-});
+})
